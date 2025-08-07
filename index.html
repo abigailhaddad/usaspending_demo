@@ -273,6 +273,39 @@
             });
         }
         
+        // Generate fiscal year separators for monthly charts
+        function generateFiscalYearSeparators(monthlyData) {
+            const separators = [];
+            let currentFY = null;
+            
+            monthlyData.forEach((d, idx) => {
+                if (currentFY !== null && d.fiscalYear !== currentFY && idx > 0) {
+                    // Find the exact position between fiscal years
+                    // Place line between September and October
+                    separators.push({
+                        type: 'line',
+                        xMin: idx - 0.5,
+                        xMax: idx - 0.5,
+                        borderColor: 'rgba(0, 0, 0, 0.3)',
+                        borderWidth: 2,
+                        borderDash: [8, 4],
+                        label: {
+                            content: `FY${d.fiscalYear}`,
+                            enabled: true,
+                            position: 'top',
+                            color: 'rgba(0, 0, 0, 0.6)',
+                            font: {
+                                size: 11
+                            }
+                        }
+                    });
+                }
+                currentFY = d.fiscalYear;
+            });
+            
+            return separators;
+        }
+        
         // Create summary cards
         function createSummaryCards(data) {
             const summaryGrid = document.getElementById('summaryGrid');
@@ -343,26 +376,7 @@
                             }
                         },
                         annotation: {
-                            annotations: monthlyData
-                                .filter((d, idx) => {
-                                    // Show line when fiscal year changes
-                                    if (idx === 0) return false;
-                                    const prevFY = monthlyData[idx - 1].fiscalYear;
-                                    return d.fiscalYear !== prevFY;
-                                })
-                                .map((d) => ({
-                                    type: 'line',
-                                    xMin: monthlyData.indexOf(d) - 0.5,
-                                    xMax: monthlyData.indexOf(d) - 0.5,
-                                    borderColor: 'rgba(0, 0, 0, 0.4)',
-                                    borderWidth: 2,
-                                    borderDash: [8, 4],
-                                    label: {
-                                        content: `FY${d.fiscalYear}`,
-                                        enabled: true,
-                                        position: 'top'
-                                    }
-                                }))
+                            annotations: generateFiscalYearSeparators(monthlyData)
                         }
                     },
                     scales: {
@@ -554,26 +568,7 @@
                             }
                         },
                         annotation: {
-                            annotations: monthlyData
-                                .filter((d, idx) => {
-                                    // Show line when fiscal year changes
-                                    if (idx === 0) return false;
-                                    const prevFY = monthlyData[idx - 1].fiscalYear;
-                                    return d.fiscalYear !== prevFY;
-                                })
-                                .map((d) => ({
-                                    type: 'line',
-                                    xMin: monthlyData.indexOf(d) - 0.5,
-                                    xMax: monthlyData.indexOf(d) - 0.5,
-                                    borderColor: 'rgba(0, 0, 0, 0.4)',
-                                    borderWidth: 2,
-                                    borderDash: [8, 4],
-                                    label: {
-                                        content: `FY${d.fiscalYear}`,
-                                        enabled: true,
-                                        position: 'top'
-                                    }
-                                }))
+                            annotations: generateFiscalYearSeparators(monthlyData)
                         }
                     },
                     scales: {
