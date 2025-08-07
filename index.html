@@ -344,16 +344,21 @@
                         },
                         annotation: {
                             annotations: monthlyData
-                                .filter(d => d.isSeptember)
-                                .map((d, i) => ({
+                                .filter((d, idx) => {
+                                    // Show line when fiscal year changes
+                                    if (idx === 0) return false;
+                                    const prevFY = monthlyData[idx - 1].fiscalYear;
+                                    return d.fiscalYear !== prevFY;
+                                })
+                                .map((d) => ({
                                     type: 'line',
-                                    xMin: monthlyData.indexOf(d) + 0.5,
-                                    xMax: monthlyData.indexOf(d) + 0.5,
-                                    borderColor: 'rgba(0, 0, 0, 0.3)',
+                                    xMin: monthlyData.indexOf(d) - 0.5,
+                                    xMax: monthlyData.indexOf(d) - 0.5,
+                                    borderColor: 'rgba(0, 0, 0, 0.4)',
                                     borderWidth: 2,
-                                    borderDash: [5, 5],
+                                    borderDash: [8, 4],
                                     label: {
-                                        content: `End of FY${d.fiscalYear}`,
+                                        content: `FY${d.fiscalYear}`,
                                         enabled: true,
                                         position: 'top'
                                     }
@@ -550,16 +555,21 @@
                         },
                         annotation: {
                             annotations: monthlyData
-                                .filter(d => d.isSeptember)
-                                .map((d, i) => ({
+                                .filter((d, idx) => {
+                                    // Show line when fiscal year changes
+                                    if (idx === 0) return false;
+                                    const prevFY = monthlyData[idx - 1].fiscalYear;
+                                    return d.fiscalYear !== prevFY;
+                                })
+                                .map((d) => ({
                                     type: 'line',
-                                    xMin: monthlyData.indexOf(d) + 0.5,
-                                    xMax: monthlyData.indexOf(d) + 0.5,
-                                    borderColor: 'rgba(0, 0, 0, 0.3)',
+                                    xMin: monthlyData.indexOf(d) - 0.5,
+                                    xMax: monthlyData.indexOf(d) - 0.5,
+                                    borderColor: 'rgba(0, 0, 0, 0.4)',
                                     borderWidth: 2,
-                                    borderDash: [5, 5],
+                                    borderDash: [8, 4],
                                     label: {
-                                        content: `End of FY${d.fiscalYear}`,
+                                        content: `FY${d.fiscalYear}`,
                                         enabled: true,
                                         position: 'top'
                                     }
