@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REAP Program Dashboard - FY 2024-2025</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f5f7fa;
+            color: #2d3748;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .summary-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .summary-card h3 {
+            font-size: 0.875rem;
+            color: #718096;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+        
+        .summary-card .value {
+            font-size: 1.875rem;
+            font-weight: 600;
+        }
+        
+        .chart-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            height: 400px;
+            position: relative;
+        }
+        
+        .chart-container h2 {
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+        }
+        
+        .chart-container canvas {
+            max-height: 320px !important;
+        }
+        
+        .filters {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .filter-group label {
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        .filter-group select {
+            padding: 0.5rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        th {
+            background-color: #f7fafc;
+            padding: 0.75rem;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        td {
+            padding: 0.75rem;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        tr:hover {
+            background-color: #f7fafc;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            font-size: 1.25rem;
+            color: #718096;
+        }
+        
+        .error {
+            background: #fed7d7;
+            color: #c53030;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1rem;
+            padding: 1rem;
+        }
+        
+        .pagination button {
+            padding: 0.5rem 1rem;
+            border: 1px solid #e2e8f0;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .positive { color: #48bb78; }
+        .negative { color: #f56565; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Rural Energy for America Program (REAP) Dashboard</h1>
+            <p>CFDA 10.868 • FY 2022-2025 • <span id="dateRange"></span></p>
+            <p style="color: #dc2626; font-weight: bold; margin-top: 1rem; font-size: 1.1rem;">
+                ⚠️ I think this is accurate but talk to me before you use it
+            </p>
+        </div>
+        
+        <div class="summary-card" style="margin-bottom: 2rem; background: #f7fafc;">
+            <h3 style="margin-bottom: 1rem;">About This Data</h3>
+            <div style="font-size: 0.875rem; line-height: 1.6;">
+                <p style="margin-bottom: 0.75rem;">
+                    <strong>Data Source:</strong> USAspending.gov bulk download API, filtered to CFDA 10.868 (REAP)
+                </p>
+                <p style="margin-bottom: 0.75rem;">
+                    <strong>Key Fields:</strong><br>
+                    • <code>federal_action_obligation</code>: New money committed (positive) or deobligated (negative)<br>
+                    • <code>total_outlayed_amount_for_overall_award</code>: Cumulative amount actually paid out (as of data date)<br>
+                    • <code>period_of_performance_current_end_date</code>: When the award expires
+                </p>
+                <p style="margin-bottom: 0;">
+                    <strong>Important Note:</strong> USAspending only provides cumulative outlay totals, not transaction-level outlays. 
+                    We cannot track when outlays occurred, only the final amount as of today.
+                </p>
+            </div>
+        </div>
+        
+        <div id="summaryGrid" class="summary-grid"></div>
+        
+        <div class="chart-container">
+            <h2>Monthly Obligations by Fiscal Year</h2>
+            <canvas id="monthlyObligationsChart"></canvas>
+        </div>
+        
+        <div class="chart-container">
+            <h2>Status of Obligations by Initial Award Year</h2>
+            <canvas id="outlayByYearChart"></canvas>
+            <p style="margin-top: 10px; font-size: 0.875rem; color: #718096;">
+                Shows what happened to money obligated each fiscal year: spent (outlayed), 
+                expired without being spent, or still active.
+            </p>
+        </div>
+        
+        <div class="chart-container">
+            <h2>Monthly Deobligations by Fiscal Year</h2>
+            <canvas id="monthlyDeobligationsChart"></canvas>
+        </div>
+        
+        <div class="chart-container">
+            <h2>Unspent Money by Expiration Year</h2>
+            <canvas id="moneyExpirationChart"></canvas>
+            <p style="margin-top: 10px; font-size: 0.875rem; color: #718096;">
+                Shows unspent funds from each fiscal year and when they expire. 
+                REAP grants typically have 2-3 year periods of performance.
+                The percentages shown represent the portion of funds obligated in each fiscal year 
+                that remain unspent for awards expiring in the given year.
+            </p>
+        </div>
+        
+    </div>
+    
+    <script>
+        let dashboardData = null;
+        let filteredTransactions = [];
+        let currentPage = 1;
+        const itemsPerPage = 25;
+        
+        // Consistent colors for fiscal years
+        const fiscalYearColors = {
+            2022: { bg: 'rgba(99, 102, 241, 0.7)', border: 'rgb(99, 102, 241)' },  // Indigo
+            2023: { bg: 'rgba(34, 197, 94, 0.7)', border: 'rgb(34, 197, 94)' },   // Green
+            2024: { bg: 'rgba(251, 146, 60, 0.7)', border: 'rgb(251, 146, 60)' }, // Orange
+            2025: { bg: 'rgba(168, 85, 247, 0.7)', border: 'rgb(168, 85, 247)' }  // Purple
+        };
+        
+        // Format currency
+        function formatCurrency(value) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
+            }).format(value);
+        }
+        
+        // Format date
+        function formatDate(dateStr) {
+            return new Date(dateStr).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
+        }
+        
+        // Create summary cards
+        function createSummaryCards(data) {
+            const summaryGrid = document.getElementById('summaryGrid');
+            
+            const cards = [
+                { title: 'Total Transactions', value: data.summary.total_transactions.toLocaleString() },
+                { title: 'Unique Awards', value: data.summary.unique_awards.toLocaleString() },
+                { title: 'Total Obligated', value: formatCurrency(data.summary.total_obligated), class: 'positive' },
+                { title: 'Total Deobligated', value: formatCurrency(data.summary.total_deobligated), class: 'negative' },
+                { title: 'Net Obligations', value: formatCurrency(data.summary.net_obligations) },
+                { title: 'Total Outlays', value: formatCurrency(data.summary.total_outlays) }
+            ];
+            
+            cards.forEach(card => {
+                const div = document.createElement('div');
+                div.className = 'summary-card';
+                div.innerHTML = `
+                    <h3>${card.title}</h3>
+                    <div class="value ${card.class || ''}">${card.value}</div>
+                `;
+                summaryGrid.appendChild(div);
+            });
+        }
+        
+        // Create monthly obligations bar chart
+        function createMonthlyObligationsChart(data) {
+            const ctx = document.getElementById('monthlyObligationsChart').getContext('2d');
+            
+            // Process data to add fiscal year indicators
+            const monthlyData = data.monthly_data.map(d => {
+                const date = new Date(d.month);
+                const fiscalYear = date.getMonth() >= 9 ? date.getFullYear() + 1 : date.getFullYear();
+                return {
+                    ...d,
+                    fiscalYear: fiscalYear,
+                    isSeptember: date.getMonth() === 8
+                };
+            });
+            
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: monthlyData.map(d => d.month),
+                    datasets: [{
+                        label: 'Obligations',
+                        data: monthlyData.map(d => d.obligations),
+                        backgroundColor: monthlyData.map(d => fiscalYearColors[d.fiscalYear]?.bg || 'rgba(156, 163, 175, 0.7)'),
+                        borderColor: monthlyData.map(d => fiscalYearColors[d.fiscalYear]?.border || 'rgb(156, 163, 175)'),
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const data = monthlyData[context.dataIndex];
+                                    return [
+                                        'Obligations: ' + formatCurrency(context.parsed.y),
+                                        'Fiscal Year: ' + data.fiscalYear
+                                    ];
+                                }
+                            }
+                        },
+                        annotation: {
+                            annotations: monthlyData
+                                .filter(d => d.isSeptember)
+                                .map((d, i) => ({
+                                    type: 'line',
+                                    xMin: monthlyData.indexOf(d) + 0.5,
+                                    xMax: monthlyData.indexOf(d) + 0.5,
+                                    borderColor: 'rgba(0, 0, 0, 0.3)',
+                                    borderWidth: 2,
+                                    borderDash: [5, 5],
+                                    label: {
+                                        content: `End of FY${d.fiscalYear}`,
+                                        enabled: true,
+                                        position: 'top'
+                                    }
+                                }))
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return formatCurrency(value);
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Obligation Amount'
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                maxRotation: 45,
+                                minRotation: 45
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Create outlay by year chart
+        function createOutlayByYearChart(data) {
+            const ctx = document.getElementById('outlayByYearChart').getContext('2d');
+            
+            if (data.outlay_by_obligation_year && data.outlay_by_obligation_year.length > 0) {
+                const years = data.outlay_by_obligation_year.map(d => `FY${d.initial_obligation_fy}`);
+                
+                // Create three datasets showing what happened to the money
+                const datasets = [];
+                
+                // Outlayed (spent) - full opacity
+                datasets.push({
+                    label: 'Outlayed',
+                    data: data.outlay_by_obligation_year.map(d => d.percent_outlayed || 0),
+                    backgroundColor: data.outlay_by_obligation_year.map(d => {
+                        const colors = fiscalYearColors[d.initial_obligation_fy];
+                        return colors ? colors.bg.replace('0.7', '0.8') : 'rgba(156, 163, 175, 0.8)';
+                    }),
+                    borderColor: data.outlay_by_obligation_year.map(d => 
+                        fiscalYearColors[d.initial_obligation_fy]?.border || 'rgb(156, 163, 175)'
+                    ),
+                    borderWidth: 2,
+                    categoryPercentage: 0.8,
+                    barPercentage: 0.9
+                });
+                
+                // Expired without being spent - medium opacity
+                datasets.push({
+                    label: 'Expired Unspent',
+                    data: data.outlay_by_obligation_year.map(d => d.percent_expired_unspent || 0),
+                    backgroundColor: data.outlay_by_obligation_year.map(d => {
+                        const colors = fiscalYearColors[d.initial_obligation_fy];
+                        return colors ? colors.bg.replace('0.7', '0.5') : 'rgba(156, 163, 175, 0.5)';
+                    }),
+                    borderColor: data.outlay_by_obligation_year.map(d => 
+                        fiscalYearColors[d.initial_obligation_fy]?.border || 'rgb(156, 163, 175)'
+                    ),
+                    borderWidth: 2,
+                    categoryPercentage: 0.8,
+                    barPercentage: 0.9
+                });
+                
+                // Still active (not yet spent) - light opacity
+                datasets.push({
+                    label: 'Active (Not Yet Spent)',
+                    data: data.outlay_by_obligation_year.map(d => d.percent_active_unspent || 0),
+                    backgroundColor: data.outlay_by_obligation_year.map(d => {
+                        const colors = fiscalYearColors[d.initial_obligation_fy];
+                        return colors ? colors.bg.replace('0.7', '0.2') : 'rgba(156, 163, 175, 0.2)';
+                    }),
+                    borderColor: data.outlay_by_obligation_year.map(d => 
+                        fiscalYearColors[d.initial_obligation_fy]?.border || 'rgb(156, 163, 175)'
+                    ),
+                    borderWidth: 2,
+                    categoryPercentage: 0.8,
+                    barPercentage: 0.9
+                });
+                
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: years,
+                        datasets: datasets
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        const data = context.chart.data.datasets[context.datasetIndex].data[context.dataIndex];
+                                        return context.dataset.label + ': ' + (data || 0).toFixed(1) + '%';
+                                    },
+                                    afterLabel: function(context) {
+                                        const yearData = dashboardData.outlay_by_obligation_year[context.dataIndex];
+                                        const lines = [];
+                                        if (context.datasetIndex === 0) {
+                                            lines.push(`Total: ${yearData.total_awards} awards`);
+                                            lines.push(`Obligations: ${formatCurrency(yearData.total_obligations)}`);
+                                            lines.push(`Years elapsed: ${yearData.years_elapsed}`);
+                                        } else if (context.datasetIndex === 1 && yearData.expired_awards > 0) {
+                                            lines.push(`Expired: ${yearData.expired_awards} awards`);
+                                            lines.push(`Obligations: ${formatCurrency(yearData.expired_obligations)}`);
+                                        } else if (context.datasetIndex === 2 && yearData.active_awards > 0) {
+                                            lines.push(`Active: ${yearData.active_awards} awards`);
+                                            lines.push(`Obligations: ${formatCurrency(yearData.active_obligations)}`);
+                                        }
+                                        return lines;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 100,
+                                ticks: {
+                                    callback: function(value) {
+                                        return value + '%';
+                                    }
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Outlay Rate (%)'
+                                }
+                            },
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Initial Obligation Fiscal Year'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+        
+        // Create monthly deobligations bar chart
+        function createMonthlyDeobligationsChart(data) {
+            const ctx = document.getElementById('monthlyDeobligationsChart').getContext('2d');
+            
+            // Process data to add fiscal year indicators
+            const monthlyData = data.monthly_data.map(d => {
+                const date = new Date(d.month);
+                const fiscalYear = date.getMonth() >= 9 ? date.getFullYear() + 1 : date.getFullYear();
+                return {
+                    ...d,
+                    fiscalYear: fiscalYear,
+                    isSeptember: date.getMonth() === 8
+                };
+            });
+            
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: monthlyData.map(d => d.month),
+                    datasets: [{
+                        label: 'Deobligations',
+                        data: monthlyData.map(d => Math.abs(d.deobligations)),
+                        backgroundColor: monthlyData.map(d => fiscalYearColors[d.fiscalYear]?.bg || 'rgba(156, 163, 175, 0.7)'),
+                        borderColor: monthlyData.map(d => fiscalYearColors[d.fiscalYear]?.border || 'rgb(156, 163, 175)'),
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const data = monthlyData[context.dataIndex];
+                                    return [
+                                        'Deobligations: ' + formatCurrency(context.parsed.y),
+                                        'Fiscal Year: ' + data.fiscalYear
+                                    ];
+                                }
+                            }
+                        },
+                        annotation: {
+                            annotations: monthlyData
+                                .filter(d => d.isSeptember)
+                                .map((d, i) => ({
+                                    type: 'line',
+                                    xMin: monthlyData.indexOf(d) + 0.5,
+                                    xMax: monthlyData.indexOf(d) + 0.5,
+                                    borderColor: 'rgba(0, 0, 0, 0.3)',
+                                    borderWidth: 2,
+                                    borderDash: [5, 5],
+                                    label: {
+                                        content: `End of FY${d.fiscalYear}`,
+                                        enabled: true,
+                                        position: 'top'
+                                    }
+                                }))
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return formatCurrency(value);
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Deobligation Amount'
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                maxRotation: 45,
+                                minRotation: 45
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Create money expiration chart
+        function createMoneyExpirationChart(data) {
+            const ctx = document.getElementById('moneyExpirationChart').getContext('2d');
+            
+            if (data.money_expiration && data.money_expiration.length > 0) {
+                // Group data by obligation FY
+                const fyGroups = {};
+                data.money_expiration.forEach(item => {
+                    if (!fyGroups[item.obligation_fy]) {
+                        fyGroups[item.obligation_fy] = [];
+                    }
+                    fyGroups[item.obligation_fy].push(item);
+                });
+                
+                // Create datasets for each FY
+                const datasets = [];
+                
+                Object.keys(fyGroups).sort().forEach((fy, index) => {
+                    const fyData = fyGroups[fy].sort((a, b) => a.expiration_year - b.expiration_year);
+                    const colors = fiscalYearColors[fy] || { bg: 'rgba(156, 163, 175, 0.7)', border: 'rgb(156, 163, 175)' };
+                    
+                    datasets.push({
+                        label: `FY${fy} Unspent Funds`,
+                        data: fyData.map(d => ({
+                            x: d.expiration_year,
+                            y: d.unspent_amount / 1000000
+                        })),
+                        backgroundColor: colors.bg,
+                        borderColor: colors.border,
+                        borderWidth: 2
+                    });
+                });
+                
+                // Get all expiration years for x-axis
+                const allYears = [...new Set(data.money_expiration.map(d => d.expiration_year))].sort();
+                
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: allYears,
+                        datasets: datasets
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: {
+                                stacked: true,
+                                title: {
+                                    display: true,
+                                    text: 'Expiration Year'
+                                }
+                            },
+                            y: {
+                                stacked: true,
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Unspent Amount ($M)'
+                                },
+                                ticks: {
+                                    callback: function(value) {
+                                        return '$' + value.toFixed(0) + 'M';
+                                    }
+                                }
+                            }
+                        },
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        const fy = context.dataset.label.match(/FY(\d+)/)[1];
+                                        const year = context.label;
+                                        const item = fyGroups[fy].find(d => d.expiration_year == year);
+                                        
+                                        if (!item) return context.dataset.label + ': $' + context.parsed.y.toFixed(1) + 'M';
+                                        
+                                        return [
+                                            context.dataset.label + ': ' + formatCurrency(item.unspent_amount),
+                                            'Awards: ' + item.awards_count.toLocaleString(),
+                                            'Percent unspent: ' + item.percent_unspent.toFixed(1) + '%'
+                                        ];
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+        
+        // Legacy cohort chart function (kept for reference)
+        function createCohortChart_unused(data) {
+            const ctx = document.getElementById('cohortChart').getContext('2d');
+            
+            // Use cohort data if available
+            if (data.cohort_data && data.cohort_data.length > 0) {
+                // Group by obligation fiscal year
+                const cohorts = {};
+                data.cohort_data.forEach(d => {
+                    if (!cohorts[d.obligation_fy]) {
+                        cohorts[d.obligation_fy] = [];
+                    }
+                    cohorts[d.obligation_fy].push(d);
+                });
+                
+                const colors = ['rgb(99, 102, 241)', 'rgb(34, 197, 94)', 'rgb(251, 146, 60)'];
+                const datasets = [];
+                
+                Object.keys(cohorts).sort().forEach((fy, index) => {
+                    const cohortData = cohorts[fy].sort((a, b) => a.years_elapsed - b.years_elapsed);
+                    datasets.push({
+                        label: `FY${fy} Obligations`,
+                        data: cohortData.map(d => ({
+                            x: d.years_elapsed,
+                            y: d.outlay_rate
+                        })),
+                        borderColor: colors[index % colors.length],
+                        backgroundColor: colors[index % colors.length] + '33',
+                        tension: 0.1
+                    });
+                });
+                
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        datasets: datasets
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Each line shows how obligations from a fiscal year outlay over time'
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        const cohortData = data.cohort_data.find(d => 
+                                            d.obligation_fy === parseInt(context.dataset.label.match(/\d+/)[0]) &&
+                                            d.years_elapsed === context.parsed.x
+                                        );
+                                        if (cohortData) {
+                                            return [
+                                                `${context.dataset.label}`,
+                                                `Outlay Rate: ${context.parsed.y.toFixed(1)}%`,
+                                                `Obligations: $${(cohortData.cohort_obligations / 1000000).toFixed(1)}M`,
+                                                `Outlays: $${(cohortData.cumulative_outlays / 1000000).toFixed(1)}M`,
+                                                `Outlay Year: FY${cohortData.outlay_fy}`
+                                            ];
+                                        }
+                                        return context.dataset.label + ': ' + context.parsed.y.toFixed(1) + '%';
+                                    },
+                                    title: function(context) {
+                                        return 'Years Since Obligation: ' + context[0].parsed.x;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                type: 'linear',
+                                title: {
+                                    display: true,
+                                    text: 'Years Since Initial Obligation'
+                                },
+                                ticks: {
+                                    stepSize: 1,
+                                    callback: function(value) {
+                                        return 'Year ' + value;
+                                    }
+                                }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                max: 100,
+                                title: {
+                                    display: true,
+                                    text: 'Cumulative Outlay Rate (%)'
+                                },
+                                ticks: {
+                                    callback: function(value) {
+                                        return value + '%';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+        
+        // Unused function - kept for reference
+        function createYearComparisonChartUnused(data) {
+            const ctx = document.getElementById('yearComparisonChart').getContext('2d');
+            
+            if (data.cyclical_data && data.cyclical_data.length > 0) {
+                // Group by fiscal year
+                const years = [...new Set(data.cyclical_data.map(d => d.fiscal_year))];
+                const datasets = [];
+                
+                const colors = ['rgb(99, 102, 241)', 'rgb(34, 197, 94)', 'rgb(251, 146, 60)'];
+                
+                years.forEach((year, index) => {
+                    const yearData = data.cyclical_data.filter(d => d.fiscal_year === year);
+                    datasets.push({
+                        label: `FY${year} Outlay Rate`,
+                        data: yearData.map(d => ({
+                            x: d.fiscal_month_num,
+                            y: d.outlay_rate
+                        })),
+                        borderColor: colors[index % colors.length],
+                        backgroundColor: colors[index % colors.length] + '33',
+                        tension: 0.1
+                    });
+                });
+                
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        datasets: datasets
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: {
+                                type: 'linear',
+                                min: 1,
+                                max: 12,
+                                ticks: {
+                                    stepSize: 1,
+                                    callback: function(value) {
+                                        const months = ['Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 
+                                                       'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'];
+                                        return months[value - 1] || '';
+                                    }
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Fiscal Month'
+                                }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                max: 100,
+                                ticks: {
+                                    callback: function(value) {
+                                        return value + '%';
+                                    }
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Cumulative Outlay Rate (%)'
+                                }
+                            }
+                        },
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        const dataPoint = data.cyclical_data.find(d => 
+                                            d.fiscal_year === parseInt(context.dataset.label.match(/\d+/)[0]) &&
+                                            d.fiscal_month_num === context.parsed.x
+                                        );
+                                        if (dataPoint) {
+                                            return [
+                                                `${context.dataset.label}: ${context.parsed.y.toFixed(1)}%`,
+                                                `Cumulative Obligations: $${(dataPoint.cumulative_obligations / 1000000).toFixed(1)}M`,
+                                                `Cumulative Outlays: $${(dataPoint.cumulative_outlays / 1000000).toFixed(1)}M`
+                                            ];
+                                        }
+                                        return context.dataset.label + ': ' + context.parsed.y.toFixed(1) + '%';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+        
+        // Load data and initialize dashboard
+        fetch('data/reap_dashboard_data.json')
+            .then(response => response.json())
+            .then(data => {
+                dashboardData = data;
+                filteredTransactions = data.transactions;
+                
+                // Set date range
+                document.getElementById('dateRange').textContent = 
+                    `${formatDate(data.summary.date_range.start)} to ${formatDate(data.summary.date_range.end)}`;
+                
+                // Create visualizations
+                createSummaryCards(data);
+                createMonthlyObligationsChart(data);
+                createOutlayByYearChart(data);
+                createMonthlyDeobligationsChart(data);
+                createMoneyExpirationChart(data);
+            })
+            .catch(error => {
+                document.body.innerHTML = `<div class="error">Error loading data: ${error.message}</div>`;
+            });
+    </script>
+</body>
+</html>
