@@ -1,0 +1,23 @@
+/.quarto/
+
+# Virtual environment
+venv/
+.venv/
+env/
+.env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Jupyter notebooks
+.ipynb_checkpoints/
+
+# Mac files
+.DS_Store
+
+# Temporary files
+*.tmp
+*.bak
+*~

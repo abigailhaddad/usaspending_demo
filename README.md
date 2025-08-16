@@ -44,20 +44,19 @@ Bar chart showing new money obligated each month, colored by fiscal year. Vertic
 #### Status of Obligations by Initial Award Year
 Shows what happened to money obligated in each fiscal year:
 - **Outlayed**: Money that has been paid out
-- **Expired Unspent**: Money that was never spent and the award has expired
-- **Active (Not Yet Spent)**: Money committed but not yet paid out on active awards
+- **Not Yet Outlayed**: Money obligated but not yet paid out
 
-Each fiscal year's obligations sum to 100% across these three categories.
+Each fiscal year's obligations sum to 100% across these two categories.
 
 #### Monthly Deobligations by Fiscal Year
 Bar chart showing when money was deobligated (uncommitted) each month. Deobligations can occur when projects are completed under budget or cancelled.
 
-#### Unspent Money by Expiration Year
+#### Unspent Money by Award End Year
 Stacked bar chart showing unspent funds by:
 - Which fiscal year the money was originally obligated
-- When those awards expire
+- When those awards' periods of performance end
 
-This helps identify funding at risk of expiring unused.
+Note: When an award's period of performance ends, obligated funds remain available for liquidation of valid obligations for 5 additional years before the account expires.
 
 ## Key Concepts
 

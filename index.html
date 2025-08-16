@@ -181,7 +181,7 @@
     <div class="container">
         <div class="header">
             <h1>Rural Energy for America Program (REAP) Dashboard</h1>
-            <p>CFDA 10.868 • FY 2022-2025 • <span id="dateRange"></span></p>
+            <p>CFDA 10.868 • FY 2022-2025 • Data as of <span id="lastUpdated"></span></p>
             <p style="color: #dc2626; font-weight: bold; margin-top: 1rem; font-size: 1.1rem;">
                 ⚠️ I think this is accurate but talk to me before you use it
             </p>
@@ -217,8 +217,8 @@
             <h2>Status of Obligations by Initial Award Year</h2>
             <canvas id="outlayByYearChart"></canvas>
             <p style="margin-top: 10px; font-size: 0.875rem; color: #718096;">
-                Shows what happened to money obligated each fiscal year: spent (outlayed), 
-                expired without being spent, or still active.
+                Shows the percentage of money obligated each fiscal year that has been outlayed (spent) 
+                versus not yet outlayed (unspent).
             </p>
         </div>
         
@@ -228,13 +228,12 @@
         </div>
         
         <div class="chart-container">
-            <h2>Unspent Money by Expiration Year</h2>
+            <h2>Unspent Money by Award End Year</h2>
             <canvas id="moneyExpirationChart"></canvas>
             <p style="margin-top: 10px; font-size: 0.875rem; color: #718096;">
-                Shows unspent funds from each fiscal year and when they expire. 
-                REAP grants typically have 2-3 year periods of performance.
-                The percentages shown represent the portion of funds obligated in each fiscal year 
-                that remain unspent for awards expiring in the given year.
+                Shows unspent funds grouped by when awards' periods of performance end. 
+                <strong>Important:</strong> When an award's period of performance ends, obligated funds remain 
+                available for liquidation of valid obligations for 5 additional years before the account expires.
             </p>
         </div>
         
@@ -410,7 +409,7 @@
             if (data.outlay_by_obligation_year && data.outlay_by_obligation_year.length > 0) {
                 const years = data.outlay_by_obligation_year.map(d => `FY${d.initial_obligation_fy}`);
                 
-                // Create three datasets showing what happened to the money
+                // Create two datasets showing what happened to the money
                 const datasets = [];
                 
                 // Outlayed (spent) - full opacity
@@ -429,29 +428,17 @@
                     barPercentage: 0.9
                 });
                 
-                // Expired without being spent - medium opacity
+                // Not yet outlayed (unspent) - lighter opacity
                 datasets.push({
-                    label: 'Expired Unspent',
-                    data: data.outlay_by_obligation_year.map(d => d.percent_expired_unspent || 0),
-                    backgroundColor: data.outlay_by_obligation_year.map(d => {
-                        const colors = fiscalYearColors[d.initial_obligation_fy];
-                        return colors ? colors.bg.replace('0.7', '0.5') : 'rgba(156, 163, 175, 0.5)';
+                    label: 'Not Yet Outlayed',
+                    data: data.outlay_by_obligation_year.map(d => {
+                        // Calculate unspent percentage (both expired and active)
+                        const unspent = (d.percent_expired_unspent || 0) + (d.percent_active_unspent || 0);
+                        return unspent;
                     }),
-                    borderColor: data.outlay_by_obligation_year.map(d => 
-                        fiscalYearColors[d.initial_obligation_fy]?.border || 'rgb(156, 163, 175)'
-                    ),
-                    borderWidth: 2,
-                    categoryPercentage: 0.8,
-                    barPercentage: 0.9
-                });
-                
-                // Still active (not yet spent) - light opacity
-                datasets.push({
-                    label: 'Active (Not Yet Spent)',
-                    data: data.outlay_by_obligation_year.map(d => d.percent_active_unspent || 0),
                     backgroundColor: data.outlay_by_obligation_year.map(d => {
                         const colors = fiscalYearColors[d.initial_obligation_fy];
-                        return colors ? colors.bg.replace('0.7', '0.2') : 'rgba(156, 163, 175, 0.2)';
+                        return colors ? colors.bg.replace('0.7', '0.3') : 'rgba(156, 163, 175, 0.3)';
                     }),
                     borderColor: data.outlay_by_obligation_year.map(d => 
                         fiscalYearColors[d.initial_obligation_fy]?.border || 'rgb(156, 163, 175)'
@@ -483,13 +470,12 @@
                                         if (context.datasetIndex === 0) {
                                             lines.push(`Total: ${yearData.total_awards} awards`);
                                             lines.push(`Obligations: ${formatCurrency(yearData.total_obligations)}`);
+                                            lines.push(`Outlays: ${formatCurrency(yearData.total_outlays)}`);
                                             lines.push(`Years elapsed: ${yearData.years_elapsed}`);
-                                        } else if (context.datasetIndex === 1 && yearData.expired_awards > 0) {
-                                            lines.push(`Expired: ${yearData.expired_awards} awards`);
-                                            lines.push(`Obligations: ${formatCurrency(yearData.expired_obligations)}`);
-                                        } else if (context.datasetIndex === 2 && yearData.active_awards > 0) {
-                                            lines.push(`Active: ${yearData.active_awards} awards`);
-                                            lines.push(`Obligations: ${formatCurrency(yearData.active_obligations)}`);
+                                        } else if (context.datasetIndex === 1) {
+                                            const unspentAmount = yearData.total_obligations - yearData.total_outlays;
+                                            lines.push(`Unspent: ${formatCurrency(unspentAmount)}`);
+                                            lines.push(`Total awards: ${yearData.total_awards}`);
                                         }
                                         return lines;
                                     }
@@ -885,9 +871,16 @@
                 dashboardData = data;
                 filteredTransactions = data.transactions;
                 
-                // Set date range
-                document.getElementById('dateRange').textContent = 
-                    `${formatDate(data.summary.date_range.start)} to ${formatDate(data.summary.date_range.end)}`;
+                // Set last updated date
+                if (data.metadata && data.metadata.generated_at) {
+                    const lastUpdated = new Date(data.metadata.generated_at);
+                    document.getElementById('lastUpdated').textContent = 
+                        lastUpdated.toLocaleDateString('en-US', { 
+                            year: 'numeric', 
+                            month: 'long', 
+                            day: 'numeric'
+                        });
+                }
                 
                 // Create visualizations
                 createSummaryCards(data);
