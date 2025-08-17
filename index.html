@@ -38,6 +38,34 @@
             margin-bottom: 0.5rem;
         }
         
+        .nav-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 1rem;
+        }
+        
+        .nav-tab {
+            padding: 0.5rem 1rem;
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            text-decoration: none;
+            color: #4a5568;
+            transition: all 0.2s;
+        }
+        
+        .nav-tab:hover {
+            background: #edf2f7;
+        }
+        
+        .nav-tab.active {
+            background: #4299e1;
+            color: white;
+            border-color: #4299e1;
+        }
+        
         .summary-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -182,9 +210,22 @@
         <div class="header">
             <h1>Rural Energy for America Program (REAP) Dashboard</h1>
             <p>CFDA 10.868 • FY 2022-2025 • Data as of <span id="lastUpdated"></span></p>
-            <p style="color: #dc2626; font-weight: bold; margin-top: 1rem; font-size: 1.1rem;">
-                ⚠️ I think this is accurate but talk to me before you use it
-            </p>
+            <div style="background: #fef3c7; border: 1px solid #f59e0b; border-radius: 6px; padding: 1rem; margin-top: 1rem;">
+                <p style="color: #92400e; font-weight: 600; margin: 0 0 0.5rem 0; font-size: 0.875rem;">
+                    ⚠️ Data Limitation: This dashboard only includes awards with activity in FY2021-2025. 
+                    Some records show $0 obligations with positive outlays (outlays exceed obligations). We're investigating 
+                    why this occurs - it may be due to data quality issues, timing differences, or how certain award types 
+                    are reported in bulk downloads.
+                </p>
+                <p style="color: #92400e; margin: 0; font-size: 0.875rem;">
+                    ⚠️ Disclaimer: This is an Experimental Analysis
+                </p>
+            </div>
+            
+            <div class="nav-tabs">
+                <a href="index.html" class="nav-tab active">Dashboard</a>
+                <a href="details_datatables.html" class="nav-tab">Award Details</a>
+            </div>
         </div>
         
         <div class="summary-card" style="margin-bottom: 2rem; background: #f7fafc;">
@@ -205,8 +246,6 @@
                 </p>
             </div>
         </div>
-        
-        <div id="summaryGrid" class="summary-grid"></div>
         
         <div class="chart-container">
             <h2>Monthly Obligations by Fiscal Year</h2>
@@ -310,7 +349,6 @@
             const summaryGrid = document.getElementById('summaryGrid');
             
             const cards = [
-                { title: 'Total Transactions', value: data.summary.total_transactions.toLocaleString() },
                 { title: 'Unique Awards', value: data.summary.unique_awards.toLocaleString() },
                 { title: 'Total Obligated', value: formatCurrency(data.summary.total_obligated), class: 'positive' },
                 { title: 'Total Deobligated', value: formatCurrency(data.summary.total_deobligated), class: 'negative' },
@@ -604,18 +642,22 @@
                     
                     datasets.push({
                         label: `FY${fy} Unspent Funds`,
-                        data: fyData.map(d => ({
-                            x: d.expiration_year,
-                            y: d.unspent_amount / 1000000
-                        })),
+                        data: fyData
+                            .filter(d => d.expiration_year >= 2024)
+                            .map(d => ({
+                                x: d.expiration_year,
+                                y: d.unspent_amount / 1000000
+                            })),
                         backgroundColor: colors.bg,
                         borderColor: colors.border,
                         borderWidth: 2
                     });
                 });
                 
-                // Get all expiration years for x-axis
-                const allYears = [...new Set(data.money_expiration.map(d => d.expiration_year))].sort();
+                // Get all expiration years for x-axis (2024 and later only)
+                const allYears = [...new Set(data.money_expiration.map(d => d.expiration_year))]
+                    .filter(year => year >= 2024)
+                    .sort();
                 
                 new Chart(ctx, {
                     type: 'bar',
@@ -883,7 +925,6 @@
                 }
                 
                 // Create visualizations
-                createSummaryCards(data);
                 createMonthlyObligationsChart(data);
                 createOutlayByYearChart(data);
                 createMonthlyDeobligationsChart(data);

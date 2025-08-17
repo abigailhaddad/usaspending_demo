@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REAP Award Details - FY 2022-2025</title>
+    
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f5f7fa;
+            color: #2d3748;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 1rem;
+        }
+        
+        .nav-tab {
+            padding: 0.5rem 1rem;
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            text-decoration: none;
+            color: #4a5568;
+            transition: all 0.2s;
+        }
+        
+        .nav-tab:hover {
+            background: #edf2f7;
+        }
+        
+        .nav-tab.active {
+            background: #4299e1;
+            color: white;
+            border-color: #4299e1;
+        }
+        
+        .table-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+        }
+        
+        .positive {
+            color: #48bb78;
+        }
+        
+        .negative {
+            color: #f56565;
+        }
+        
+        /* Active filters display */
+        .active-filters {
+            margin-bottom: 1rem;
+            display: none;
+        }
+        
+        .active-filters.show {
+            display: block;
+        }
+        
+        .filter-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        
+        .filter-tag {
+            background: #e6f7ff;
+            border: 1px solid #91d5ff;
+            color: #0050b3;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .filter-tag .remove-filter {
+            cursor: pointer;
+            font-weight: bold;
+            color: #0050b3;
+            background: none;
+            border: none;
+            padding: 0 0.25rem;
+            font-size: 1rem;
+            line-height: 1;
+        }
+        
+        .filter-tag .remove-filter:hover {
+            color: #003a8c;
+        }
+        
+        .clear-all-filters {
+            background: #f0f0f0;
+            border: 1px solid #d9d9d9;
+            color: #595959;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .clear-all-filters:hover {
+            background: #e6e6e6;
+            border-color: #bfbfbf;
+        }
+        
+        /* DataTables customization */
+        .dataTables_wrapper {
+            padding: 0;
+        }
+        
+        table.dataTable {
+            width: 100% !important;
+        }
+        
+        .dt-button {
+            background: #4299e1 !important;
+            color: white !important;
+            border: none !important;
+            padding: 0.5rem 1rem !important;
+            border-radius: 4px !important;
+            margin-right: 0.5rem !important;
+        }
+        
+        .dt-button:hover {
+            background: #3182ce !important;
+        }
+        
+        .dtsb-searchBuilder {
+            margin-bottom: 1rem;
+        }
+        
+        /* Currency columns right-aligned */
+        .dt-body-right {
+            text-align: right;
+        }
+        
+        /* Filter controls */
+        .filter-controls {
+            margin-bottom: 1rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .filter-dropdown {
+            position: relative;
+        }
+        
+        .filter-dropdown select {
+            padding: 0.5rem 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            background: white;
+            font-size: 0.875rem;
+            cursor: pointer;
+            min-width: 150px;
+        }
+        
+        .filter-dropdown label {
+            font-size: 0.875rem;
+            color: #718096;
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Rural Energy for America Program (REAP) Award Details</h1>
+            <p>CFDA 10.868 • FY 2022-2025 • Data as of <span id="lastUpdated"></span></p>
+            
+            <div class="nav-tabs">
+                <a href="index.html" class="nav-tab">Dashboard</a>
+                <a href="details_datatables.html" class="nav-tab active">Award Details</a>
+            </div>
+        </div>
+        
+        <div style="background: #fef3c7; border: 1px solid #f59e0b; border-radius: 8px; padding: 1rem; margin-bottom: 1rem;">
+            <p style="margin: 0; font-size: 0.875rem;">
+                <strong>⚠️ Data Note:</strong> This table shows award-level summaries from FY2021-2025 data. 
+                Negative "unspent" amounts indicate awards where outlays exceed obligations in our data. 
+                We're investigating why this occurs - it may be due to data quality issues, timing differences, 
+                or how certain award types are reported in bulk downloads.
+            </p>
+        </div>
+        
+        <div class="table-container">
+            <div class="filter-controls">
+                <div class="filter-dropdown">
+                    <label for="stateFilter">State:</label>
+                    <select id="stateFilter" multiple>
+                        <option value="">All States</option>
+                    </select>
+                </div>
+                
+                <div class="filter-dropdown">
+                    <label for="fyFilter">Fiscal Year:</label>
+                    <select id="fyFilter" multiple>
+                        <option value="">All Years</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="active-filters" id="activeFilters">
+                <div class="filter-tags" id="filterTags">
+                    <!-- Active filters will be displayed here -->
+                </div>
+            </div>
+            <table id="awardsTable" class="display" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Recipient</th>
+                        <th>City</th>
+                        <th>State</th>
+                        <th>Award ID</th>
+                        <th>Obligated</th>
+                        <th>Outlayed</th>
+                        <th>Unspent</th>
+                        <th>Outlay %</th>
+                        <th>Fiscal Years</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+    
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js"></script>
+    
+    <!-- Select2 for better dropdowns -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    
+    <script>
+        let allAwards = [];
+        
+        // Format currency
+        function formatCurrency(value) {
+            if (value === null || value === undefined) return '—';
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
+            }).format(value);
+        }
+        
+        // Load and process data
+        async function loadData() {
+            try {
+                const response = await fetch('data/reap_dashboard_data.json');
+                const data = await response.json();
+                
+                // Set last updated date
+                if (data.metadata && data.metadata.generated_at) {
+                    const lastUpdated = new Date(data.metadata.generated_at);
+                    document.getElementById('lastUpdated').textContent = 
+                        lastUpdated.toLocaleDateString('en-US', { 
+                            year: 'numeric', 
+                            month: 'long', 
+                            day: 'numeric'
+                        });
+                }
+                
+                // Process transactions to aggregate by award
+                const awardMap = new Map();
+                
+                data.transactions.forEach(transaction => {
+                    const awardId = transaction.award_id_fain;
+                    
+                    if (!awardMap.has(awardId)) {
+                        awardMap.set(awardId, {
+                            award_id_fain: awardId,
+                            recipient_name: transaction.recipient_name,
+                            recipient_city_name: transaction.recipient_city_name,
+                            recipient_state_code: transaction.recipient_state_code,
+                            awarding_sub_agency_name: transaction.awarding_sub_agency_name,
+                            fiscal_years: new Set(),
+                            obligations: 0,
+                            outlays: 0,
+                            first_action_date: transaction.action_date,
+                            last_action_date: transaction.action_date,
+                            transaction_count: 0
+                        });
+                    }
+                    
+                    const award = awardMap.get(awardId);
+                    award.fiscal_years.add(transaction.fiscal_year);
+                    award.obligations += transaction.federal_action_obligation || 0;
+                    
+                    // Use the most recent outlay amount (it's cumulative)
+                    if (transaction.total_outlayed_amount_for_overall_award !== null) {
+                        award.outlays = transaction.total_outlayed_amount_for_overall_award;
+                    }
+                    
+                    // Update dates
+                    if (transaction.action_date < award.first_action_date) {
+                        award.first_action_date = transaction.action_date;
+                    }
+                    if (transaction.action_date > award.last_action_date) {
+                        award.last_action_date = transaction.action_date;
+                    }
+                    
+                    award.transaction_count++;
+                });
+                
+                // Convert to array and calculate unspent
+                allAwards = Array.from(awardMap.values()).map(award => ({
+                    ...award,
+                    fiscal_years_display: Array.from(award.fiscal_years).sort().join(', '),
+                    fiscal_years_array: Array.from(award.fiscal_years).sort(),
+                    unspent: award.obligations - award.outlays,
+                    outlay_rate: award.obligations > 0 ? (award.outlays / award.obligations * 100) : 0
+                }));
+                
+                populateFilters();
+                initializeDataTable();
+                
+            } catch (error) {
+                console.error('Error loading data:', error);
+                document.querySelector('.table-container').innerHTML = 
+                    '<div style="text-align: center; padding: 2rem; color: #718096;">Error loading data. Please try again.</div>';
+            }
+        }
+        
+        // Populate filter dropdowns
+        function populateFilters() {
+            // Get unique states
+            const states = [...new Set(allAwards.map(a => a.recipient_state_code))].sort();
+            const stateSelect = $('#stateFilter');
+            states.forEach(state => {
+                stateSelect.append(new Option(state, state));
+            });
+            
+            // Get unique fiscal years
+            const fiscalYears = new Set();
+            allAwards.forEach(award => {
+                award.fiscal_years_array.forEach(fy => fiscalYears.add(fy));
+            });
+            const fySelect = $('#fyFilter');
+            [...fiscalYears].sort().forEach(fy => {
+                fySelect.append(new Option(`FY ${fy}`, fy));
+            });
+            
+            // Initialize Select2 dropdowns
+            $('#stateFilter').select2({
+                placeholder: 'All States',
+                allowClear: true,
+                width: '100%'
+            });
+            
+            $('#fyFilter').select2({
+                placeholder: 'All Years',
+                allowClear: true,
+                width: '100%'
+            });
+            
+            // Add change handlers
+            $('#stateFilter').on('change', applyFilters);
+            $('#fyFilter').on('change', applyFilters);
+        }
+        
+        // Track active filters
+        let activeFilters = {
+            search: '',
+            states: [],
+            fiscalYears: []
+        };
+        
+        // Apply filters
+        function applyFilters() {
+            const table = $('#awardsTable').DataTable();
+            
+            // Get selected values
+            activeFilters.states = $('#stateFilter').val() || [];
+            activeFilters.fiscalYears = ($('#fyFilter').val() || []).map(v => parseInt(v));
+            
+            // Custom filter function
+            $.fn.dataTable.ext.search.pop(); // Remove any existing custom filters
+            $.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
+                const award = allAwards[dataIndex];
+                
+                // State filter
+                if (activeFilters.states.length > 0 && !activeFilters.states.includes(award.recipient_state_code)) {
+                    return false;
+                }
+                
+                // Fiscal year filter
+                if (activeFilters.fiscalYears.length > 0) {
+                    const hasMatchingFY = award.fiscal_years_array.some(fy => activeFilters.fiscalYears.includes(fy));
+                    if (!hasMatchingFY) return false;
+                }
+                
+                return true;
+            });
+            
+            table.draw();
+            updateActiveFiltersDisplay();
+        }
+        
+        // Update active filters display
+        function updateActiveFiltersDisplay() {
+            const filterTagsContainer = document.getElementById('filterTags');
+            const activeFiltersContainer = document.getElementById('activeFilters');
+            filterTagsContainer.innerHTML = '';
+            
+            let hasFilters = false;
+            
+            
+            // State filters
+            activeFilters.states.forEach(state => {
+                hasFilters = true;
+                const tag = document.createElement('div');
+                tag.className = 'filter-tag';
+                tag.innerHTML = `
+                    <span>State: ${state}</span>
+                    <button class="remove-filter" onclick="removeFilter('state', '${state}')" title="Remove filter">×</button>
+                `;
+                filterTagsContainer.appendChild(tag);
+            });
+            
+            // Fiscal year filters
+            activeFilters.fiscalYears.forEach(fy => {
+                hasFilters = true;
+                const tag = document.createElement('div');
+                tag.className = 'filter-tag';
+                tag.innerHTML = `
+                    <span>FY: ${fy}</span>
+                    <button class="remove-filter" onclick="removeFilter('fiscalYear', '${fy}')" title="Remove filter">×</button>
+                `;
+                filterTagsContainer.appendChild(tag);
+            });
+            
+            // Clear all button
+            if (hasFilters) {
+                const clearAllBtn = document.createElement('button');
+                clearAllBtn.className = 'clear-all-filters';
+                clearAllBtn.textContent = 'Clear All';
+                clearAllBtn.onclick = clearAllFilters;
+                filterTagsContainer.appendChild(clearAllBtn);
+            }
+            
+            activeFiltersContainer.className = hasFilters ? 'active-filters show' : 'active-filters';
+        }
+        
+        // Remove specific filter
+        function removeFilter(type, value) {
+            const table = $('#awardsTable').DataTable();
+            
+            if (type === 'state') {
+                const currentStates = $('#stateFilter').val() || [];
+                const newStates = currentStates.filter(s => s !== value);
+                $('#stateFilter').val(newStates).trigger('change');
+            } else if (type === 'fiscalYear') {
+                const currentFYs = $('#fyFilter').val() || [];
+                const newFYs = currentFYs.filter(fy => fy !== value.toString());
+                $('#fyFilter').val(newFYs).trigger('change');
+            }
+        }
+        
+        // Clear all filters
+        function clearAllFilters() {
+            const table = $('#awardsTable').DataTable();
+            activeFilters = {
+                search: '',
+                states: [],
+                fiscalYears: []
+            };
+            $('#stateFilter').val(null).trigger('change');
+            $('#fyFilter').val(null).trigger('change');
+            table.draw();
+            updateActiveFiltersDisplay();
+        }
+        
+        // Initialize DataTable
+        function initializeDataTable() {
+            const table = $('#awardsTable').DataTable({
+                data: allAwards,
+                columns: [
+                    { data: 'recipient_name' },
+                    { data: 'recipient_city_name' },
+                    { data: 'recipient_state_code' },
+                    { data: 'award_id_fain' },
+                    { 
+                        data: 'obligations',
+                        render: function(data) {
+                            return formatCurrency(data);
+                        },
+                        className: 'dt-body-right'
+                    },
+                    { 
+                        data: 'outlays',
+                        render: function(data) {
+                            return formatCurrency(data);
+                        },
+                        className: 'dt-body-right'
+                    },
+                    { 
+                        data: 'unspent',
+                        render: function(data) {
+                            const formatted = formatCurrency(data);
+                            if (data < 0) {
+                                return '<span class="negative">' + formatted + '</span>';
+                            }
+                            return formatted;
+                        },
+                        className: 'dt-body-right'
+                    },
+                    { 
+                        data: 'outlay_rate',
+                        render: function(data) {
+                            return data.toFixed(1) + '%';
+                        },
+                        className: 'dt-body-right'
+                    },
+                    { data: 'fiscal_years_display' }
+                ],
+                order: [[6, 'desc']], // Sort by unspent amount descending
+                pageLength: 25,
+                lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+                dom: 'Bfrtlip',  // Removed 'f' to hide search
+                buttons: [
+                    {
+                        text: 'Column Visibility',
+                        extend: 'colvis'
+                    }
+                ],
+                language: {
+                    search: "Search all columns:",
+                    searchPlaceholder: "Type to search...",
+                    searchPanes: {
+                        clearMessage: 'Clear All',
+                        collapse: {0: 'Search Panes', _: 'Search Panes (%d)'}
+                    }
+                },
+                initComplete: function() {
+                    // No search tracking needed
+                }
+            });
+            
+            // Make table accessible globally for filter functions
+            window.awardsTable = table;
+        }
+        
+        // Load data on page load
+        $(document).ready(function() {
+            loadData();
+        });
+    </script>
+</body>
+</html>

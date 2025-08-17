@@ -927,15 +927,6 @@ def main():
         if failed_years:
             print(f"   ⚠️  Failed years: {', '.join(f'FY{y}' for y in sorted(failed_years))}")
         
-        # Save combined file
-        combined_parquet = f'data/reap_all_years_{DOWNLOAD_TYPE}.parquet'
-        combined_df.to_parquet(combined_parquet, index=False)
-        print(f"\n💾 Combined data saved to: {combined_parquet}")
-        
-        # Also save a CSV sample
-        csv_sample = f'data/reap_all_years_{DOWNLOAD_TYPE}_sample.csv'
-        combined_df.head(5000).to_csv(csv_sample, index=False)
-        print(f"💾 Sample (first 5000 rows) saved to: {csv_sample}")
         
         # Final summary analysis
         print(f"\n{'='*70}")

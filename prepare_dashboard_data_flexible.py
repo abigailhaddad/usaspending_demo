@@ -105,7 +105,7 @@ def prepare_dashboard_data():
     print("\n📈 Calculating summary statistics...")
     
     summary = {
-        'total_transactions': len(df),  # Changed from total_records to match dashboard
+        'total_transactions': len(df[df[obligation_col] != 0]) if obligation_col else len(df),  # Only count records with obligation activity
         'unique_awards': df['award_id_fain'].nunique() if 'award_id_fain' in df.columns else 0,
         'fiscal_years': sorted(years_loaded),
         'date_range': {}
@@ -232,8 +232,15 @@ def prepare_dashboard_data():
     if 'fiscal_year' in df.columns and 'award_id_fain' in df.columns and obligation_col and outlay_col:
         print("   Creating outlay analysis by initial obligation year...")
         
+        # First, identify awards that have at least one positive obligation in our data
+        # This excludes awards that were obligated before our data period
+        awards_with_obligations = df[df[obligation_col] > 0]['award_id_fain'].unique()
+        
+        # Filter to only include these awards
+        df_with_known_obligations = df[df['award_id_fain'].isin(awards_with_obligations)]
+        
         # For each award, identify when it was first obligated
-        initial_obligations = df[df[obligation_col] > 0].groupby('award_id_fain').agg({
+        initial_obligations = df_with_known_obligations[df_with_known_obligations[obligation_col] > 0].groupby('award_id_fain').agg({
             'fiscal_year': 'min',
             'action_date': 'min'
         }).rename(columns={'fiscal_year': 'initial_obligation_fy'})
@@ -502,8 +509,8 @@ def prepare_dashboard_data():
         if outlay_col and outlay_col in transactions_table.columns:
             transactions_table[outlay_col] = transactions_table[outlay_col].round(2)
         
-        # Convert to records (limit to most recent 500)
-        transactions_data = transactions_table.head(500).to_dict('records')
+        # Convert to records
+        transactions_data = transactions_table.to_dict('records')
     
     # Compile all data
     dashboard_data = {

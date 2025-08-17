@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REAP Award Details - FY 2022-2025</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f5f7fa;
+            color: #2d3748;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 1rem;
+        }
+        
+        .nav-tab {
+            padding: 0.5rem 1rem;
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            text-decoration: none;
+            color: #4a5568;
+            transition: all 0.2s;
+        }
+        
+        .nav-tab:hover {
+            background: #edf2f7;
+        }
+        
+        .nav-tab.active {
+            background: #4299e1;
+            color: white;
+            border-color: #4299e1;
+        }
+        
+        .filters-container {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+        
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .filter-group label {
+            font-size: 0.875rem;
+            color: #718096;
+            font-weight: 500;
+        }
+        
+        .filter-group input,
+        .filter-group select {
+            padding: 0.5rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            font-size: 0.875rem;
+        }
+        
+        .table-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .table-header {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .table-info {
+            font-size: 0.875rem;
+            color: #718096;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th {
+            background: #f7fafc;
+            padding: 0.75rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: #4a5568;
+            border-bottom: 1px solid #e2e8f0;
+            cursor: pointer;
+            user-select: none;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        th:hover {
+            background: #edf2f7;
+        }
+        
+        th.sortable::after {
+            content: ' ↕';
+            color: #cbd5e0;
+            font-size: 0.75rem;
+        }
+        
+        th.sort-asc::after {
+            content: ' ↑';
+            color: #4a5568;
+        }
+        
+        th.sort-desc::after {
+            content: ' ↓';
+            color: #4a5568;
+        }
+        
+        td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 0.875rem;
+        }
+        
+        tr:hover {
+            background: #f7fafc;
+        }
+        
+        .amount {
+            text-align: right;
+            font-family: 'Monaco', 'Courier New', monospace;
+        }
+        
+        .positive {
+            color: #48bb78;
+        }
+        
+        .negative {
+            color: #f56565;
+        }
+        
+        .pagination {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .pagination-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .pagination button {
+            padding: 0.5rem 1rem;
+            border: 1px solid #e2e8f0;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+        }
+        
+        .pagination button:hover:not(:disabled) {
+            background: #edf2f7;
+        }
+        
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .pagination button.active {
+            background: #4299e1;
+            color: white;
+            border-color: #4299e1;
+        }
+        
+        .page-size-selector {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #718096;
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: #718096;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Rural Energy for America Program (REAP) Award Details</h1>
+            <p>CFDA 10.868 • FY 2022-2025 • Data as of <span id="lastUpdated"></span></p>
+            
+            <div class="nav-tabs">
+                <a href="index.html" class="nav-tab">Dashboard</a>
+                <a href="details.html" class="nav-tab active">Award Details</a>
+            </div>
+        </div>
+        
+        <div style="background: #fef3c7; border: 1px solid #f59e0b; border-radius: 8px; padding: 1rem; margin-bottom: 1rem;">
+            <p style="margin: 0; font-size: 0.875rem;">
+                <strong>⚠️ Data Note:</strong> This table shows award-level summaries from FY2021-2025 data. 
+                Negative "unspent" amounts indicate awards where outlays exceed obligations in our data. 
+                We're investigating why this occurs - it may be due to data quality issues, timing differences, 
+                or how certain award types are reported in bulk downloads.
+            </p>
+        </div>
+        
+        <div class="filters-container">
+            <div class="filter-group">
+                <label>Search (Recipient, City, FAIN)</label>
+                <div style="display: flex; gap: 0.5rem;">
+                    <input type="text" id="searchInput" placeholder="Type to search..." autocomplete="off" style="flex: 1;">
+                    <button onclick="applyFilters()" style="padding: 0.5rem 1rem; background: #4299e1; color: white; border: 1px solid #3182ce; border-radius: 4px; cursor: pointer;">Search</button>
+                </div>
+            </div>
+            
+            <div class="filter-group">
+                <label>State</label>
+                <select id="stateFilter">
+                    <option value="">All States</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label>Fiscal Year</label>
+                <select id="fyFilter">
+                    <option value="">All Years</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label>Show Only</label>
+                <select id="statusFilter">
+                    <option value="">All Awards</option>
+                    <option value="unspent">Awards with Unspent Funds</option>
+                    <option value="fullyspent">Fully Spent Awards</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label>&nbsp;</label>
+                <button onclick="clearFilters()" style="padding: 0.5rem 1rem; background: #e2e8f0; border: 1px solid #cbd5e0; border-radius: 4px; cursor: pointer;">Clear Filters</button>
+            </div>
+        </div>
+        
+        <div class="table-container">
+            <div class="table-header">
+                <div class="table-info">
+                    Showing <span id="showingStart">0</span>-<span id="showingEnd">0</span> 
+                    of <span id="totalRecords">0</span> awards
+                </div>
+                <div class="page-size-selector">
+                    <label>Show:</label>
+                    <select id="pageSize">
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                        <option value="250">250</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div id="tableWrapper">
+                <div class="loading">Loading award data...</div>
+            </div>
+            
+            <div class="pagination" id="pagination" style="display: none;">
+                <div class="pagination-buttons" id="paginationButtons"></div>
+                <div id="paginationInfo"></div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let allAwards = [];
+        let filteredAwards = [];
+        let currentPage = 1;
+        let pageSize = 25;
+        let sortColumn = 'unspent';
+        let sortDirection = 'desc';
+        
+        // Format currency
+        function formatCurrency(value) {
+            if (value === null || value === undefined) return '—';
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
+            }).format(value);
+        }
+        
+        // Format date
+        function formatDate(dateStr) {
+            if (!dateStr) return '—';
+            return new Date(dateStr).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
+        }
+        
+        // Load and process data
+        async function loadData() {
+            try {
+                const response = await fetch('data/reap_dashboard_data.json');
+                const data = await response.json();
+                
+                // Set last updated date
+                if (data.metadata && data.metadata.generated_at) {
+                    const lastUpdated = new Date(data.metadata.generated_at);
+                    document.getElementById('lastUpdated').textContent = 
+                        lastUpdated.toLocaleDateString('en-US', { 
+                            year: 'numeric', 
+                            month: 'long', 
+                            day: 'numeric'
+                        });
+                }
+                
+                // Process transactions to aggregate by award
+                const awardMap = new Map();
+                
+                console.log('Total transactions:', data.transactions.length);
+                console.log('Sample transactions:', data.transactions.slice(0, 5));
+                
+                data.transactions.forEach(transaction => {
+                    const awardId = transaction.award_id_fain;
+                    
+                    if (!awardMap.has(awardId)) {
+                        awardMap.set(awardId, {
+                            award_id_fain: awardId,
+                            recipient_name: transaction.recipient_name,
+                            recipient_city_name: transaction.recipient_city_name,
+                            recipient_state_code: transaction.recipient_state_code,
+                            awarding_sub_agency_name: transaction.awarding_sub_agency_name,
+                            fiscal_years: new Set(),
+                            obligations: 0,
+                            outlays: 0,
+                            first_action_date: transaction.action_date,
+                            last_action_date: transaction.action_date,
+                            transaction_count: 0
+                        });
+                    }
+                    
+                    const award = awardMap.get(awardId);
+                    award.fiscal_years.add(transaction.fiscal_year);
+                    award.obligations += transaction.federal_action_obligation || 0;
+                    
+                    // Use the most recent outlay amount (it's cumulative)
+                    if (transaction.total_outlayed_amount_for_overall_award !== null) {
+                        award.outlays = transaction.total_outlayed_amount_for_overall_award;
+                    }
+                    
+                    // Update dates
+                    if (transaction.action_date < award.first_action_date) {
+                        award.first_action_date = transaction.action_date;
+                    }
+                    if (transaction.action_date > award.last_action_date) {
+                        award.last_action_date = transaction.action_date;
+                    }
+                    
+                    award.transaction_count++;
+                });
+                
+                // Convert to array and calculate unspent
+                allAwards = Array.from(awardMap.values()).map(award => ({
+                    ...award,
+                    fiscal_years_set: award.fiscal_years, // Keep as Set for filtering
+                    fiscal_years: Array.from(award.fiscal_years).sort().join(', '), // String for display
+                    unspent: award.obligations - award.outlays,
+                    outlay_rate: award.obligations > 0 ? (award.outlays / award.obligations * 100) : 0
+                }));
+                
+                // Debug: Check fiscal year distribution
+                const fyDistribution = {};
+                allAwards.forEach(award => {
+                    award.fiscal_years_set.forEach(fy => {
+                        fyDistribution[fy] = (fyDistribution[fy] || 0) + 1;
+                    });
+                });
+                console.log('Fiscal year distribution:', fyDistribution);
+                console.log('Total awards:', allAwards.length);
+                console.log('Sample awards:', allAwards.slice(0, 5));
+                
+                populateFilters();
+                applyFilters();
+                
+            } catch (error) {
+                console.error('Error loading data:', error);
+                document.getElementById('tableWrapper').innerHTML = 
+                    '<div class="no-results">Error loading data. Please try again.</div>';
+            }
+        }
+        
+        // Populate filter dropdowns
+        function populateFilters() {
+            // States
+            const states = [...new Set(allAwards.map(a => a.recipient_state_code))].sort();
+            const stateSelect = document.getElementById('stateFilter');
+            states.forEach(state => {
+                const option = document.createElement('option');
+                option.value = state;
+                option.textContent = state;
+                stateSelect.appendChild(option);
+            });
+            
+            // Fiscal Years - collect all unique years from the fiscal_years_set
+            const allFiscalYears = new Set();
+            allAwards.forEach(award => {
+                award.fiscal_years_set.forEach(fy => allFiscalYears.add(fy));
+            });
+            const fys = [...allFiscalYears].sort();
+            const fySelect = document.getElementById('fyFilter');
+            fys.forEach(fy => {
+                const option = document.createElement('option');
+                option.value = fy;
+                option.textContent = `FY ${fy}`;
+                fySelect.appendChild(option);
+            });
+        }
+        
+        // Apply filters
+        function applyFilters() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const stateFilter = document.getElementById('stateFilter').value;
+            const fyFilter = document.getElementById('fyFilter').value;
+            const statusFilter = document.getElementById('statusFilter').value;
+            
+            filteredAwards = allAwards.filter(award => {
+                // Search filter
+                if (searchTerm) {
+                    const searchMatch = 
+                        (award.recipient_name && award.recipient_name.toLowerCase().includes(searchTerm)) ||
+                        (award.recipient_city_name && award.recipient_city_name.toLowerCase().includes(searchTerm)) ||
+                        (award.award_id_fain && award.award_id_fain.toLowerCase().includes(searchTerm));
+                    if (!searchMatch) return false;
+                }
+                
+                // State filter
+                if (stateFilter && award.recipient_state_code !== stateFilter) return false;
+                
+                // Fiscal year filter
+                if (fyFilter && !award.fiscal_years_set.has(parseInt(fyFilter))) return false;
+                
+                // Status filter
+                if (statusFilter === 'unspent' && award.unspent <= 0) return false;
+                if (statusFilter === 'fullyspent' && award.unspent > 0) return false;
+                
+                return true;
+            });
+            
+            // Update record count
+            document.getElementById('totalRecords').textContent = filteredAwards.length;
+            
+            // Reset to first page
+            currentPage = 1;
+            
+            // Sort and render
+            sortData();
+            renderTable();
+        }
+        
+        // Sort data
+        function sortData() {
+            filteredAwards.sort((a, b) => {
+                let aVal = a[sortColumn];
+                let bVal = b[sortColumn];
+                
+                // Handle null/undefined
+                if (aVal === null || aVal === undefined) aVal = 0;
+                if (bVal === null || bVal === undefined) bVal = 0;
+                
+                // Numeric comparison for amounts
+                if (typeof aVal === 'number' && typeof bVal === 'number') {
+                    return sortDirection === 'asc' ? aVal - bVal : bVal - aVal;
+                }
+                
+                // String comparison
+                aVal = String(aVal).toLowerCase();
+                bVal = String(bVal).toLowerCase();
+                
+                if (sortDirection === 'asc') {
+                    return aVal < bVal ? -1 : aVal > bVal ? 1 : 0;
+                } else {
+                    return aVal > bVal ? -1 : aVal < bVal ? 1 : 0;
+                }
+            });
+        }
+        
+        // Render table
+        function renderTable() {
+            const start = (currentPage - 1) * pageSize;
+            const end = Math.min(start + pageSize, filteredAwards.length);
+            const pageData = filteredAwards.slice(start, end);
+            
+            // Update showing info
+            document.getElementById('showingStart').textContent = filteredAwards.length > 0 ? start + 1 : 0;
+            document.getElementById('showingEnd').textContent = end;
+            
+            if (pageData.length === 0) {
+                document.getElementById('tableWrapper').innerHTML = 
+                    '<div class="no-results">No awards match your filters</div>';
+                document.getElementById('pagination').style.display = 'none';
+                return;
+            }
+            
+            // Build table HTML
+            let tableHTML = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="sortable ${sortColumn === 'recipient_name' ? 'sort-' + sortDirection : ''}" 
+                                onclick="changeSort('recipient_name')">Recipient</th>
+                            <th class="sortable ${sortColumn === 'recipient_city_name' ? 'sort-' + sortDirection : ''}" 
+                                onclick="changeSort('recipient_city_name')">Location</th>
+                            <th class="sortable ${sortColumn === 'award_id_fain' ? 'sort-' + sortDirection : ''}" 
+                                onclick="changeSort('award_id_fain')">Award ID</th>
+                            <th class="sortable amount ${sortColumn === 'obligations' ? 'sort-' + sortDirection : ''}" 
+                                onclick="changeSort('obligations')">Obligated</th>
+                            <th class="sortable amount ${sortColumn === 'outlays' ? 'sort-' + sortDirection : ''}" 
+                                onclick="changeSort('outlays')">Outlayed</th>
+                            <th class="sortable amount ${sortColumn === 'unspent' ? 'sort-' + sortDirection : ''}" 
+                                onclick="changeSort('unspent')">Unspent</th>
+                            <th class="sortable amount ${sortColumn === 'outlay_rate' ? 'sort-' + sortDirection : ''}" 
+                                onclick="changeSort('outlay_rate')">Outlay %</th>
+                            <th class="sortable ${sortColumn === 'fiscal_years' ? 'sort-' + sortDirection : ''}" 
+                                onclick="changeSort('fiscal_years')">FY</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            
+            pageData.forEach(award => {
+                tableHTML += `
+                    <tr>
+                        <td>${award.recipient_name}</td>
+                        <td>${award.recipient_city_name}, ${award.recipient_state_code}</td>
+                        <td>${award.award_id_fain}</td>
+                        <td class="amount">${formatCurrency(award.obligations)}</td>
+                        <td class="amount">${formatCurrency(award.outlays)}</td>
+                        <td class="amount ${award.unspent > 0 ? 'negative' : ''}">${formatCurrency(award.unspent)}</td>
+                        <td class="amount">${award.outlay_rate.toFixed(1)}%</td>
+                        <td>${award.fiscal_years}</td>
+                    </tr>
+                `;
+            });
+            
+            tableHTML += '</tbody></table>';
+            
+            document.getElementById('tableWrapper').innerHTML = tableHTML;
+            
+            // Update pagination
+            renderPagination();
+            document.getElementById('pagination').style.display = 'flex';
+        }
+        
+        // Render pagination
+        function renderPagination() {
+            const totalPages = Math.ceil(filteredAwards.length / pageSize);
+            const buttonsHTML = [];
+            
+            // Previous button
+            buttonsHTML.push(`
+                <button onclick="changePage(${currentPage - 1})" 
+                        ${currentPage === 1 ? 'disabled' : ''}>Previous</button>
+            `);
+            
+            // Page numbers
+            const startPage = Math.max(1, currentPage - 2);
+            const endPage = Math.min(totalPages, startPage + 4);
+            
+            for (let i = startPage; i <= endPage; i++) {
+                buttonsHTML.push(`
+                    <button onclick="changePage(${i})" 
+                            class="${i === currentPage ? 'active' : ''}">${i}</button>
+                `);
+            }
+            
+            // Next button
+            buttonsHTML.push(`
+                <button onclick="changePage(${currentPage + 1})" 
+                        ${currentPage === totalPages ? 'disabled' : ''}>Next</button>
+            `);
+            
+            document.getElementById('paginationButtons').innerHTML = buttonsHTML.join('');
+            document.getElementById('paginationInfo').textContent = 
+                `Page ${currentPage} of ${totalPages}`;
+        }
+        
+        // Change page
+        function changePage(page) {
+            const totalPages = Math.ceil(filteredAwards.length / pageSize);
+            if (page >= 1 && page <= totalPages) {
+                currentPage = page;
+                renderTable();
+            }
+        }
+        
+        // Change sort
+        function changeSort(column) {
+            if (sortColumn === column) {
+                sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+            } else {
+                sortColumn = column;
+                sortDirection = 'desc';
+            }
+            sortData();
+            renderTable();
+        }
+        
+        // Clear all filters
+        function clearFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('stateFilter').value = '';
+            document.getElementById('fyFilter').value = '';
+            document.getElementById('statusFilter').value = '';
+            applyFilters();
+        }
+        
+        // Event listeners
+        // Search only on Enter key or button click
+        document.getElementById('searchInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                applyFilters();
+            }
+        });
+        
+        // Other filters apply immediately
+        document.getElementById('stateFilter').addEventListener('change', applyFilters);
+        document.getElementById('fyFilter').addEventListener('change', applyFilters);
+        document.getElementById('statusFilter').addEventListener('change', applyFilters);
+        document.getElementById('pageSize').addEventListener('change', (e) => {
+            pageSize = parseInt(e.target.value);
+            currentPage = 1;
+            renderTable();
+        });
+        
+        // Load data on page load
+        loadData();
+    </script>
+</body>
+</html>
