@@ -1997,10 +1997,10 @@
       "obligation_fy": 2021,
       "expiration_year": 2021,
       "unspent_amount": 629.0300000000279,
-      "total_obligations": 1111098.57,
-      "total_outlays": 1110469.54,
-      "awards_count": 12,
-      "percent_unspent": 0.056613338994759746
+      "total_obligations": 1000000.0,
+      "total_outlays": 999370.97,
+      "awards_count": 10,
+      "percent_unspent": 0.06290300000000279
     },
     {
       "obligation_fy": 2021,
@@ -2024,8 +2024,17 @@
       "obligation_fy": 2021,
       "expiration_year": 2024,
       "unspent_amount": 0.0,
-      "total_obligations": 99998.36,
-      "total_outlays": 99998.36,
+      "total_obligations": 147979.61,
+      "total_outlays": 147979.61,
+      "awards_count": 2,
+      "percent_unspent": 0.0
+    },
+    {
+      "obligation_fy": 2021,
+      "expiration_year": 2025,
+      "unspent_amount": 0.0,
+      "total_obligations": 63117.32,
+      "total_outlays": 63117.32,
       "awards_count": 1,
       "percent_unspent": 0.0
     },
@@ -2033,36 +2042,36 @@
       "obligation_fy": 2022,
       "expiration_year": 2022,
       "unspent_amount": 2451480.25,
-      "total_obligations": 10319167.48,
-      "total_outlays": 7867687.23,
-      "awards_count": 125,
-      "percent_unspent": 23.75657004066766
+      "total_obligations": 9565907.0,
+      "total_outlays": 7114426.75,
+      "awards_count": 107,
+      "percent_unspent": 25.627264095291746
     },
     {
       "obligation_fy": 2022,
       "expiration_year": 2023,
       "unspent_amount": 0.0,
-      "total_obligations": 48474.34,
-      "total_outlays": 48474.34,
-      "awards_count": 6,
+      "total_obligations": 242584.34,
+      "total_outlays": 242584.34,
+      "awards_count": 11,
       "percent_unspent": 0.0
     },
     {
       "obligation_fy": 2022,
       "expiration_year": 2024,
-      "unspent_amount": 4485879.489999995,
-      "total_obligations": 39021349.94,
-      "total_outlays": 34535470.45,
-      "awards_count": 1213,
-      "percent_unspent": 11.495961818075418
+      "unspent_amount": 4485879.490000002,
+      "total_obligations": 39508229.99,
+      "total_outlays": 35022350.5,
+      "awards_count": 1224,
+      "percent_unspent": 11.354291222703297
     },
     {
       "obligation_fy": 2022,
       "expiration_year": 2025,
       "unspent_amount": 0.0,
-      "total_obligations": 99887.36,
-      "total_outlays": 99887.36,
-      "awards_count": 1,
+      "total_obligations": 172157.79,
+      "total_outlays": 172157.79,
+      "awards_count": 3,
       "percent_unspent": 0.0
     },
     {
@@ -2071,7 +2080,7 @@
       "unspent_amount": 602127.88,
       "total_obligations": 1486000.0,
       "total_outlays": 883872.12,
-      "awards_count": 16,
+      "awards_count": 15,
       "percent_unspent": 40.52004576043068
     },
     {
@@ -2080,7 +2089,7 @@
       "unspent_amount": 232209019.57,
       "total_obligations": 448786845.7,
       "total_outlays": 216577826.13,
-      "awards_count": 3067,
+      "awards_count": 3068,
       "percent_unspent": 51.74149416251485
     },
     {
@@ -168047,7 +168056,7 @@
     }
   ],
   "metadata": {
-    "generated_at": "2026-11-08T23:56:27.317287",
+    "generated_at": "2026-11-09T00:05:02.107923",
     "source": "USASpending API - CFDA 10.868 (REAP)",
     "fiscal_years": [
       "2021",
@@ -168059,6 +168068,6 @@
     "fiscal_years_string": "FY2021, FY2022, FY2023, FY2024, FY2025",
     "data_latest_action_date": "2025-06-27",
     "data_latest_record_modified": "2025-07-21",
-    "expiry_reference_date": "2026-11-08"
+    "expiry_reference_date": "2026-11-09"
   }
 }

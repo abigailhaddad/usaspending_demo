@@ -103,6 +103,7 @@
         }
         
         .chart-container.has-note { height: 480px; }
+        @media (max-width: 700px) { .chart-container.has-note { height: 720px; } }
         
         .chart-container h2 {
             margin-bottom: 1rem;
@@ -243,7 +244,7 @@
                     <strong>Key Fields:</strong><br>
                     • <code>federal_action_obligation</code>: New money committed (positive) or deobligated (negative)<br>
                     • <code>total_outlayed_amount_for_overall_award</code>: Cumulative amount actually paid out (as of data date)<br>
-                    • <code>period_of_performance_current_end_date</code>: When the award expires
+                    • <code>period_of_performance_current_end_date</code>: the end of the award's period of performance
                 </p>
                 <p style="margin-bottom: 0.75rem;">
                     <strong>Data as of:</strong> <span id="asOfText"></span>
@@ -303,13 +304,14 @@
         </div>
         
         <div class="chart-container has-note">
-            <h2>Unspent Money by Award End Year (net obligations minus outlays to date)</h2>
+            <h2>Unspent Money by Award End Year (net obligations minus outlays to date; only end years 2024 and later are charted)</h2>
             <canvas id="moneyExpirationChart"></canvas>
             <p style="margin-top: 10px; font-size: 0.875rem; color: #718096;">
-                Shows unspent funds (net obligations in this data minus outlays to date, floored at $0 for each award-end-year group) grouped by when awards' periods of performance end, for awards first obligated in each fiscal year. Award end years before 2024 are not charted. 
-                <strong>Important:</strong> When an award's period of performance ends, obligated funds remain 
-                available for liquidation of valid obligations for 5 additional years before the account expires.
-            </p>
+                For awards first obligated in each fiscal year, unspent funds (net obligations in this data minus outlays to date,
+                floored at $0 for each bar), grouped by Award End Year. Award End Year is the year of the
+                <code>period_of_performance_current_end_date</code> on the award's latest transaction by action date (ties: the later
+                end date, then the larger transaction key); that field is the end of the award's period of performance.
+                Only end years 2024 and later are charted.</p>
         </div>
         
     </div>
@@ -322,6 +324,7 @@
         
         // Consistent colors for fiscal years
         const fiscalYearColors = {
+            2021: { bg: 'rgba(107, 114, 128, 0.7)', border: 'rgb(107, 114, 128)' },  // Gray
             2022: { bg: 'rgba(99, 102, 241, 0.7)', border: 'rgb(99, 102, 241)' },  // Indigo
             2023: { bg: 'rgba(34, 197, 94, 0.7)', border: 'rgb(34, 197, 94)' },   // Green
             2024: { bg: 'rgba(251, 146, 60, 0.7)', border: 'rgb(251, 146, 60)' }, // Orange
@@ -712,7 +715,7 @@
                                 stacked: true,
                                 title: {
                                     display: true,
-                                    text: 'Expiration Year'
+                                    text: 'Award End Year'
                                 }
                             },
                             y: {
@@ -744,198 +747,6 @@
                                             'Awards: ' + item.awards_count.toLocaleString(),
                                             'Percent unspent: ' + item.percent_unspent.toFixed(1) + '%'
                                         ];
-                                    }
-                                }
-                            }
-                        }
-                    }
-                });
-            }
-        }
-        
-        // Legacy cohort chart function (kept for reference)
-        function createCohortChart_unused(data) {
-            const ctx = document.getElementById('cohortChart').getContext('2d');
-            
-            // Use cohort data if available
-            if (data.cohort_data && data.cohort_data.length > 0) {
-                // Group by obligation fiscal year
-                const cohorts = {};
-                data.cohort_data.forEach(d => {
-                    if (!cohorts[d.obligation_fy]) {
-                        cohorts[d.obligation_fy] = [];
-                    }
-                    cohorts[d.obligation_fy].push(d);
-                });
-                
-                const colors = ['rgb(99, 102, 241)', 'rgb(34, 197, 94)', 'rgb(251, 146, 60)'];
-                const datasets = [];
-                
-                Object.keys(cohorts).sort().forEach((fy, index) => {
-                    const cohortData = cohorts[fy].sort((a, b) => a.years_elapsed - b.years_elapsed);
-                    datasets.push({
-                        label: `FY${fy} Obligations`,
-                        data: cohortData.map(d => ({
-                            x: d.years_elapsed,
-                            y: d.outlay_rate
-                        })),
-                        borderColor: colors[index % colors.length],
-                        backgroundColor: colors[index % colors.length] + '33',
-                        tension: 0.1
-                    });
-                });
-                
-                new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        datasets: datasets
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            title: {
-                                display: true,
-                                text: 'Each line shows how obligations from a fiscal year outlay over time'
-                            },
-                            tooltip: {
-                                callbacks: {
-                                    label: function(context) {
-                                        const cohortData = data.cohort_data.find(d => 
-                                            d.obligation_fy === parseInt(context.dataset.label.match(/\d+/)[0]) &&
-                                            d.years_elapsed === context.parsed.x
-                                        );
-                                        if (cohortData) {
-                                            return [
-                                                `${context.dataset.label}`,
-                                                `Outlay Rate: ${context.parsed.y.toFixed(1)}%`,
-                                                `Obligations: $${(cohortData.cohort_obligations / 1000000).toFixed(1)}M`,
-                                                `Outlays: $${(cohortData.cumulative_outlays / 1000000).toFixed(1)}M`,
-                                                `Outlay Year: FY${cohortData.outlay_fy}`
-                                            ];
-                                        }
-                                        return context.dataset.label + ': ' + context.parsed.y.toFixed(1) + '%';
-                                    },
-                                    title: function(context) {
-                                        return 'Years Since Obligation: ' + context[0].parsed.x;
-                                    }
-                                }
-                            }
-                        },
-                        scales: {
-                            x: {
-                                type: 'linear',
-                                title: {
-                                    display: true,
-                                    text: 'Years Since Initial Obligation'
-                                },
-                                ticks: {
-                                    stepSize: 1,
-                                    callback: function(value) {
-                                        return 'Year ' + value;
-                                    }
-                                }
-                            },
-                            y: {
-                                beginAtZero: true,
-                                max: 100,
-                                title: {
-                                    display: true,
-                                    text: 'Cumulative Outlay Rate (%)'
-                                },
-                                ticks: {
-                                    callback: function(value) {
-                                        return value + '%';
-                                    }
-                                }
-                            }
-                        }
-                    }
-                });
-            }
-        }
-        
-        // Unused function - kept for reference
-        function createYearComparisonChartUnused(data) {
-            const ctx = document.getElementById('yearComparisonChart').getContext('2d');
-            
-            if (data.cyclical_data && data.cyclical_data.length > 0) {
-                // Group by fiscal year
-                const years = [...new Set(data.cyclical_data.map(d => d.fiscal_year))];
-                const datasets = [];
-                
-                const colors = ['rgb(99, 102, 241)', 'rgb(34, 197, 94)', 'rgb(251, 146, 60)'];
-                
-                years.forEach((year, index) => {
-                    const yearData = data.cyclical_data.filter(d => d.fiscal_year === year);
-                    datasets.push({
-                        label: `FY${year} Outlay Rate`,
-                        data: yearData.map(d => ({
-                            x: d.fiscal_month_num,
-                            y: d.outlay_rate
-                        })),
-                        borderColor: colors[index % colors.length],
-                        backgroundColor: colors[index % colors.length] + '33',
-                        tension: 0.1
-                    });
-                });
-                
-                new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        datasets: datasets
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        scales: {
-                            x: {
-                                type: 'linear',
-                                min: 1,
-                                max: 12,
-                                ticks: {
-                                    stepSize: 1,
-                                    callback: function(value) {
-                                        const months = ['Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 
-                                                       'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'];
-                                        return months[value - 1] || '';
-                                    }
-                                },
-                                title: {
-                                    display: true,
-                                    text: 'Fiscal Month'
-                                }
-                            },
-                            y: {
-                                beginAtZero: true,
-                                max: 100,
-                                ticks: {
-                                    callback: function(value) {
-                                        return value + '%';
-                                    }
-                                },
-                                title: {
-                                    display: true,
-                                    text: 'Cumulative Outlay Rate (%)'
-                                }
-                            }
-                        },
-                        plugins: {
-                            tooltip: {
-                                callbacks: {
-                                    label: function(context) {
-                                        const dataPoint = data.cyclical_data.find(d => 
-                                            d.fiscal_year === parseInt(context.dataset.label.match(/\d+/)[0]) &&
-                                            d.fiscal_month_num === context.parsed.x
-                                        );
-                                        if (dataPoint) {
-                                            return [
-                                                `${context.dataset.label}: ${context.parsed.y.toFixed(1)}%`,
-                                                `Cumulative Obligations: $${(dataPoint.cumulative_obligations / 1000000).toFixed(1)}M`,
-                                                `Cumulative Outlays: $${(dataPoint.cumulative_outlays / 1000000).toFixed(1)}M`
-                                            ];
-                                        }
-                                        return context.dataset.label + ': ' + context.parsed.y.toFixed(1) + '%';
                                     }
                                 }
                             }

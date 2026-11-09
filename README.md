@@ -11,7 +11,7 @@ The dashboard tracks how REAP grant money flows from obligation (commitment) to 
 ## Data Pipeline
 
 ### 1. Download (`fetch_reap_custom_bulk.py`)
-Downloads REAP award data from the USAspending.gov bulk download API. The script is configured to fetch fiscal years 2020-2025. The script:
+Downloads REAP award data from the USAspending.gov bulk download API. The script is configured to fetch fiscal years 2021-2025. The script:
 - Filters to CFDA 10.868 (REAP program code)
 - Downloads transaction-level data for each fiscal year
 - Saves data as parquet files for efficient storage
@@ -132,6 +132,6 @@ To analyze a different federal program, you would need to modify the download sc
    "prime_award_types": ["A", "B", "C", "D"],
    ```
 
-4. **Modify date ranges** - The script is currently configured for FY2020-2025
+4. **Modify date ranges** - The script is currently configured for FY2021-2025
 
 The USAspending bulk download API is flexible and can filter by many criteria including federal accounts, specific agencies, award types, recipient locations, and more. The processing and visualization scripts should work without modification for most programs.

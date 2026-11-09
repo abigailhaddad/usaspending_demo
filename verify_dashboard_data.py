@@ -92,6 +92,28 @@ chk('monthly cohort outlays sum to cohort total', sum(r['outlays_to_date_of_awar
 chk('cyclical cohort outlays sum to cohort total', sum(r['cohort_outlays_to_date'] for r in J['cyclical_data']), outl - S['outlays_on_awards_without_positive_obligation'])
 chk('cyclical obligations sum to net', sum(r['monthly_obligations'] for r in J['cyclical_data']), S['net_obligations'])
 
+# money_expiration: end date = period_of_performance_current_end_date on the award's latest
+# transaction by action_date (ties: later end date, then larger transaction key)
+con.execute("""CREATE VIEW e AS SELECT k, net, outl, first_pos, end_d FROM (
+  SELECT assistance_award_unique_key k,
+    sum(federal_action_obligation) OVER w net,
+    max(total_outlayed_amount_for_overall_award) OVER w outl,
+    min(action_date) FILTER (WHERE federal_action_obligation > 0) OVER w first_pos,
+    period_of_performance_current_end_date end_d,
+    row_number() OVER (PARTITION BY assistance_award_unique_key ORDER BY action_date DESC,
+       period_of_performance_current_end_date DESC NULLS LAST, assistance_transaction_unique_key DESC) rn
+  FROM t WINDOW w AS (PARTITION BY assistance_award_unique_key)) WHERE rn = 1""")
+ex = {(r[0], r[1]): r[2:] for r in con.execute(f"""SELECT {fy} f, year(end_d) y, count(*), sum(net), coalesce(sum(outl), 0)
+    FROM e WHERE first_pos IS NOT NULL AND end_d IS NOT NULL GROUP BY 1, 2""").fetchall()}
+jx = {(r['obligation_fy'], r['expiration_year']): r for r in J['money_expiration']}
+chk('money_expiration group count', len(jx), len(ex))
+for key, r in sorted(jx.items()):
+    n, no, oo = ex[key]
+    chk(f'money_expiration FY{key[0]} end {key[1]} awards', r['awards_count'], n)
+    chk(f'money_expiration FY{key[0]} end {key[1]} net obligations', r['total_obligations'], no)
+    chk(f'money_expiration FY{key[0]} end {key[1]} outlays', r['total_outlays'], oo)
+    chk(f'money_expiration FY{key[0]} end {key[1]} unspent', r['unspent_amount'], max(no - oo, 0))
+
 print(f"{'check':58} {'dashboard JSON':>20} {'independent':>20}  result")
 for n, j, i, r in rows:
     print(f"{n:58} {j:>20,.2f} {i:>20,.2f}  {r}")

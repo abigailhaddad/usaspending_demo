@@ -81,6 +81,13 @@ def build_award_table(df, ob_col, out_col):
         'outlays': g[out_col].max().fillna(0.0),
         'outlay_reported': g[out_col].count() > 0,
     })
+    # Award end date: the period_of_performance_current_end_date on the award's LATEST transaction
+    # by action_date (ties: the later end date, then the larger transaction key). Deterministic,
+    # independent of file order. A blank end date on that transaction stays blank (no fallback).
+    end_col = 'period_of_performance_current_end_date'
+    ordered = df.sort_values([KEY, 'action_date', end_col, 'assistance_transaction_unique_key'],
+                             na_position='first', kind='mergesort')
+    tbl['end_date'] = ordered.drop_duplicates(KEY, keep='last').set_index(KEY)[end_col]
     pos = df[df[ob_col] > 0].groupby(KEY).agg(first_pos_date=('action_date', 'min'), first_pos_fy=('fiscal_year', 'min'))
     tbl = tbl.join(pos)
     m = tbl['first_pos_date'].dt.month
@@ -320,9 +327,9 @@ def prepare_dashboard_data():
         # Get current status for each award (latest values)
         current_status = df.groupby(KEY).agg({
             obligation_col: 'sum',
-            outlay_col: 'last',
-            'period_of_performance_current_end_date': 'last'
+            outlay_col: 'last'
         })
+        current_status['period_of_performance_current_end_date'] = award_tbl['end_date']
         
         # Merge
         award_analysis = initial_obligations.merge(current_status, on=KEY)
@@ -397,9 +404,9 @@ def prepare_dashboard_data():
         # Get current status for each award (latest values)
         current_status = df.groupby(KEY).agg({
             obligation_col: 'sum',
-            outlay_col: 'max',  # Use max for cumulative outlays
-            'period_of_performance_current_end_date': 'last'
+            outlay_col: 'max'  # Use max for cumulative outlays
         })
+        current_status['period_of_performance_current_end_date'] = award_tbl['end_date']
         
         # Merge to get awards with their initial FY
         awards_with_fy = initial_obligations.merge(current_status, on=KEY)
