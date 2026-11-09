@@ -16,8 +16,8 @@
     "total_obligated": 1640879830.49,
     "total_deobligated": -41727573.35,
     "net_obligations": 1599152257.1399999,
-    "total_outlays": 684086135.5799999,
-    "outlay_rate": 42.77804896473411
+    "total_outlays": 609111266.87,
+    "outlay_rate": 38.08963556474376
   },
   "monthly_data": [
     {
@@ -460,7 +460,7 @@
       "deobligations": -67932.85,
       "net_obligations": 8710233.15,
       "unique_awards": 102,
-      "outlays": 3640728.57
+      "outlays": 3228048.42
     },
     {
       "recipient_state_code": "AL",
@@ -468,7 +468,7 @@
       "deobligations": -414219.85,
       "net_obligations": 13456549.15,
       "unique_awards": 91,
-      "outlays": 7720069.67
+      "outlays": 6956653.52
     },
     {
       "recipient_state_code": "AR",
@@ -476,7 +476,7 @@
       "deobligations": -673671.35,
       "net_obligations": 19576963.65,
       "unique_awards": 138,
-      "outlays": 8391161.36
+      "outlays": 7471147.71
     },
     {
       "recipient_state_code": "AZ",
@@ -484,7 +484,7 @@
       "deobligations": -388913.84,
       "net_obligations": 19772467.16,
       "unique_awards": 114,
-      "outlays": 4861341.12
+      "outlays": 4847986.96
     },
     {
       "recipient_state_code": "CA",
@@ -492,7 +492,7 @@
       "deobligations": -1951057.68,
       "net_obligations": 66004763.32,
       "unique_awards": 268,
-      "outlays": 27967454.52
+      "outlays": 22930369.2
     },
     {
       "recipient_state_code": "CO",
@@ -500,7 +500,7 @@
       "deobligations": -300007.0,
       "net_obligations": 19575584.0,
       "unique_awards": 138,
-      "outlays": 7154367.01
+      "outlays": 6510342.01
     },
     {
       "recipient_state_code": "CT",
@@ -508,7 +508,7 @@
       "deobligations": -13019.0,
       "net_obligations": 11390727.0,
       "unique_awards": 86,
-      "outlays": 3756856.88
+      "outlays": 2987244.8
     },
     {
       "recipient_state_code": "DC",
@@ -516,7 +516,7 @@
       "deobligations": 0.0,
       "net_obligations": 20000.0,
       "unique_awards": 3,
-      "outlays": 588000.0
+      "outlays": 196000.0
     },
     {
       "recipient_state_code": "DE",
@@ -524,7 +524,7 @@
       "deobligations": -54865.0,
       "net_obligations": 11455729.0,
       "unique_awards": 70,
-      "outlays": 4486881.0
+      "outlays": 4156052.0
     },
     {
       "recipient_state_code": "FL",
@@ -532,7 +532,7 @@
       "deobligations": -1296783.96,
       "net_obligations": 32076935.04,
       "unique_awards": 128,
-      "outlays": 5306957.54
+      "outlays": 4769633.5
     },
     {
       "recipient_state_code": "GA",
@@ -540,7 +540,7 @@
       "deobligations": -3166316.86,
       "net_obligations": 64861546.14,
       "unique_awards": 379,
-      "outlays": 31687886.03
+      "outlays": 28194594.89
     },
     {
       "recipient_state_code": "GU",
@@ -556,7 +556,7 @@
       "deobligations": -75428.23,
       "net_obligations": 6740794.85,
       "unique_awards": 41,
-      "outlays": 3185325.81
+      "outlays": 3157033.04
     },
     {
       "recipient_state_code": "IA",
@@ -564,7 +564,7 @@
       "deobligations": -1166589.28,
       "net_obligations": 84995614.72,
       "unique_awards": 985,
-      "outlays": 49543190.98
+      "outlays": 44433817.66
     },
     {
       "recipient_state_code": "ID",
@@ -572,7 +572,7 @@
       "deobligations": -106685.0,
       "net_obligations": 27190563.0,
       "unique_awards": 142,
-      "outlays": 5550788.0
+      "outlays": 4704985.0
     },
     {
       "recipient_state_code": "IL",
@@ -580,7 +580,7 @@
       "deobligations": -732038.0,
       "net_obligations": 140232818.0,
       "unique_awards": 1026,
-      "outlays": 43186826.64
+      "outlays": 41086394.44
     },
     {
       "recipient_state_code": "IN",
@@ -588,7 +588,7 @@
       "deobligations": -847640.0,
       "net_obligations": 46210238.0,
       "unique_awards": 338,
-      "outlays": 27144696.95
+      "outlays": 24162307.95
     },
     {
       "recipient_state_code": "KS",
@@ -596,7 +596,7 @@
       "deobligations": -2182699.53,
       "net_obligations": 28249769.47,
       "unique_awards": 307,
-      "outlays": 12275027.75
+      "outlays": 10810440.28
     },
     {
       "recipient_state_code": "KY",
@@ -604,7 +604,7 @@
       "deobligations": -1043825.73,
       "net_obligations": 30077600.27,
       "unique_awards": 279,
-      "outlays": 11863696.5
+      "outlays": 10625314.73
     },
     {
       "recipient_state_code": "LA",
@@ -612,7 +612,7 @@
       "deobligations": -512552.16,
       "net_obligations": 22431576.84,
       "unique_awards": 140,
-      "outlays": 10561979.0
+      "outlays": 9956820.16
     },
     {
       "recipient_state_code": "MA",
@@ -620,7 +620,7 @@
       "deobligations": -15835.0,
       "net_obligations": 11679957.0,
       "unique_awards": 102,
-      "outlays": 2707670.33
+      "outlays": 2585344.33
     },
     {
       "recipient_state_code": "MD",
@@ -628,7 +628,7 @@
       "deobligations": -1098925.0,
       "net_obligations": 16324030.0,
       "unique_awards": 141,
-      "outlays": 11169730.42
+      "outlays": 9406997.42
     },
     {
       "recipient_state_code": "ME",
@@ -636,7 +636,7 @@
       "deobligations": -1001190.0,
       "net_obligations": 20532664.0,
       "unique_awards": 276,
-      "outlays": 8650514.99
+      "outlays": 7664620.79
     },
     {
       "recipient_state_code": "MI",
@@ -644,7 +644,7 @@
       "deobligations": -1185889.0,
       "net_obligations": 69717161.0,
       "unique_awards": 379,
-      "outlays": 28560586.3
+      "outlays": 27801104.3
     },
     {
       "recipient_state_code": "MN",
@@ -652,7 +652,7 @@
       "deobligations": -2906585.25,
       "net_obligations": 84479349.75,
       "unique_awards": 993,
-      "outlays": 56109621.81
+      "outlays": 49333630.06
     },
     {
       "recipient_state_code": "MO",
@@ -660,7 +660,7 @@
       "deobligations": -1805717.12,
       "net_obligations": 41967242.88,
       "unique_awards": 570,
-      "outlays": 30496655.65
+      "outlays": 26124808.36
     },
     {
       "recipient_state_code": "MS",
@@ -668,7 +668,7 @@
       "deobligations": -162798.0,
       "net_obligations": 33150160.0,
       "unique_awards": 159,
-      "outlays": 10004465.23
+      "outlays": 9966488.23
     },
     {
       "recipient_state_code": "MT",
@@ -676,7 +676,7 @@
       "deobligations": -102988.63,
       "net_obligations": 7072803.37,
       "unique_awards": 138,
-      "outlays": 3151559.01
+      "outlays": 2960623.64
     },
     {
       "recipient_state_code": "NC",
@@ -684,7 +684,7 @@
       "deobligations": -1307082.74,
       "net_obligations": 32201323.26,
       "unique_awards": 263,
-      "outlays": 21467033.87
+      "outlays": 17238440.65
     },
     {
       "recipient_state_code": "ND",
@@ -692,7 +692,7 @@
       "deobligations": -484546.0,
       "net_obligations": 17595396.0,
       "unique_awards": 115,
-      "outlays": 11064960.0
+      "outlays": 8022259.0
     },
     {
       "recipient_state_code": "NE",
@@ -700,7 +700,7 @@
       "deobligations": -686052.72,
       "net_obligations": 29677553.28,
       "unique_awards": 426,
-      "outlays": 8118037.67
+      "outlays": 7153179.72
     },
     {
       "recipient_state_code": "NH",
@@ -708,7 +708,7 @@
       "deobligations": -661168.0,
       "net_obligations": 24208874.0,
       "unique_awards": 158,
-      "outlays": 6977938.59
+      "outlays": 6304091.59
     },
     {
       "recipient_state_code": "NJ",
@@ -716,7 +716,7 @@
       "deobligations": -150626.5,
       "net_obligations": 17786925.5,
       "unique_awards": 75,
-      "outlays": 3412634.98
+      "outlays": 3331126.48
     },
     {
       "recipient_state_code": "NM",
@@ -724,7 +724,7 @@
       "deobligations": -169456.0,
       "net_obligations": 11945495.0,
       "unique_awards": 81,
-      "outlays": 3177957.58
+      "outlays": 3047947.58
     },
     {
       "recipient_state_code": "NV",
@@ -732,7 +732,7 @@
       "deobligations": -1332927.0,
       "net_obligations": 5704648.31,
       "unique_awards": 25,
-      "outlays": 850965.96
+      "outlays": 849465.96
     },
     {
       "recipient_state_code": "NY",
@@ -740,7 +740,7 @@
       "deobligations": -1365764.06,
       "net_obligations": 48872698.94,
       "unique_awards": 307,
-      "outlays": 18369270.77
+      "outlays": 16489153.68
     },
     {
       "recipient_state_code": "OH",
@@ -748,7 +748,7 @@
       "deobligations": -272169.59,
       "net_obligations": 62189147.31,
       "unique_awards": 441,
-      "outlays": 28674665.29
+      "outlays": 28347595.88
     },
     {
       "recipient_state_code": "OK",
@@ -756,7 +756,7 @@
       "deobligations": -1035844.87,
       "net_obligations": 24005155.13,
       "unique_awards": 162,
-      "outlays": 12873174.56
+      "outlays": 11091322.5
     },
     {
       "recipient_state_code": "OR",
@@ -764,7 +764,7 @@
       "deobligations": -783731.63,
       "net_obligations": 28635042.37,
       "unique_awards": 197,
-      "outlays": 15433340.86
+      "outlays": 11039543.26
     },
     {
       "recipient_state_code": "PA",
@@ -772,7 +772,7 @@
       "deobligations": -1970330.25,
       "net_obligations": 98103714.75,
       "unique_awards": 596,
-      "outlays": 38074392.91
+      "outlays": 34676140.16
     },
     {
       "recipient_state_code": "PR",
@@ -780,7 +780,7 @@
       "deobligations": -391782.0,
       "net_obligations": 19789523.0,
       "unique_awards": 128,
-      "outlays": 1469476.0
+      "outlays": 1436868.0
     },
     {
       "recipient_state_code": "RI",
@@ -788,7 +788,7 @@
       "deobligations": -27704.11,
       "net_obligations": 1653692.89,
       "unique_awards": 25,
-      "outlays": 721860.78
+      "outlays": 697146.89
     },
     {
       "recipient_state_code": "SC",
@@ -796,7 +796,7 @@
       "deobligations": -553604.89,
       "net_obligations": 13436468.11,
       "unique_awards": 94,
-      "outlays": 6512401.86
+      "outlays": 5188739.86
     },
     {
       "recipient_state_code": "SD",
@@ -804,7 +804,7 @@
       "deobligations": -11836.0,
       "net_obligations": 18427075.0,
       "unique_awards": 120,
-      "outlays": 8388410.24
+      "outlays": 8079634.24
     },
     {
       "recipient_state_code": "TN",
@@ -812,7 +812,7 @@
       "deobligations": -863404.16,
       "net_obligations": 20319404.84,
       "unique_awards": 151,
-      "outlays": 10141650.74
+      "outlays": 8887868.9
     },
     {
       "recipient_state_code": "TX",
@@ -820,7 +820,7 @@
       "deobligations": -764014.09,
       "net_obligations": 51285835.11,
       "unique_awards": 220,
-      "outlays": 15854328.75
+      "outlays": 15279932.84
     },
     {
       "recipient_state_code": "UT",
@@ -828,7 +828,7 @@
       "deobligations": -587721.5,
       "net_obligations": 19677513.5,
       "unique_awards": 112,
-      "outlays": 6616393.66
+      "outlays": 6429000.16
     },
     {
       "recipient_state_code": "VA",
@@ -836,7 +836,7 @@
       "deobligations": -443663.51,
       "net_obligations": 15709526.49,
       "unique_awards": 127,
-      "outlays": 3554771.4
+      "outlays": 2587514.41
     },
     {
       "recipient_state_code": "VI",
@@ -852,7 +852,7 @@
       "deobligations": -451996.0,
       "net_obligations": 17875850.0,
       "unique_awards": 105,
-      "outlays": 4560786.36
+      "outlays": 4300774.68
     },
     {
       "recipient_state_code": "WA",
@@ -860,7 +860,7 @@
       "deobligations": -927727.43,
       "net_obligations": 28619073.57,
       "unique_awards": 285,
-      "outlays": 13009131.93
+      "outlays": 10732678.36
     },
     {
       "recipient_state_code": "WI",
@@ -868,7 +868,7 @@
       "deobligations": -1754760.91,
       "net_obligations": 30662638.09,
       "unique_awards": 371,
-      "outlays": 14364636.03
+      "outlays": 12390498.94
     },
     {
       "recipient_state_code": "WV",
@@ -876,7 +876,7 @@
       "deobligations": -515284.87,
       "net_obligations": 17078335.13,
       "unique_awards": 179,
-      "outlays": 9424091.0
+      "outlays": 7423196.87
     },
     {
       "recipient_state_code": "WY",
@@ -884,7 +884,7 @@
       "deobligations": -715201.2,
       "net_obligations": 3290532.8,
       "unique_awards": 60,
-      "outlays": 896979.72
+      "outlays": 723295.86
     }
   ],
   "top_recipients": [
@@ -1651,7 +1651,7 @@
   "outlay_by_obligation_year": [
     {
       "initial_obligation_fy": 2021,
-      "years_elapsed": "4",
+      "years_elapsed": "5",
       "total_awards": 1076,
       "total_obligations": 34466479.92,
       "total_outlays": 32874525.66,
@@ -1670,7 +1670,7 @@
     },
     {
       "initial_obligation_fy": 2022,
-      "years_elapsed": "3",
+      "years_elapsed": "4",
       "total_awards": 1345,
       "total_obligations": 49488879.12,
       "total_outlays": 42551519.379999995,
@@ -1689,60 +1689,60 @@
     },
     {
       "initial_obligation_fy": 2023,
-      "years_elapsed": "2",
+      "years_elapsed": "3",
       "total_awards": 3083,
       "total_obligations": 450272845.70000005,
       "total_outlays": 217461698.25,
       "overall_outlay_rate": 48.29553909961663,
-      "expired_awards": 1448,
-      "expired_obligations": 146386304.10000002,
-      "expired_outlays": 98113750.69,
-      "expired_outlay_rate": 67.02385943358206,
-      "active_awards": 1635,
-      "active_obligations": 303886541.6,
-      "active_outlays": 119347947.56,
-      "active_outlay_rate": 39.27385100097503,
+      "expired_awards": 3083,
+      "expired_obligations": 450272845.70000005,
+      "expired_outlays": 217461698.25,
+      "expired_outlay_rate": 48.29553909961663,
+      "active_awards": 0,
+      "active_obligations": 0,
+      "active_outlays": 0,
+      "active_outlay_rate": 0,
       "percent_outlayed": 48.29553909961663,
-      "percent_expired_unspent": 10.720733855259445,
-      "percent_active_unspent": 40.98372704512392
+      "percent_expired_unspent": 51.70446090038337,
+      "percent_active_unspent": 0.0
     },
     {
       "initial_obligation_fy": 2024,
-      "years_elapsed": "1",
+      "years_elapsed": "2",
       "total_awards": 4437,
       "total_obligations": 711282113.34,
       "total_outlays": 270823641.59000003,
       "overall_outlay_rate": 38.07541853095125,
-      "expired_awards": 8,
-      "expired_obligations": 798909.97,
-      "expired_outlays": 342374.9,
-      "expired_outlay_rate": 42.855254391180026,
-      "active_awards": 4429,
-      "active_obligations": 710483203.37,
-      "active_outlays": 270481266.69,
-      "active_outlay_rate": 38.07004379653727,
+      "expired_awards": 4437,
+      "expired_obligations": 711282113.34,
+      "expired_outlays": 270823641.59000003,
+      "expired_outlay_rate": 38.07541853095125,
+      "active_awards": 0,
+      "active_obligations": 0,
+      "active_outlays": 0,
+      "active_outlay_rate": 0,
       "percent_outlayed": 38.07541853095125,
-      "percent_expired_unspent": 0.06418480957664284,
-      "percent_active_unspent": 61.86039665947211
+      "percent_expired_unspent": 61.92458146904875,
+      "percent_active_unspent": 0.0
     },
     {
       "initial_obligation_fy": 2025,
-      "years_elapsed": "0",
+      "years_elapsed": "1",
       "total_awards": 2115,
       "total_obligations": 354061865.24,
       "total_outlays": 23733195.88,
       "overall_outlay_rate": 6.703121180224396,
-      "expired_awards": 14,
-      "expired_obligations": 1298016.0,
-      "expired_outlays": 0.0,
-      "expired_outlay_rate": 0.0,
-      "active_awards": 2101,
-      "active_obligations": 352763849.24,
-      "active_outlays": 23733195.88,
-      "active_outlay_rate": 6.727785721561654,
+      "expired_awards": 44,
+      "expired_obligations": 6309069.0,
+      "expired_outlays": 184368.0,
+      "expired_outlay_rate": 2.9222695139330384,
+      "active_awards": 2071,
+      "active_obligations": 347752796.24,
+      "active_outlays": 23548827.88,
+      "active_outlay_rate": 6.771714889029356,
       "percent_outlayed": 6.703121180224396,
-      "percent_expired_unspent": 0.3666071179736182,
-      "percent_active_unspent": 92.93027170180198
+      "percent_expired_unspent": 1.7298392177447255,
+      "percent_active_unspent": 91.56703960203087
     }
   ],
   "money_expiration": [
@@ -167800,7 +167800,7 @@
     }
   ],
   "metadata": {
-    "generated_at": "2025-08-16T20:05:07.094144",
+    "generated_at": "2026-11-08T23:38:13.612695",
     "source": "USASpending API - CFDA 10.868 (REAP)",
     "fiscal_years": [
       "2021",
