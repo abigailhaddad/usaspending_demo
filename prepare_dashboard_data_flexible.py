@@ -46,6 +46,19 @@ def load_available_data():
     
     return combined_df, years_loaded
 
+def award_level_outlays(df, outlay_col, group_col=None):
+    """
+    total_outlayed_amount_for_overall_award is a cumulative figure for the whole award,
+    repeated on every transaction row of that award. Summing it over transaction rows
+    counts an award once per transaction, so take it once per award (or once per
+    award within each group).
+    """
+    key = 'assistance_award_unique_key' if 'assistance_award_unique_key' in df.columns else 'award_id_fain'
+    if group_col is None:
+        return float(df.drop_duplicates(key)[outlay_col].sum())
+    return df.drop_duplicates([group_col, key]).groupby(group_col)[outlay_col].sum()
+
+
 def prepare_dashboard_data():
     """
     Process REAP data for dashboard visualization
@@ -124,7 +137,7 @@ def prepare_dashboard_data():
         summary['net_obligations'] = float(df[obligation_col].sum())
     
     if outlay_col:
-        summary['total_outlays'] = float(df[outlay_col].sum())
+        summary['total_outlays'] = award_level_outlays(df, outlay_col)
         summary['outlay_rate'] = (summary['total_outlays'] / summary['net_obligations'] * 100) if summary.get('net_obligations', 0) > 0 else 0
     
     if 'action_date' in df.columns:
@@ -175,6 +188,8 @@ def prepare_dashboard_data():
         
         # Flatten column names
         state_summary.columns = ['obligations', 'deobligations', 'net_obligations', 'unique_awards'] + (['outlays'] if outlay_col else [])
+        if outlay_col:
+            state_summary['outlays'] = award_level_outlays(df, outlay_col, 'recipient_state_code').round(2)
         state_summary = state_summary[state_summary['net_obligations'] != 0]  # Remove states with no activity
         state_data = state_summary.reset_index().to_dict('records')
     
@@ -199,6 +214,8 @@ def prepare_dashboard_data():
         
         # Flatten column names
         recipient_summary.columns = ['obligations', 'deobligations', 'net_obligations', 'state', 'unique_awards'] + (['outlays'] if outlay_col else [])
+        if outlay_col:
+            recipient_summary['outlays'] = award_level_outlays(df, outlay_col, 'recipient_name').round(2)
         top_recipients = recipient_summary.nlargest(20, 'net_obligations').reset_index().to_dict('records')
     
     # Year-over-year comparison if we have multiple years
