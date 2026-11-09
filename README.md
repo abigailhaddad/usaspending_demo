@@ -11,7 +11,7 @@ The dashboard tracks how REAP grant money flows from obligation (commitment) to 
 ## Data Pipeline
 
 ### 1. Download (`fetch_reap_custom_bulk.py`)
-Downloads REAP award data from the USAspending.gov bulk download API. The script is configured to fetch fiscal years 2020-2025. The script:
+Downloads REAP award data from the USAspending.gov bulk download API. The script is configured to fetch fiscal years 2021-2025. The script:
 - Filters to CFDA 10.868 (REAP program code)
 - Downloads transaction-level data for each fiscal year
 - Saves data as parquet files for efficient storage
@@ -24,27 +24,26 @@ Processes the raw award data into dashboard-ready JSON format. The script:
 - Calculates obligations, outlays, and unspent amounts
 - Aggregates data by month, fiscal year, and expiration year
 - Tracks deobligations separately from obligations
-- Handles the fact that USAspending only provides cumulative outlay totals (not transaction-level outlay timing)
+- Handles the fact that USAspending only provides cumulative outlay totals (not transaction-level outlay timing): outlays are counted once per award, and any outlay figure "by period" is attributed to the period of the award's first positive obligation (see Data Limitations)
 
 ### 3. Display (`index.html`)
 Interactive dashboard showing multiple views of the data:
 
 #### Summary Statistics
-Key metrics displayed at the top:
-- Total transactions processed
-- Unique awards tracked
-- Total obligated (new commitments)
-- Total deobligated (cancelled commitments)
-- Net obligations (obligated minus deobligated)
-- Total outlays (actual payments)
+Key metrics displayed at the top (all read from `summary` in the JSON):
+- Unique awards (distinct `assistance_award_unique_key`) and transaction rows
+- Total obligated, total deobligated, net obligations (per transaction, from `federal_action_obligation`)
+- Outlays to date, counting each award's cumulative outlay once, and the outlay rate (outlays to date / net obligations)
+
+An "About these numbers" box on the page states the data's as-of dates, what outlays mean, the known limitation, how the counts reconcile (rows with a zero obligation are not counted in `total_transactions`), and the small state/recipient double-count.
 
 #### Monthly Obligations by Fiscal Year
 Bar chart showing new money obligated each month, colored by fiscal year. Vertical lines mark fiscal year boundaries (September 30).
 
-#### Status of Obligations by Initial Award Year
-Shows what happened to money obligated in each fiscal year:
-- **Outlayed**: Money that has been paid out
-- **Not Yet Outlayed**: Money obligated but not yet paid out
+#### Outlays to Date vs. Net Obligations, by Fiscal Year of First Obligation
+Groups awards by the fiscal year of their first positive obligation in the data and shows, for each group:
+- **Outlayed**: the group's cumulative outlays to date as a share of its net obligations
+- **Not Yet Outlayed**: the rest
 
 Each fiscal year's obligations sum to 100% across these two categories.
 
@@ -64,9 +63,16 @@ Note: When an award's period of performance ends, obligated funds remain availab
 - **Outlays**: Actual payments made (like writing the check)
 - **Deobligations**: Reducing or cancelling a previous commitment
 - **Multi-year money**: REAP grants typically have 2-3 year periods of performance
-- **Cumulative outlays**: USAspending only shows total outlays to date, not when each payment occurred
+- **Cumulative outlays**: USAspending only shows total outlays to date, not when each payment occurred. `total_outlayed_amount_for_overall_award` is repeated on every transaction row of an award, so it must be taken once per award; summing it over rows counts an award once per transaction.
 
 ## Data Limitations
+
+- There is no monthly or per-fiscal-year outlay time series in this data. In `data/reap_dashboard_data.json`, `monthly_data`, `cyclical_data` and `year_comparison` give obligations by action month / fiscal year (per transaction, valid) and outlays only as "outlays to date of the awards first obligated in that month / fiscal year" (once per award; the `cohort_*` and `outlays_to_date_of_awards_first_obligated` fields).
+- The data's as-of date: the latest action date and latest record-modified date are in `metadata`; the bulk-download date is not recorded in the files. The expired/active split and `years_elapsed` use the date the script is run (`metadata.expiry_reference_date`).
+- Outlays are only required to be reported since FY2022 (FY2020 for COVID-19-funded awards), per the USAspending data dictionary, so outlays on FY2021 awards may be incomplete. A blank outlay counts as $0.
+- Awards with no positive obligation in the data (including 256 type-8 guaranteed/insured loans with $0 obligation) still carry outlays; they are in the total but in no first-obligation group. `summary` reports their count and amount.
+- State and recipient breakdowns count an award that lists several states or recipient names in full in each (`summary.state_outlays_excess_over_total`, `summary.recipient_outlays_excess_over_total`).
+- `verify_dashboard_data.py` recomputes the figures independently with DuckDB (`pip install duckdb`).
 
 - We cannot track the timing of individual outlay transactions
 - Data shows cumulative outlays as of the download date
@@ -126,6 +132,6 @@ To analyze a different federal program, you would need to modify the download sc
    "prime_award_types": ["A", "B", "C", "D"],
    ```
 
-4. **Modify date ranges** - The script is currently configured for FY2020-2025
+4. **Modify date ranges** - The script is currently configured for FY2021-2025
 
 The USAspending bulk download API is flexible and can filter by many criteria including federal accounts, specific agencies, award types, recipient locations, and more. The processing and visualization scripts should work without modification for most programs.

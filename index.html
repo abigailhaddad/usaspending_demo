@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>REAP Program Dashboard - FY 2024-2025</title>
+    <title>REAP Program Dashboard - FY 2021-2025</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
     <style>
@@ -101,6 +101,9 @@
             height: 400px;
             position: relative;
         }
+        
+        .chart-container.has-note { height: 480px; }
+        @media (max-width: 700px) { .chart-container.has-note { height: 720px; } }
         
         .chart-container h2 {
             margin-bottom: 1rem;
@@ -209,13 +212,14 @@
     <div class="container">
         <div class="header">
             <h1>Rural Energy for America Program (REAP) Dashboard</h1>
-            <p>CFDA 10.868 • FY 2022-2025 • Data as of <span id="lastUpdated"></span></p>
+            <p>CFDA 10.868 • FY 2021-2025 • <span id="dataCoverage"></span></p>
             <div style="background: #fef3c7; border: 1px solid #f59e0b; border-radius: 6px; padding: 1rem; margin-top: 1rem;">
                 <p style="color: #92400e; font-weight: 600; margin: 0 0 0.5rem 0; font-size: 0.875rem;">
-                    ⚠️ Data Limitation: This dashboard only includes awards with activity in FY2021-2025. 
-                    Some records show $0 obligations with positive outlays (outlays exceed obligations). We're investigating 
-                    why this occurs - it may be due to data quality issues, timing differences, or how certain award types 
-                    are reported in bulk downloads.
+                    ⚠️ Data Limitation: This dashboard only includes awards with activity in FY2021-2025 (action dates from
+                    October 2020). Outlays are cumulative per award, so this page has no monthly outlay series and no
+                    outlay-by-fiscal-year series; see "About these numbers" below.
+                    Some awards show $0 or negative obligations in this window but positive outlays; those outlays are
+                    included in Outlays to Date (the count and amount are in the notes below).
                 </p>
                 <p style="color: #92400e; margin: 0; font-size: 0.875rem;">
                     ⚠️ Disclaimer: This is an Experimental Analysis
@@ -228,8 +232,10 @@
             </div>
         </div>
         
-        <div class="summary-card" style="margin-bottom: 2rem; background: #f7fafc;">
-            <h3 style="margin-bottom: 1rem;">About This Data</h3>
+        <div class="summary-grid" id="summaryGrid"></div>
+
+        <div class="summary-card" style="margin-bottom: 2rem; background: #f7fafc;" id="aboutNumbers">
+            <h3 style="margin-bottom: 1rem;">About these numbers</h3>
             <div style="font-size: 0.875rem; line-height: 1.6;">
                 <p style="margin-bottom: 0.75rem;">
                     <strong>Data Source:</strong> USAspending.gov bulk download API, filtered to CFDA 10.868 (REAP)
@@ -238,42 +244,74 @@
                     <strong>Key Fields:</strong><br>
                     • <code>federal_action_obligation</code>: New money committed (positive) or deobligated (negative)<br>
                     • <code>total_outlayed_amount_for_overall_award</code>: Cumulative amount actually paid out (as of data date)<br>
-                    • <code>period_of_performance_current_end_date</code>: When the award expires
+                    • <code>period_of_performance_current_end_date</code>: the end of the award's period of performance
+                </p>
+                <p style="margin-bottom: 0.75rem;">
+                    <strong>Data as of:</strong> <span id="asOfText"></span>
+                </p>
+                <p style="margin-bottom: 0.75rem;">
+                    <strong>What "outlays" means here:</strong> cumulative outlays to date, as of the date the file was
+                    downloaded, for each award. The field repeats the same cumulative value on every transaction row of an
+                    award, so every outlay figure on this page counts each award once. A blank value means no outlay was
+                    reported and counts as $0. USAspending notes that outlays have only been required to be reported since
+                    FY2022 (FY2020 for COVID-19-funded awards), so outlays on FY2021 awards may be incomplete.
+                </p>
+                <p style="margin-bottom: 0.75rem;">
+                    <strong>Known limitation:</strong> because outlays are cumulative per award, the data cannot say <em>when</em>
+                    an outlay happened. There is no monthly or per-fiscal-year outlay series here. Wherever outlays appear
+                    by period, the period is the fiscal year in which the award was <em>first obligated in this data</em>, and the
+                    figure is that group's outlays to date. Obligations (new money, deobligations) are per transaction and are
+                    shown by the month of the action.
+                </p>
+                <p style="margin-bottom: 0.75rem;">
+                    <strong>Outlay rate</strong> = outlays to date &divide; net obligations (obligations minus deobligations) in
+                    this FY2021-2025 data. <span id="rateNote"></span>
+                </p>
+                <p style="margin-bottom: 0.75rem;">
+                    <strong>Counts:</strong> <span id="countsNote"></span>
+                </p>
+                <p style="margin-bottom: 0.75rem;">
+                    <strong>State and recipient breakdowns</strong> (in the data file; not charted on this page): an award
+                    that lists more than one state or recipient name is counted in full in each, so these outlays add up to
+                    slightly more than the total: <span id="excessNote"></span>
                 </p>
                 <p style="margin-bottom: 0;">
-                    <strong>Important Note:</strong> USAspending only provides cumulative outlay totals, not transaction-level outlays. 
-                    We cannot track when outlays occurred, only the final amount as of today.
+                    <strong>Expired / active split</strong> (in the data file, not shown in the charts) and "years elapsed"
+                    use the date the data file was generated (<span id="expiryDate"></span>), not the date of the data.
                 </p>
             </div>
         </div>
         
         <div class="chart-container">
-            <h2>Monthly Obligations by Fiscal Year</h2>
+            <h2>Monthly Obligations by Fiscal Year (positive obligations, by action month)</h2>
             <canvas id="monthlyObligationsChart"></canvas>
         </div>
         
-        <div class="chart-container">
-            <h2>Status of Obligations by Initial Award Year</h2>
+        <div class="chart-container has-note">
+            <h2>Outlays to Date vs. Net Obligations, by Fiscal Year of First Obligation</h2>
             <canvas id="outlayByYearChart"></canvas>
             <p style="margin-top: 10px; font-size: 0.875rem; color: #718096;">
-                Shows the percentage of money obligated each fiscal year that has been outlayed (spent) 
-                versus not yet outlayed (unspent).
+                Groups awards by the fiscal year of their first positive obligation in this data. For each group:
+                the share of the group's net obligations (all its obligations minus deobligations, in any year) that has been
+                outlayed to date, and the share not yet outlayed. These are cumulative outlays as of the data date, not outlays
+                made in that fiscal year. Recent groups have had less time to be paid out.
             </p>
         </div>
         
         <div class="chart-container">
-            <h2>Monthly Deobligations by Fiscal Year</h2>
+            <h2>Monthly Deobligations by Fiscal Year (by action month)</h2>
             <canvas id="monthlyDeobligationsChart"></canvas>
         </div>
         
-        <div class="chart-container">
-            <h2>Unspent Money by Award End Year</h2>
+        <div class="chart-container has-note">
+            <h2>Unspent Money by Award End Year (net obligations minus outlays to date; only end years 2024 and later are charted)</h2>
             <canvas id="moneyExpirationChart"></canvas>
             <p style="margin-top: 10px; font-size: 0.875rem; color: #718096;">
-                Shows unspent funds grouped by when awards' periods of performance end. 
-                <strong>Important:</strong> When an award's period of performance ends, obligated funds remain 
-                available for liquidation of valid obligations for 5 additional years before the account expires.
-            </p>
+                For awards first obligated in each fiscal year, unspent funds (net obligations in this data minus outlays to date,
+                floored at $0 for each bar), grouped by Award End Year. Award End Year is the year of the
+                <code>period_of_performance_current_end_date</code> on the award's latest transaction by action date (ties: the later
+                end date, then the larger transaction key); that field is the end of the award's period of performance.
+                Only end years 2024 and later are charted.</p>
         </div>
         
     </div>
@@ -286,6 +324,7 @@
         
         // Consistent colors for fiscal years
         const fiscalYearColors = {
+            2021: { bg: 'rgba(107, 114, 128, 0.7)', border: 'rgb(107, 114, 128)' },  // Gray
             2022: { bg: 'rgba(99, 102, 241, 0.7)', border: 'rgb(99, 102, 241)' },  // Indigo
             2023: { bg: 'rgba(34, 197, 94, 0.7)', border: 'rgb(34, 197, 94)' },   // Green
             2024: { bg: 'rgba(251, 146, 60, 0.7)', border: 'rgb(251, 146, 60)' }, // Orange
@@ -348,12 +387,15 @@
         function createSummaryCards(data) {
             const summaryGrid = document.getElementById('summaryGrid');
             
+            const sm = data.summary;
             const cards = [
-                { title: 'Unique Awards', value: data.summary.unique_awards.toLocaleString() },
+                { title: 'Unique Awards', value: sm.unique_awards.toLocaleString() },
+                { title: 'Transaction Rows', value: sm.total_transaction_rows.toLocaleString() },
                 { title: 'Total Obligated', value: formatCurrency(data.summary.total_obligated), class: 'positive' },
                 { title: 'Total Deobligated', value: formatCurrency(data.summary.total_deobligated), class: 'negative' },
                 { title: 'Net Obligations', value: formatCurrency(data.summary.net_obligations) },
-                { title: 'Total Outlays', value: formatCurrency(data.summary.total_outlays) }
+                { title: 'Outlays to Date (each award once)', value: formatCurrency(data.summary.total_outlays) },
+                { title: 'Outlay Rate (outlays to date / net obligations)', value: data.summary.outlay_rate.toFixed(2) + '%' }
             ];
             
             cards.forEach(card => {
@@ -531,13 +573,13 @@
                                 },
                                 title: {
                                     display: true,
-                                    text: 'Outlay Rate (%)'
+                                    text: 'Outlays to date as % of net obligations'
                                 }
                             },
                             x: {
                                 title: {
                                     display: true,
-                                    text: 'Initial Obligation Fiscal Year'
+                                    text: 'Fiscal year of award\'s first obligation in this data'
                                 }
                             }
                         }
@@ -673,7 +715,7 @@
                                 stacked: true,
                                 title: {
                                     display: true,
-                                    text: 'Expiration Year'
+                                    text: 'Award End Year'
                                 }
                             },
                             y: {
@@ -714,198 +756,28 @@
             }
         }
         
-        // Legacy cohort chart function (kept for reference)
-        function createCohortChart_unused(data) {
-            const ctx = document.getElementById('cohortChart').getContext('2d');
-            
-            // Use cohort data if available
-            if (data.cohort_data && data.cohort_data.length > 0) {
-                // Group by obligation fiscal year
-                const cohorts = {};
-                data.cohort_data.forEach(d => {
-                    if (!cohorts[d.obligation_fy]) {
-                        cohorts[d.obligation_fy] = [];
-                    }
-                    cohorts[d.obligation_fy].push(d);
-                });
-                
-                const colors = ['rgb(99, 102, 241)', 'rgb(34, 197, 94)', 'rgb(251, 146, 60)'];
-                const datasets = [];
-                
-                Object.keys(cohorts).sort().forEach((fy, index) => {
-                    const cohortData = cohorts[fy].sort((a, b) => a.years_elapsed - b.years_elapsed);
-                    datasets.push({
-                        label: `FY${fy} Obligations`,
-                        data: cohortData.map(d => ({
-                            x: d.years_elapsed,
-                            y: d.outlay_rate
-                        })),
-                        borderColor: colors[index % colors.length],
-                        backgroundColor: colors[index % colors.length] + '33',
-                        tension: 0.1
-                    });
-                });
-                
-                new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        datasets: datasets
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            title: {
-                                display: true,
-                                text: 'Each line shows how obligations from a fiscal year outlay over time'
-                            },
-                            tooltip: {
-                                callbacks: {
-                                    label: function(context) {
-                                        const cohortData = data.cohort_data.find(d => 
-                                            d.obligation_fy === parseInt(context.dataset.label.match(/\d+/)[0]) &&
-                                            d.years_elapsed === context.parsed.x
-                                        );
-                                        if (cohortData) {
-                                            return [
-                                                `${context.dataset.label}`,
-                                                `Outlay Rate: ${context.parsed.y.toFixed(1)}%`,
-                                                `Obligations: $${(cohortData.cohort_obligations / 1000000).toFixed(1)}M`,
-                                                `Outlays: $${(cohortData.cumulative_outlays / 1000000).toFixed(1)}M`,
-                                                `Outlay Year: FY${cohortData.outlay_fy}`
-                                            ];
-                                        }
-                                        return context.dataset.label + ': ' + context.parsed.y.toFixed(1) + '%';
-                                    },
-                                    title: function(context) {
-                                        return 'Years Since Obligation: ' + context[0].parsed.x;
-                                    }
-                                }
-                            }
-                        },
-                        scales: {
-                            x: {
-                                type: 'linear',
-                                title: {
-                                    display: true,
-                                    text: 'Years Since Initial Obligation'
-                                },
-                                ticks: {
-                                    stepSize: 1,
-                                    callback: function(value) {
-                                        return 'Year ' + value;
-                                    }
-                                }
-                            },
-                            y: {
-                                beginAtZero: true,
-                                max: 100,
-                                title: {
-                                    display: true,
-                                    text: 'Cumulative Outlay Rate (%)'
-                                },
-                                ticks: {
-                                    callback: function(value) {
-                                        return value + '%';
-                                    }
-                                }
-                            }
-                        }
-                    }
-                });
-            }
+        // Text that quotes numbers from the data file, so page and JSON cannot drift apart
+        function fillNotes(data) {
+            const sm = data.summary, md = data.metadata || {};
+            const set = (id, text) => { document.getElementById(id).textContent = text; };
+            set('dataCoverage', `Actions dated ${sm.date_range.start} to ${sm.date_range.end}`);
+            set('asOfText', `transactions with action dates ${sm.date_range.start} to ${sm.date_range.end}; the most recent record in the file was ` +
+                `modified ${md.data_latest_record_modified}. Outlays are as of the USAspending bulk download, which the files do not record ` +
+                `(it was on or after that modification date). The dashboard data file was generated ${md.generated_at.slice(0, 10)}. ` +
+                `FY2025 is a partial year.`);
+            set('rateNote', `The outlays include ${formatCurrency(sm.outlays_on_awards_without_positive_obligation)} on ` +
+                `${sm.awards_without_positive_obligation.toLocaleString()} awards that have no positive obligation in this data ` +
+                `(net obligations on those awards: ${formatCurrency(sm.net_obligations_on_awards_without_positive_obligation)}). ` +
+                `Counting only awards with a positive obligation, the rate is ${sm.outlay_rate_awards_with_positive_obligation.toFixed(2)}%.`);
+            set('countsNote', `${sm.unique_awards.toLocaleString()} distinct awards (counted by award key) in ` +
+                `${sm.total_transaction_rows.toLocaleString()} transaction rows. ${sm.zero_obligation_rows.toLocaleString()} rows are $0-obligation ` +
+                `modifications, leaving ${sm.total_transactions.toLocaleString()} rows with a non-zero obligation; those are the rows behind the obligated / deobligated totals. ` +
+                `${sm.awards_with_outlay_reported.toLocaleString()} awards have an outlay reported; ${sm.awards_without_outlay_reported.toLocaleString()} have none (counted as $0).`);
+            set('excessNote', `state outlays exceed the total by ${formatCurrency(sm.state_outlays_excess_over_total)}; ` +
+                `recipient outlays exceed it by ${formatCurrency(sm.recipient_outlays_excess_over_total)}.`);
+            set('expiryDate', md.expiry_reference_date);
         }
-        
-        // Unused function - kept for reference
-        function createYearComparisonChartUnused(data) {
-            const ctx = document.getElementById('yearComparisonChart').getContext('2d');
-            
-            if (data.cyclical_data && data.cyclical_data.length > 0) {
-                // Group by fiscal year
-                const years = [...new Set(data.cyclical_data.map(d => d.fiscal_year))];
-                const datasets = [];
-                
-                const colors = ['rgb(99, 102, 241)', 'rgb(34, 197, 94)', 'rgb(251, 146, 60)'];
-                
-                years.forEach((year, index) => {
-                    const yearData = data.cyclical_data.filter(d => d.fiscal_year === year);
-                    datasets.push({
-                        label: `FY${year} Outlay Rate`,
-                        data: yearData.map(d => ({
-                            x: d.fiscal_month_num,
-                            y: d.outlay_rate
-                        })),
-                        borderColor: colors[index % colors.length],
-                        backgroundColor: colors[index % colors.length] + '33',
-                        tension: 0.1
-                    });
-                });
-                
-                new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        datasets: datasets
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        scales: {
-                            x: {
-                                type: 'linear',
-                                min: 1,
-                                max: 12,
-                                ticks: {
-                                    stepSize: 1,
-                                    callback: function(value) {
-                                        const months = ['Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 
-                                                       'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'];
-                                        return months[value - 1] || '';
-                                    }
-                                },
-                                title: {
-                                    display: true,
-                                    text: 'Fiscal Month'
-                                }
-                            },
-                            y: {
-                                beginAtZero: true,
-                                max: 100,
-                                ticks: {
-                                    callback: function(value) {
-                                        return value + '%';
-                                    }
-                                },
-                                title: {
-                                    display: true,
-                                    text: 'Cumulative Outlay Rate (%)'
-                                }
-                            }
-                        },
-                        plugins: {
-                            tooltip: {
-                                callbacks: {
-                                    label: function(context) {
-                                        const dataPoint = data.cyclical_data.find(d => 
-                                            d.fiscal_year === parseInt(context.dataset.label.match(/\d+/)[0]) &&
-                                            d.fiscal_month_num === context.parsed.x
-                                        );
-                                        if (dataPoint) {
-                                            return [
-                                                `${context.dataset.label}: ${context.parsed.y.toFixed(1)}%`,
-                                                `Cumulative Obligations: $${(dataPoint.cumulative_obligations / 1000000).toFixed(1)}M`,
-                                                `Cumulative Outlays: $${(dataPoint.cumulative_outlays / 1000000).toFixed(1)}M`
-                                            ];
-                                        }
-                                        return context.dataset.label + ': ' + context.parsed.y.toFixed(1) + '%';
-                                    }
-                                }
-                            }
-                        }
-                    }
-                });
-            }
-        }
-        
+
         // Load data and initialize dashboard
         fetch('data/reap_dashboard_data.json')
             .then(response => response.json())
@@ -913,16 +785,8 @@
                 dashboardData = data;
                 filteredTransactions = data.transactions;
                 
-                // Set last updated date
-                if (data.metadata && data.metadata.generated_at) {
-                    const lastUpdated = new Date(data.metadata.generated_at);
-                    document.getElementById('lastUpdated').textContent = 
-                        lastUpdated.toLocaleDateString('en-US', { 
-                            year: 'numeric', 
-                            month: 'long', 
-                            day: 'numeric'
-                        });
-                }
+                fillNotes(data);
+                createSummaryCards(data);
                 
                 // Create visualizations
                 createMonthlyObligationsChart(data);

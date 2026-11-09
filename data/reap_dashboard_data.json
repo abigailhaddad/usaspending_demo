@@ -1,7 +1,9 @@
 {
   "summary": {
     "total_transactions": 13393,
-    "unique_awards": 12362,
+    "unique_awards": 12363,
+    "total_transaction_rows": 13816,
+    "zero_obligation_rows": 423,
     "fiscal_years": [
       "2021",
       "2022",
@@ -16,8 +18,17 @@
     "total_obligated": 1640879830.49,
     "total_deobligated": -41727573.35,
     "net_obligations": 1599152257.1399999,
-    "total_outlays": 684086135.5799999,
-    "outlay_rate": 42.77804896473411
+    "total_outlays": 609111266.8699999,
+    "outlay_rate": 38.08963556474376,
+    "awards_with_outlay_reported": 7047,
+    "awards_without_outlay_reported": 5316,
+    "awards_without_positive_obligation": 307,
+    "outlays_on_awards_without_positive_obligation": 21666686.11,
+    "net_obligations_on_awards_without_positive_obligation": -419926.18,
+    "outlays_on_awards_with_positive_obligation": 587444580.76,
+    "outlay_rate_awards_with_positive_obligation": 36.72510605559084,
+    "state_outlays_excess_over_total": 17758.0,
+    "recipient_outlays_excess_over_total": 133533.5
   },
   "monthly_data": [
     {
@@ -26,7 +37,8 @@
       "deobligations": 0.0,
       "net_obligations": 0.0,
       "transaction_count": 72,
-      "outlays": 3884896.4
+      "awards_first_obligated": 0,
+      "outlays_to_date_of_awards_first_obligated": 0.0
     },
     {
       "month": "2020-11",
@@ -34,7 +46,8 @@
       "deobligations": 0.0,
       "net_obligations": 0.0,
       "transaction_count": 8,
-      "outlays": 550760.0
+      "awards_first_obligated": 0,
+      "outlays_to_date_of_awards_first_obligated": 0.0
     },
     {
       "month": "2020-12",
@@ -42,7 +55,8 @@
       "deobligations": 0.0,
       "net_obligations": 0.0,
       "transaction_count": 6,
-      "outlays": 0.0
+      "awards_first_obligated": 0,
+      "outlays_to_date_of_awards_first_obligated": 0.0
     },
     {
       "month": "2021-01",
@@ -50,7 +64,8 @@
       "deobligations": 0.0,
       "net_obligations": 0.0,
       "transaction_count": 14,
-      "outlays": 1109905.88
+      "awards_first_obligated": 0,
+      "outlays_to_date_of_awards_first_obligated": 0.0
     },
     {
       "month": "2021-02",
@@ -58,7 +73,8 @@
       "deobligations": -6048.0,
       "net_obligations": 268335.0,
       "transaction_count": 23,
-      "outlays": 2052399.2
+      "awards_first_obligated": 18,
+      "outlays_to_date_of_awards_first_obligated": 274383.0
     },
     {
       "month": "2021-03",
@@ -66,7 +82,8 @@
       "deobligations": -401287.35,
       "net_obligations": 2882717.65,
       "transaction_count": 169,
-      "outlays": 9477220.27
+      "awards_first_obligated": 136,
+      "outlays_to_date_of_awards_first_obligated": 2886357.62
     },
     {
       "month": "2021-04",
@@ -74,7 +91,8 @@
       "deobligations": -159412.8,
       "net_obligations": 741113.2,
       "transaction_count": 94,
-      "outlays": 2193927.4
+      "awards_first_obligated": 64,
+      "outlays_to_date_of_awards_first_obligated": 761296.2
     },
     {
       "month": "2021-05",
@@ -82,7 +100,8 @@
       "deobligations": -1646772.6,
       "net_obligations": 4444448.4,
       "transaction_count": 449,
-      "outlays": 6000216.24
+      "awards_first_obligated": 344,
+      "outlays_to_date_of_awards_first_obligated": 4411079.84
     },
     {
       "month": "2021-06",
@@ -90,7 +109,8 @@
       "deobligations": -261888.33,
       "net_obligations": -261888.33,
       "transaction_count": 31,
-      "outlays": 448366.67
+      "awards_first_obligated": 0,
+      "outlays_to_date_of_awards_first_obligated": 0.0
     },
     {
       "month": "2021-07",
@@ -98,7 +118,8 @@
       "deobligations": -3874594.08,
       "net_obligations": 21474734.92,
       "transaction_count": 569,
-      "outlays": 22670652.4
+      "awards_first_obligated": 450,
+      "outlays_to_date_of_awards_first_obligated": 20271616.0
     },
     {
       "month": "2021-08",
@@ -106,7 +127,8 @@
       "deobligations": -403066.0,
       "net_obligations": 371461.0,
       "transaction_count": 27,
-      "outlays": 1942262.29
+      "awards_first_obligated": 8,
+      "outlays_to_date_of_awards_first_obligated": 420899.0
     },
     {
       "month": "2021-09",
@@ -114,7 +136,8 @@
       "deobligations": -178312.0,
       "net_obligations": 4210563.0,
       "transaction_count": 88,
-      "outlays": 9630624.0
+      "awards_first_obligated": 56,
+      "outlays_to_date_of_awards_first_obligated": 3848894.0
     },
     {
       "month": "2021-11",
@@ -122,7 +145,8 @@
       "deobligations": 0.0,
       "net_obligations": 0.0,
       "transaction_count": 5,
-      "outlays": 87565.02
+      "awards_first_obligated": 0,
+      "outlays_to_date_of_awards_first_obligated": 0.0
     },
     {
       "month": "2021-12",
@@ -130,7 +154,8 @@
       "deobligations": 0.0,
       "net_obligations": 0.0,
       "transaction_count": 7,
-      "outlays": 297738.0
+      "awards_first_obligated": 0,
+      "outlays_to_date_of_awards_first_obligated": 0.0
     },
     {
       "month": "2022-01",
@@ -138,7 +163,8 @@
       "deobligations": 0.0,
       "net_obligations": 0.0,
       "transaction_count": 5,
-      "outlays": 78120.0
+      "awards_first_obligated": 0,
+      "outlays_to_date_of_awards_first_obligated": 0.0
     },
     {
       "month": "2022-02",
@@ -146,7 +172,8 @@
       "deobligations": -41227.13,
       "net_obligations": 804260.87,
       "transaction_count": 86,
-      "outlays": 978256.22
+      "awards_first_obligated": 64,
+      "outlays_to_date_of_awards_first_obligated": 783236.87
     },
     {
       "month": "2022-03",
@@ -154,7 +181,8 @@
       "deobligations": -130637.08,
       "net_obligations": 2907511.92,
       "transaction_count": 144,
-      "outlays": 4290389.52
+      "awards_first_obligated": 100,
+      "outlays_to_date_of_awards_first_obligated": 2511728.04
     },
     {
       "month": "2022-04",
@@ -162,7 +190,8 @@
       "deobligations": -74551.0,
       "net_obligations": 432881.0,
       "transaction_count": 59,
-      "outlays": 839641.0
+      "awards_first_obligated": 37,
+      "outlays_to_date_of_awards_first_obligated": 332713.0
     },
     {
       "month": "2022-05",
@@ -170,7 +199,8 @@
       "deobligations": -957971.29,
       "net_obligations": 6430152.71,
       "transaction_count": 421,
-      "outlays": 7022652.24
+      "awards_first_obligated": 338,
+      "outlays_to_date_of_awards_first_obligated": 5985591.13
     },
     {
       "month": "2022-06",
@@ -178,7 +208,8 @@
       "deobligations": -571861.89,
       "net_obligations": 7065089.11,
       "transaction_count": 411,
-      "outlays": 7944112.3
+      "awards_first_obligated": 345,
+      "outlays_to_date_of_awards_first_obligated": 7009593.19
     },
     {
       "month": "2022-07",
@@ -186,7 +217,8 @@
       "deobligations": -3002213.77,
       "net_obligations": 17792618.23,
       "transaction_count": 339,
-      "outlays": 18058571.48
+      "awards_first_obligated": 268,
+      "outlays_to_date_of_awards_first_obligated": 15501928.25
     },
     {
       "month": "2022-08",
@@ -194,7 +226,8 @@
       "deobligations": -471569.0,
       "net_obligations": 708177.0,
       "transaction_count": 19,
-      "outlays": 1424742.23
+      "awards_first_obligated": 10,
+      "outlays_to_date_of_awards_first_obligated": 686432.63
     },
     {
       "month": "2022-09",
@@ -202,7 +235,8 @@
       "deobligations": -1967349.11,
       "net_obligations": 13309846.89,
       "transaction_count": 274,
-      "outlays": 12588000.46
+      "awards_first_obligated": 183,
+      "outlays_to_date_of_awards_first_obligated": 9740296.27
     },
     {
       "month": "2022-10",
@@ -210,7 +244,8 @@
       "deobligations": 0.0,
       "net_obligations": 0.0,
       "transaction_count": 5,
-      "outlays": 25116.1
+      "awards_first_obligated": 0,
+      "outlays_to_date_of_awards_first_obligated": 0.0
     },
     {
       "month": "2022-12",
@@ -218,7 +253,8 @@
       "deobligations": 0.0,
       "net_obligations": 0.0,
       "transaction_count": 12,
-      "outlays": 15178.5
+      "awards_first_obligated": 0,
+      "outlays_to_date_of_awards_first_obligated": 0.0
     },
     {
       "month": "2023-01",
@@ -226,7 +262,8 @@
       "deobligations": 0.0,
       "net_obligations": 5702621.0,
       "transaction_count": 4,
-      "outlays": 727451.0
+      "awards_first_obligated": 4,
+      "outlays_to_date_of_awards_first_obligated": 727451.0
     },
     {
       "month": "2023-02",
@@ -234,7 +271,8 @@
       "deobligations": 0.0,
       "net_obligations": 1960592.0,
       "transaction_count": 2,
-      "outlays": 1208982.48
+      "awards_first_obligated": 1,
+      "outlays_to_date_of_awards_first_obligated": 1186482.48
     },
     {
       "month": "2023-03",
@@ -242,7 +280,8 @@
       "deobligations": -104837.99,
       "net_obligations": 1781162.01,
       "transaction_count": 27,
-      "outlays": 1354196.14
+      "awards_first_obligated": 23,
+      "outlays_to_date_of_awards_first_obligated": 1159034.13
     },
     {
       "month": "2023-04",
@@ -250,7 +289,8 @@
       "deobligations": -366812.2,
       "net_obligations": 1559556.8,
       "transaction_count": 62,
-      "outlays": 1346473.0
+      "awards_first_obligated": 56,
+      "outlays_to_date_of_awards_first_obligated": 1288855.2
     },
     {
       "month": "2023-05",
@@ -258,15 +298,17 @@
       "deobligations": -223292.48,
       "net_obligations": 11114141.52,
       "transaction_count": 421,
-      "outlays": 10431919.1
+      "awards_first_obligated": 374,
+      "outlays_to_date_of_awards_first_obligated": 9609442.58
     },
     {
       "month": "2023-06",
       "obligations": 32721176.0,
       "deobligations": -2330176.18,
       "net_obligations": 30390999.82,
-      "transaction_count": 315,
-      "outlays": 22908671.57
+      "transaction_count": 316,
+      "awards_first_obligated": 266,
+      "outlays_to_date_of_awards_first_obligated": 19253485.75
     },
     {
       "month": "2023-07",
@@ -274,7 +316,8 @@
       "deobligations": -1745025.29,
       "net_obligations": 46053527.71,
       "transaction_count": 386,
-      "outlays": 38148995.6
+      "awards_first_obligated": 334,
+      "outlays_to_date_of_awards_first_obligated": 32601270.89
     },
     {
       "month": "2023-08",
@@ -282,7 +325,8 @@
       "deobligations": -2648836.2,
       "net_obligations": 103841182.8,
       "transaction_count": 857,
-      "outlays": 73791434.0
+      "awards_first_obligated": 767,
+      "outlays_to_date_of_awards_first_obligated": 65261917.2
     },
     {
       "month": "2023-09",
@@ -290,7 +334,8 @@
       "deobligations": -6282798.87,
       "net_obligations": 247822772.33,
       "transaction_count": 1397,
-      "outlays": 97079600.5
+      "awards_first_obligated": 1258,
+      "outlays_to_date_of_awards_first_obligated": 86373759.02
     },
     {
       "month": "2023-11",
@@ -298,7 +343,8 @@
       "deobligations": -195888.34,
       "net_obligations": 20487671.66,
       "transaction_count": 139,
-      "outlays": 15608871.32
+      "awards_first_obligated": 126,
+      "outlays_to_date_of_awards_first_obligated": 14327863.66
     },
     {
       "month": "2023-12",
@@ -306,7 +352,8 @@
       "deobligations": -4151280.73,
       "net_obligations": 63720392.27,
       "transaction_count": 538,
-      "outlays": 43829209.68
+      "awards_first_obligated": 459,
+      "outlays_to_date_of_awards_first_obligated": 36753453.35
     },
     {
       "month": "2024-01",
@@ -314,7 +361,8 @@
       "deobligations": -918548.93,
       "net_obligations": 27485425.07,
       "transaction_count": 196,
-      "outlays": 16452415.14
+      "awards_first_obligated": 162,
+      "outlays_to_date_of_awards_first_obligated": 15068585.07
     },
     {
       "month": "2024-02",
@@ -322,7 +370,8 @@
       "deobligations": -937270.03,
       "net_obligations": 43999440.97,
       "transaction_count": 317,
-      "outlays": 26230002.66
+      "awards_first_obligated": 283,
+      "outlays_to_date_of_awards_first_obligated": 22412266.69
     },
     {
       "month": "2024-03",
@@ -330,7 +379,8 @@
       "deobligations": -1370553.32,
       "net_obligations": 65768923.68,
       "transaction_count": 409,
-      "outlays": 43661485.48
+      "awards_first_obligated": 369,
+      "outlays_to_date_of_awards_first_obligated": 40082774.04
     },
     {
       "month": "2024-04",
@@ -338,7 +388,8 @@
       "deobligations": -304147.77,
       "net_obligations": 28799765.63,
       "transaction_count": 226,
-      "outlays": 16172275.16
+      "awards_first_obligated": 200,
+      "outlays_to_date_of_awards_first_obligated": 15084654.93
     },
     {
       "month": "2024-05",
@@ -346,7 +397,8 @@
       "deobligations": -365813.37,
       "net_obligations": 39211786.71,
       "transaction_count": 366,
-      "outlays": 16617232.62
+      "awards_first_obligated": 331,
+      "outlays_to_date_of_awards_first_obligated": 15793333.2
     },
     {
       "month": "2024-06",
@@ -354,7 +406,8 @@
       "deobligations": -345486.24,
       "net_obligations": 45859637.76,
       "transaction_count": 364,
-      "outlays": 14793128.62
+      "awards_first_obligated": 345,
+      "outlays_to_date_of_awards_first_obligated": 13385859.86
     },
     {
       "month": "2024-07",
@@ -362,7 +415,8 @@
       "deobligations": -1237689.88,
       "net_obligations": 38984179.12,
       "transaction_count": 208,
-      "outlays": 14167690.68
+      "awards_first_obligated": 189,
+      "outlays_to_date_of_awards_first_obligated": 12673786.56
     },
     {
       "month": "2024-08",
@@ -370,7 +424,8 @@
       "deobligations": -570626.0,
       "net_obligations": 51689175.0,
       "transaction_count": 292,
-      "outlays": 18149886.69
+      "awards_first_obligated": 272,
+      "outlays_to_date_of_awards_first_obligated": 17531996.69
     },
     {
       "month": "2024-09",
@@ -378,7 +433,8 @@
       "deobligations": -2337704.53,
       "net_obligations": 285275415.47,
       "transaction_count": 1782,
-      "outlays": 73146204.01
+      "awards_first_obligated": 1701,
+      "outlays_to_date_of_awards_first_obligated": 67709067.54
     },
     {
       "month": "2024-10",
@@ -386,7 +442,8 @@
       "deobligations": 0.0,
       "net_obligations": 835054.0,
       "transaction_count": 3,
-      "outlays": 0.0
+      "awards_first_obligated": 3,
+      "outlays_to_date_of_awards_first_obligated": 0.0
     },
     {
       "month": "2024-11",
@@ -394,7 +451,8 @@
       "deobligations": -4690.0,
       "net_obligations": 24928115.0,
       "transaction_count": 134,
-      "outlays": 3789528.93
+      "awards_first_obligated": 131,
+      "outlays_to_date_of_awards_first_obligated": 3759828.93
     },
     {
       "month": "2024-12",
@@ -402,7 +460,8 @@
       "deobligations": -705691.57,
       "net_obligations": 144064106.43,
       "transaction_count": 866,
-      "outlays": 5385028.76
+      "awards_first_obligated": 839,
+      "outlays_to_date_of_awards_first_obligated": 4697192.33
     },
     {
       "month": "2025-01",
@@ -410,7 +469,8 @@
       "deobligations": -431642.0,
       "net_obligations": 166380458.81,
       "transaction_count": 944,
-      "outlays": 15468200.62
+      "awards_first_obligated": 931,
+      "outlays_to_date_of_awards_first_obligated": 15270236.62
     },
     {
       "month": "2025-02",
@@ -418,7 +478,8 @@
       "deobligations": 0.0,
       "net_obligations": 39999.0,
       "transaction_count": 2,
-      "outlays": 0.0
+      "awards_first_obligated": 2,
+      "outlays_to_date_of_awards_first_obligated": 0.0
     },
     {
       "month": "2025-03",
@@ -426,7 +487,8 @@
       "deobligations": 0.0,
       "net_obligations": 8620791.0,
       "transaction_count": 37,
-      "outlays": 0.0
+      "awards_first_obligated": 37,
+      "outlays_to_date_of_awards_first_obligated": 0.0
     },
     {
       "month": "2025-04",
@@ -434,7 +496,8 @@
       "deobligations": 0.0,
       "net_obligations": 2313302.0,
       "transaction_count": 27,
-      "outlays": 5938.0
+      "awards_first_obligated": 27,
+      "outlays_to_date_of_awards_first_obligated": 5938.0
     },
     {
       "month": "2025-05",
@@ -442,7 +505,8 @@
       "deobligations": 0.0,
       "net_obligations": 3990586.0,
       "transaction_count": 62,
-      "outlays": 0.0
+      "awards_first_obligated": 61,
+      "outlays_to_date_of_awards_first_obligated": 0.0
     },
     {
       "month": "2025-06",
@@ -450,7 +514,8 @@
       "deobligations": 0.0,
       "net_obligations": 2889453.0,
       "transaction_count": 95,
-      "outlays": 0.0
+      "awards_first_obligated": 84,
+      "outlays_to_date_of_awards_first_obligated": 0.0
     }
   ],
   "state_data": [
@@ -460,7 +525,7 @@
       "deobligations": -67932.85,
       "net_obligations": 8710233.15,
       "unique_awards": 102,
-      "outlays": 3640728.57
+      "outlays": 3228048.42
     },
     {
       "recipient_state_code": "AL",
@@ -468,7 +533,7 @@
       "deobligations": -414219.85,
       "net_obligations": 13456549.15,
       "unique_awards": 91,
-      "outlays": 7720069.67
+      "outlays": 6956653.52
     },
     {
       "recipient_state_code": "AR",
@@ -476,7 +541,7 @@
       "deobligations": -673671.35,
       "net_obligations": 19576963.65,
       "unique_awards": 138,
-      "outlays": 8391161.36
+      "outlays": 7471147.71
     },
     {
       "recipient_state_code": "AZ",
@@ -484,7 +549,7 @@
       "deobligations": -388913.84,
       "net_obligations": 19772467.16,
       "unique_awards": 114,
-      "outlays": 4861341.12
+      "outlays": 4847986.96
     },
     {
       "recipient_state_code": "CA",
@@ -492,7 +557,7 @@
       "deobligations": -1951057.68,
       "net_obligations": 66004763.32,
       "unique_awards": 268,
-      "outlays": 27967454.52
+      "outlays": 22930369.2
     },
     {
       "recipient_state_code": "CO",
@@ -500,7 +565,7 @@
       "deobligations": -300007.0,
       "net_obligations": 19575584.0,
       "unique_awards": 138,
-      "outlays": 7154367.01
+      "outlays": 6510342.01
     },
     {
       "recipient_state_code": "CT",
@@ -508,7 +573,7 @@
       "deobligations": -13019.0,
       "net_obligations": 11390727.0,
       "unique_awards": 86,
-      "outlays": 3756856.88
+      "outlays": 2987244.8
     },
     {
       "recipient_state_code": "DC",
@@ -516,7 +581,7 @@
       "deobligations": 0.0,
       "net_obligations": 20000.0,
       "unique_awards": 3,
-      "outlays": 588000.0
+      "outlays": 196000.0
     },
     {
       "recipient_state_code": "DE",
@@ -524,7 +589,7 @@
       "deobligations": -54865.0,
       "net_obligations": 11455729.0,
       "unique_awards": 70,
-      "outlays": 4486881.0
+      "outlays": 4156052.0
     },
     {
       "recipient_state_code": "FL",
@@ -532,7 +597,7 @@
       "deobligations": -1296783.96,
       "net_obligations": 32076935.04,
       "unique_awards": 128,
-      "outlays": 5306957.54
+      "outlays": 4769633.5
     },
     {
       "recipient_state_code": "GA",
@@ -540,7 +605,7 @@
       "deobligations": -3166316.86,
       "net_obligations": 64861546.14,
       "unique_awards": 379,
-      "outlays": 31687886.03
+      "outlays": 28194594.89
     },
     {
       "recipient_state_code": "GU",
@@ -556,7 +621,7 @@
       "deobligations": -75428.23,
       "net_obligations": 6740794.85,
       "unique_awards": 41,
-      "outlays": 3185325.81
+      "outlays": 3157033.04
     },
     {
       "recipient_state_code": "IA",
@@ -564,7 +629,7 @@
       "deobligations": -1166589.28,
       "net_obligations": 84995614.72,
       "unique_awards": 985,
-      "outlays": 49543190.98
+      "outlays": 44433817.66
     },
     {
       "recipient_state_code": "ID",
@@ -572,7 +637,7 @@
       "deobligations": -106685.0,
       "net_obligations": 27190563.0,
       "unique_awards": 142,
-      "outlays": 5550788.0
+      "outlays": 4704985.0
     },
     {
       "recipient_state_code": "IL",
@@ -580,7 +645,7 @@
       "deobligations": -732038.0,
       "net_obligations": 140232818.0,
       "unique_awards": 1026,
-      "outlays": 43186826.64
+      "outlays": 41086394.44
     },
     {
       "recipient_state_code": "IN",
@@ -588,7 +653,7 @@
       "deobligations": -847640.0,
       "net_obligations": 46210238.0,
       "unique_awards": 338,
-      "outlays": 27144696.95
+      "outlays": 24162307.95
     },
     {
       "recipient_state_code": "KS",
@@ -596,7 +661,7 @@
       "deobligations": -2182699.53,
       "net_obligations": 28249769.47,
       "unique_awards": 307,
-      "outlays": 12275027.75
+      "outlays": 10810440.28
     },
     {
       "recipient_state_code": "KY",
@@ -604,7 +669,7 @@
       "deobligations": -1043825.73,
       "net_obligations": 30077600.27,
       "unique_awards": 279,
-      "outlays": 11863696.5
+      "outlays": 10625314.73
     },
     {
       "recipient_state_code": "LA",
@@ -612,7 +677,7 @@
       "deobligations": -512552.16,
       "net_obligations": 22431576.84,
       "unique_awards": 140,
-      "outlays": 10561979.0
+      "outlays": 9956820.16
     },
     {
       "recipient_state_code": "MA",
@@ -620,7 +685,7 @@
       "deobligations": -15835.0,
       "net_obligations": 11679957.0,
       "unique_awards": 102,
-      "outlays": 2707670.33
+      "outlays": 2585344.33
     },
     {
       "recipient_state_code": "MD",
@@ -628,7 +693,7 @@
       "deobligations": -1098925.0,
       "net_obligations": 16324030.0,
       "unique_awards": 141,
-      "outlays": 11169730.42
+      "outlays": 9406997.42
     },
     {
       "recipient_state_code": "ME",
@@ -636,7 +701,7 @@
       "deobligations": -1001190.0,
       "net_obligations": 20532664.0,
       "unique_awards": 276,
-      "outlays": 8650514.99
+      "outlays": 7664620.79
     },
     {
       "recipient_state_code": "MI",
@@ -644,7 +709,7 @@
       "deobligations": -1185889.0,
       "net_obligations": 69717161.0,
       "unique_awards": 379,
-      "outlays": 28560586.3
+      "outlays": 27801104.3
     },
     {
       "recipient_state_code": "MN",
@@ -652,7 +717,7 @@
       "deobligations": -2906585.25,
       "net_obligations": 84479349.75,
       "unique_awards": 993,
-      "outlays": 56109621.81
+      "outlays": 49333630.06
     },
     {
       "recipient_state_code": "MO",
@@ -660,7 +725,7 @@
       "deobligations": -1805717.12,
       "net_obligations": 41967242.88,
       "unique_awards": 570,
-      "outlays": 30496655.65
+      "outlays": 26124808.36
     },
     {
       "recipient_state_code": "MS",
@@ -668,7 +733,7 @@
       "deobligations": -162798.0,
       "net_obligations": 33150160.0,
       "unique_awards": 159,
-      "outlays": 10004465.23
+      "outlays": 9966488.23
     },
     {
       "recipient_state_code": "MT",
@@ -676,15 +741,15 @@
       "deobligations": -102988.63,
       "net_obligations": 7072803.37,
       "unique_awards": 138,
-      "outlays": 3151559.01
+      "outlays": 2960623.64
     },
     {
       "recipient_state_code": "NC",
       "obligations": 33508406.0,
       "deobligations": -1307082.74,
       "net_obligations": 32201323.26,
-      "unique_awards": 263,
-      "outlays": 21467033.87
+      "unique_awards": 264,
+      "outlays": 17238440.65
     },
     {
       "recipient_state_code": "ND",
@@ -692,7 +757,7 @@
       "deobligations": -484546.0,
       "net_obligations": 17595396.0,
       "unique_awards": 115,
-      "outlays": 11064960.0
+      "outlays": 8022259.0
     },
     {
       "recipient_state_code": "NE",
@@ -700,7 +765,7 @@
       "deobligations": -686052.72,
       "net_obligations": 29677553.28,
       "unique_awards": 426,
-      "outlays": 8118037.67
+      "outlays": 7153179.72
     },
     {
       "recipient_state_code": "NH",
@@ -708,7 +773,7 @@
       "deobligations": -661168.0,
       "net_obligations": 24208874.0,
       "unique_awards": 158,
-      "outlays": 6977938.59
+      "outlays": 6304091.59
     },
     {
       "recipient_state_code": "NJ",
@@ -716,7 +781,7 @@
       "deobligations": -150626.5,
       "net_obligations": 17786925.5,
       "unique_awards": 75,
-      "outlays": 3412634.98
+      "outlays": 3331126.48
     },
     {
       "recipient_state_code": "NM",
@@ -724,7 +789,7 @@
       "deobligations": -169456.0,
       "net_obligations": 11945495.0,
       "unique_awards": 81,
-      "outlays": 3177957.58
+      "outlays": 3047947.58
     },
     {
       "recipient_state_code": "NV",
@@ -732,7 +797,7 @@
       "deobligations": -1332927.0,
       "net_obligations": 5704648.31,
       "unique_awards": 25,
-      "outlays": 850965.96
+      "outlays": 849465.96
     },
     {
       "recipient_state_code": "NY",
@@ -740,7 +805,7 @@
       "deobligations": -1365764.06,
       "net_obligations": 48872698.94,
       "unique_awards": 307,
-      "outlays": 18369270.77
+      "outlays": 16489153.68
     },
     {
       "recipient_state_code": "OH",
@@ -748,7 +813,7 @@
       "deobligations": -272169.59,
       "net_obligations": 62189147.31,
       "unique_awards": 441,
-      "outlays": 28674665.29
+      "outlays": 28347595.88
     },
     {
       "recipient_state_code": "OK",
@@ -756,7 +821,7 @@
       "deobligations": -1035844.87,
       "net_obligations": 24005155.13,
       "unique_awards": 162,
-      "outlays": 12873174.56
+      "outlays": 11091322.5
     },
     {
       "recipient_state_code": "OR",
@@ -764,7 +829,7 @@
       "deobligations": -783731.63,
       "net_obligations": 28635042.37,
       "unique_awards": 197,
-      "outlays": 15433340.86
+      "outlays": 11039543.26
     },
     {
       "recipient_state_code": "PA",
@@ -772,7 +837,7 @@
       "deobligations": -1970330.25,
       "net_obligations": 98103714.75,
       "unique_awards": 596,
-      "outlays": 38074392.91
+      "outlays": 34676140.16
     },
     {
       "recipient_state_code": "PR",
@@ -780,7 +845,7 @@
       "deobligations": -391782.0,
       "net_obligations": 19789523.0,
       "unique_awards": 128,
-      "outlays": 1469476.0
+      "outlays": 1436868.0
     },
     {
       "recipient_state_code": "RI",
@@ -788,7 +853,7 @@
       "deobligations": -27704.11,
       "net_obligations": 1653692.89,
       "unique_awards": 25,
-      "outlays": 721860.78
+      "outlays": 697146.89
     },
     {
       "recipient_state_code": "SC",
@@ -796,7 +861,7 @@
       "deobligations": -553604.89,
       "net_obligations": 13436468.11,
       "unique_awards": 94,
-      "outlays": 6512401.86
+      "outlays": 5188739.86
     },
     {
       "recipient_state_code": "SD",
@@ -804,7 +869,7 @@
       "deobligations": -11836.0,
       "net_obligations": 18427075.0,
       "unique_awards": 120,
-      "outlays": 8388410.24
+      "outlays": 8079634.24
     },
     {
       "recipient_state_code": "TN",
@@ -812,7 +877,7 @@
       "deobligations": -863404.16,
       "net_obligations": 20319404.84,
       "unique_awards": 151,
-      "outlays": 10141650.74
+      "outlays": 8887868.9
     },
     {
       "recipient_state_code": "TX",
@@ -820,7 +885,7 @@
       "deobligations": -764014.09,
       "net_obligations": 51285835.11,
       "unique_awards": 220,
-      "outlays": 15854328.75
+      "outlays": 15279932.84
     },
     {
       "recipient_state_code": "UT",
@@ -828,7 +893,7 @@
       "deobligations": -587721.5,
       "net_obligations": 19677513.5,
       "unique_awards": 112,
-      "outlays": 6616393.66
+      "outlays": 6429000.16
     },
     {
       "recipient_state_code": "VA",
@@ -836,7 +901,7 @@
       "deobligations": -443663.51,
       "net_obligations": 15709526.49,
       "unique_awards": 127,
-      "outlays": 3554771.4
+      "outlays": 2587514.41
     },
     {
       "recipient_state_code": "VI",
@@ -852,7 +917,7 @@
       "deobligations": -451996.0,
       "net_obligations": 17875850.0,
       "unique_awards": 105,
-      "outlays": 4560786.36
+      "outlays": 4300774.68
     },
     {
       "recipient_state_code": "WA",
@@ -860,7 +925,7 @@
       "deobligations": -927727.43,
       "net_obligations": 28619073.57,
       "unique_awards": 285,
-      "outlays": 13009131.93
+      "outlays": 10732678.36
     },
     {
       "recipient_state_code": "WI",
@@ -868,7 +933,7 @@
       "deobligations": -1754760.91,
       "net_obligations": 30662638.09,
       "unique_awards": 371,
-      "outlays": 14364636.03
+      "outlays": 12390498.94
     },
     {
       "recipient_state_code": "WV",
@@ -876,7 +941,7 @@
       "deobligations": -515284.87,
       "net_obligations": 17078335.13,
       "unique_awards": 179,
-      "outlays": 9424091.0
+      "outlays": 7423196.87
     },
     {
       "recipient_state_code": "WY",
@@ -884,7 +949,7 @@
       "deobligations": -715201.2,
       "net_obligations": 3290532.8,
       "unique_awards": 60,
-      "outlays": 896979.72
+      "outlays": 723295.86
     }
   ],
   "top_recipients": [
@@ -1072,38 +1137,58 @@
   "year_comparison": [
     {
       "fiscal_year": 2021,
-      "unique_awards": 1200,
-      "total_obligations": 34131484.84,
-      "total_outlays": 59961230.75,
-      "outlay_rate": 175.7
+      "obligations": 41062866.0,
+      "deobligations": -6931381.16,
+      "net_obligations": 34131484.84,
+      "awards_with_transactions": 1200,
+      "awards_first_obligated": 1076,
+      "cohort_net_obligations": 34466479.92,
+      "cohort_outlays_to_date": 32874525.66,
+      "cohort_outlay_rate": 95.38
     },
     {
       "fiscal_year": 2022,
-      "unique_awards": 1429,
-      "total_obligations": 49450537.73,
-      "total_outlays": 53609788.47,
-      "outlay_rate": 108.4
+      "obligations": 56667918.0,
+      "deobligations": -7217380.27,
+      "net_obligations": 49450537.73,
+      "awards_with_transactions": 1429,
+      "awards_first_obligated": 1345,
+      "cohort_net_obligations": 49488879.12,
+      "cohort_outlays_to_date": 42551519.38,
+      "cohort_outlay_rate": 85.98
     },
     {
       "fiscal_year": 2023,
-      "unique_awards": 3114,
-      "total_obligations": 450226555.99,
-      "total_outlays": 247038017.99,
-      "outlay_rate": 54.9
+      "obligations": 463928335.2,
+      "deobligations": -13701779.21,
+      "net_obligations": 450226555.99,
+      "awards_with_transactions": 3115,
+      "awards_first_obligated": 3083,
+      "cohort_net_obligations": 450272845.7,
+      "cohort_outlays_to_date": 217461698.25,
+      "cohort_outlay_rate": 48.3
     },
     {
       "fiscal_year": 2024,
-      "unique_awards": 4488,
-      "total_obligations": 711281813.34,
-      "total_outlays": 298828402.06,
-      "outlay_rate": 42.0
+      "obligations": 724016822.48,
+      "deobligations": -12735009.14,
+      "net_obligations": 711281813.34,
+      "awards_with_transactions": 4488,
+      "awards_first_obligated": 4437,
+      "cohort_net_obligations": 711282113.34,
+      "cohort_outlays_to_date": 270823641.59,
+      "cohort_outlay_rate": 38.08
     },
     {
       "fiscal_year": 2025,
-      "unique_awards": 2131,
-      "total_obligations": 354061865.24,
-      "total_outlays": 24648696.31,
-      "outlay_rate": 7.0
+      "obligations": 355203888.81,
+      "deobligations": -1142023.57,
+      "net_obligations": 354061865.24,
+      "awards_with_transactions": 2131,
+      "awards_first_obligated": 2115,
+      "cohort_net_obligations": 354061865.24,
+      "cohort_outlays_to_date": 23733195.88,
+      "cohort_outlay_rate": 6.7
     }
   ],
   "cyclical_data": [
@@ -1112,546 +1197,708 @@
       "fiscal_month_num": 1,
       "fiscal_month_name": "Oct",
       "monthly_obligations": 0.0,
-      "monthly_outlays": 3884896.4,
       "cumulative_obligations": 0.0,
-      "cumulative_outlays": 3884896.4,
-      "outlay_rate": 0.0
+      "awards_first_obligated": 0,
+      "cohort_net_obligations": 0.0,
+      "cohort_outlays_to_date": 0.0,
+      "cumulative_cohort_net_obligations": 0.0,
+      "cumulative_cohort_outlays_to_date": 0.0,
+      "cohort_outlay_rate": 0.0
     },
     {
       "fiscal_year": 2021,
       "fiscal_month_num": 2,
       "fiscal_month_name": "Nov",
       "monthly_obligations": 0.0,
-      "monthly_outlays": 550760.0,
       "cumulative_obligations": 0.0,
-      "cumulative_outlays": 4435656.4,
-      "outlay_rate": 0.0
+      "awards_first_obligated": 0,
+      "cohort_net_obligations": 0.0,
+      "cohort_outlays_to_date": 0.0,
+      "cumulative_cohort_net_obligations": 0.0,
+      "cumulative_cohort_outlays_to_date": 0.0,
+      "cohort_outlay_rate": 0.0
     },
     {
       "fiscal_year": 2021,
       "fiscal_month_num": 3,
       "fiscal_month_name": "Dec",
       "monthly_obligations": 0.0,
-      "monthly_outlays": 0.0,
       "cumulative_obligations": 0.0,
-      "cumulative_outlays": 4435656.4,
-      "outlay_rate": 0.0
+      "awards_first_obligated": 0,
+      "cohort_net_obligations": 0.0,
+      "cohort_outlays_to_date": 0.0,
+      "cumulative_cohort_net_obligations": 0.0,
+      "cumulative_cohort_outlays_to_date": 0.0,
+      "cohort_outlay_rate": 0.0
     },
     {
       "fiscal_year": 2021,
       "fiscal_month_num": 4,
       "fiscal_month_name": "Jan",
       "monthly_obligations": 0.0,
-      "monthly_outlays": 1109905.88,
       "cumulative_obligations": 0.0,
-      "cumulative_outlays": 5545562.28,
-      "outlay_rate": 0.0
+      "awards_first_obligated": 0,
+      "cohort_net_obligations": 0.0,
+      "cohort_outlays_to_date": 0.0,
+      "cumulative_cohort_net_obligations": 0.0,
+      "cumulative_cohort_outlays_to_date": 0.0,
+      "cohort_outlay_rate": 0.0
     },
     {
       "fiscal_year": 2021,
       "fiscal_month_num": 5,
       "fiscal_month_name": "Feb",
       "monthly_obligations": 268335.0,
-      "monthly_outlays": 2052399.2,
       "cumulative_obligations": 268335.0,
-      "cumulative_outlays": 7597961.48,
-      "outlay_rate": 2831.5
+      "awards_first_obligated": 18,
+      "cohort_net_obligations": 268335.0,
+      "cohort_outlays_to_date": 274383.0,
+      "cumulative_cohort_net_obligations": 268335.0,
+      "cumulative_cohort_outlays_to_date": 274383.0,
+      "cohort_outlay_rate": 102.3
     },
     {
       "fiscal_year": 2021,
       "fiscal_month_num": 6,
       "fiscal_month_name": "Mar",
       "monthly_obligations": 2882717.65,
-      "monthly_outlays": 9477220.27,
       "cumulative_obligations": 3151052.65,
-      "cumulative_outlays": 17075181.75,
-      "outlay_rate": 541.9
+      "awards_first_obligated": 136,
+      "cohort_net_obligations": 2882717.65,
+      "cohort_outlays_to_date": 2886357.62,
+      "cumulative_cohort_net_obligations": 3151052.65,
+      "cumulative_cohort_outlays_to_date": 3160740.62,
+      "cohort_outlay_rate": 100.3
     },
     {
       "fiscal_year": 2021,
       "fiscal_month_num": 7,
       "fiscal_month_name": "Apr",
       "monthly_obligations": 741113.2,
-      "monthly_outlays": 2193927.4,
       "cumulative_obligations": 3892165.8499999996,
-      "cumulative_outlays": 19269109.15,
-      "outlay_rate": 495.1
+      "awards_first_obligated": 64,
+      "cohort_net_obligations": 742223.2,
+      "cohort_outlays_to_date": 761296.2,
+      "cumulative_cohort_net_obligations": 3893275.8499999996,
+      "cumulative_cohort_outlays_to_date": 3922036.8200000003,
+      "cohort_outlay_rate": 100.7
     },
     {
       "fiscal_year": 2021,
       "fiscal_month_num": 8,
       "fiscal_month_name": "May",
       "monthly_obligations": 4444448.4,
-      "monthly_outlays": 6000216.24,
       "cumulative_obligations": 8336614.25,
-      "cumulative_outlays": 25269325.39,
-      "outlay_rate": 303.1
+      "awards_first_obligated": 344,
+      "cohort_net_obligations": 4465433.4,
+      "cohort_outlays_to_date": 4411079.84,
+      "cumulative_cohort_net_obligations": 8358709.25,
+      "cumulative_cohort_outlays_to_date": 8333116.66,
+      "cohort_outlay_rate": 99.7
     },
     {
       "fiscal_year": 2021,
       "fiscal_month_num": 9,
       "fiscal_month_name": "Jun",
       "monthly_obligations": -261888.33,
-      "monthly_outlays": 448366.67,
       "cumulative_obligations": 8074725.92,
-      "cumulative_outlays": 25717692.060000002,
-      "outlay_rate": 318.5
+      "awards_first_obligated": 0,
+      "cohort_net_obligations": 0.0,
+      "cohort_outlays_to_date": 0.0,
+      "cumulative_cohort_net_obligations": 8358709.25,
+      "cumulative_cohort_outlays_to_date": 8333116.66,
+      "cohort_outlay_rate": 99.7
     },
     {
       "fiscal_year": 2021,
       "fiscal_month_num": 10,
       "fiscal_month_name": "Jul",
       "monthly_obligations": 21474734.92,
-      "monthly_outlays": 22670652.4,
       "cumulative_obligations": 29549460.840000004,
-      "cumulative_outlays": 48388344.46,
-      "outlay_rate": 163.8
+      "awards_first_obligated": 450,
+      "cohort_net_obligations": 21476308.67,
+      "cohort_outlays_to_date": 20271616.0,
+      "cumulative_cohort_net_obligations": 29835017.92,
+      "cumulative_cohort_outlays_to_date": 28604732.66,
+      "cohort_outlay_rate": 95.9
     },
     {
       "fiscal_year": 2021,
       "fiscal_month_num": 11,
       "fiscal_month_name": "Aug",
       "monthly_obligations": 371461.0,
-      "monthly_outlays": 1942262.29,
       "cumulative_obligations": 29920921.840000004,
-      "cumulative_outlays": 50330606.75,
-      "outlay_rate": 168.2
+      "awards_first_obligated": 8,
+      "cohort_net_obligations": 420899.0,
+      "cohort_outlays_to_date": 420899.0,
+      "cumulative_cohort_net_obligations": 30255916.92,
+      "cumulative_cohort_outlays_to_date": 29025631.66,
+      "cohort_outlay_rate": 95.9
     },
     {
       "fiscal_year": 2021,
       "fiscal_month_num": 12,
       "fiscal_month_name": "Sep",
       "monthly_obligations": 4210563.0,
-      "monthly_outlays": 9630624.0,
       "cumulative_obligations": 34131484.84,
-      "cumulative_outlays": 59961230.75,
-      "outlay_rate": 175.7
+      "awards_first_obligated": 56,
+      "cohort_net_obligations": 4210563.0,
+      "cohort_outlays_to_date": 3848894.0,
+      "cumulative_cohort_net_obligations": 34466479.92,
+      "cumulative_cohort_outlays_to_date": 32874525.66,
+      "cohort_outlay_rate": 95.4
     },
     {
       "fiscal_year": 2022,
       "fiscal_month_num": 2,
       "fiscal_month_name": "Nov",
       "monthly_obligations": 0.0,
-      "monthly_outlays": 87565.02,
       "cumulative_obligations": 0.0,
-      "cumulative_outlays": 87565.02,
-      "outlay_rate": 0.0
+      "awards_first_obligated": 0,
+      "cohort_net_obligations": 0.0,
+      "cohort_outlays_to_date": 0.0,
+      "cumulative_cohort_net_obligations": 0.0,
+      "cumulative_cohort_outlays_to_date": 0.0,
+      "cohort_outlay_rate": 0.0
     },
     {
       "fiscal_year": 2022,
       "fiscal_month_num": 3,
       "fiscal_month_name": "Dec",
       "monthly_obligations": 0.0,
-      "monthly_outlays": 297738.0,
       "cumulative_obligations": 0.0,
-      "cumulative_outlays": 385303.02,
-      "outlay_rate": 0.0
+      "awards_first_obligated": 0,
+      "cohort_net_obligations": 0.0,
+      "cohort_outlays_to_date": 0.0,
+      "cumulative_cohort_net_obligations": 0.0,
+      "cumulative_cohort_outlays_to_date": 0.0,
+      "cohort_outlay_rate": 0.0
     },
     {
       "fiscal_year": 2022,
       "fiscal_month_num": 4,
       "fiscal_month_name": "Jan",
       "monthly_obligations": 0.0,
-      "monthly_outlays": 78120.0,
       "cumulative_obligations": 0.0,
-      "cumulative_outlays": 463423.02,
-      "outlay_rate": 0.0
+      "awards_first_obligated": 0,
+      "cohort_net_obligations": 0.0,
+      "cohort_outlays_to_date": 0.0,
+      "cumulative_cohort_net_obligations": 0.0,
+      "cumulative_cohort_outlays_to_date": 0.0,
+      "cohort_outlay_rate": 0.0
     },
     {
       "fiscal_year": 2022,
       "fiscal_month_num": 5,
       "fiscal_month_name": "Feb",
       "monthly_obligations": 804260.87,
-      "monthly_outlays": 978256.22,
       "cumulative_obligations": 804260.87,
-      "cumulative_outlays": 1441679.24,
-      "outlay_rate": 179.3
+      "awards_first_obligated": 64,
+      "cohort_net_obligations": 804260.87,
+      "cohort_outlays_to_date": 783236.87,
+      "cumulative_cohort_net_obligations": 804260.87,
+      "cumulative_cohort_outlays_to_date": 783236.87,
+      "cohort_outlay_rate": 97.4
     },
     {
       "fiscal_year": 2022,
       "fiscal_month_num": 6,
       "fiscal_month_name": "Mar",
       "monthly_obligations": 2907511.92,
-      "monthly_outlays": 4290389.52,
       "cumulative_obligations": 3711772.79,
-      "cumulative_outlays": 5732068.76,
-      "outlay_rate": 154.4
+      "awards_first_obligated": 100,
+      "cohort_net_obligations": 2907511.92,
+      "cohort_outlays_to_date": 2511728.04,
+      "cumulative_cohort_net_obligations": 3711772.79,
+      "cumulative_cohort_outlays_to_date": 3294964.91,
+      "cohort_outlay_rate": 88.8
     },
     {
       "fiscal_year": 2022,
       "fiscal_month_num": 7,
       "fiscal_month_name": "Apr",
       "monthly_obligations": 432881.0,
-      "monthly_outlays": 839641.0,
       "cumulative_obligations": 4144653.79,
-      "cumulative_outlays": 6571709.76,
-      "outlay_rate": 158.6
+      "awards_first_obligated": 37,
+      "cohort_net_obligations": 432881.0,
+      "cohort_outlays_to_date": 332713.0,
+      "cumulative_cohort_net_obligations": 4144653.79,
+      "cumulative_cohort_outlays_to_date": 3627677.91,
+      "cohort_outlay_rate": 87.5
     },
     {
       "fiscal_year": 2022,
       "fiscal_month_num": 8,
       "fiscal_month_name": "May",
       "monthly_obligations": 6430152.71,
-      "monthly_outlays": 7022652.24,
       "cumulative_obligations": 10574806.5,
-      "cumulative_outlays": 13594362.0,
-      "outlay_rate": 128.6
+      "awards_first_obligated": 338,
+      "cohort_net_obligations": 6442136.85,
+      "cohort_outlays_to_date": 5985591.13,
+      "cumulative_cohort_net_obligations": 10586790.64,
+      "cumulative_cohort_outlays_to_date": 9613269.04,
+      "cohort_outlay_rate": 90.8
     },
     {
       "fiscal_year": 2022,
       "fiscal_month_num": 9,
       "fiscal_month_name": "Jun",
       "monthly_obligations": 7065089.11,
-      "monthly_outlays": 7944112.3,
       "cumulative_obligations": 17639895.61,
-      "cumulative_outlays": 21538474.3,
-      "outlay_rate": 122.1
+      "awards_first_obligated": 345,
+      "cohort_net_obligations": 7089425.11,
+      "cohort_outlays_to_date": 7009593.19,
+      "cumulative_cohort_net_obligations": 17676215.75,
+      "cumulative_cohort_outlays_to_date": 16622862.23,
+      "cohort_outlay_rate": 94.0
     },
     {
       "fiscal_year": 2022,
       "fiscal_month_num": 10,
       "fiscal_month_name": "Jul",
       "monthly_obligations": 17792618.23,
-      "monthly_outlays": 18058571.48,
       "cumulative_obligations": 35432513.84,
-      "cumulative_outlays": 39597045.78,
-      "outlay_rate": 111.8
+      "awards_first_obligated": 268,
+      "cohort_net_obligations": 17794639.48,
+      "cohort_outlays_to_date": 15501928.25,
+      "cumulative_cohort_net_obligations": 35470855.230000004,
+      "cumulative_cohort_outlays_to_date": 32124790.48,
+      "cohort_outlay_rate": 90.6
     },
     {
       "fiscal_year": 2022,
       "fiscal_month_num": 11,
       "fiscal_month_name": "Aug",
       "monthly_obligations": 708177.0,
-      "monthly_outlays": 1424742.23,
       "cumulative_obligations": 36140690.84,
-      "cumulative_outlays": 41021788.01,
-      "outlay_rate": 113.5
+      "awards_first_obligated": 10,
+      "cohort_net_obligations": 708177.0,
+      "cohort_outlays_to_date": 686432.63,
+      "cumulative_cohort_net_obligations": 36179032.230000004,
+      "cumulative_cohort_outlays_to_date": 32811223.11,
+      "cohort_outlay_rate": 90.7
     },
     {
       "fiscal_year": 2022,
       "fiscal_month_num": 12,
       "fiscal_month_name": "Sep",
       "monthly_obligations": 13309846.89,
-      "monthly_outlays": 12588000.46,
       "cumulative_obligations": 49450537.730000004,
-      "cumulative_outlays": 53609788.47,
-      "outlay_rate": 108.4
+      "awards_first_obligated": 183,
+      "cohort_net_obligations": 13309846.89,
+      "cohort_outlays_to_date": 9740296.27,
+      "cumulative_cohort_net_obligations": 49488879.120000005,
+      "cumulative_cohort_outlays_to_date": 42551519.379999995,
+      "cohort_outlay_rate": 86.0
     },
     {
       "fiscal_year": 2023,
       "fiscal_month_num": 1,
       "fiscal_month_name": "Oct",
       "monthly_obligations": 0.0,
-      "monthly_outlays": 25116.1,
       "cumulative_obligations": 0.0,
-      "cumulative_outlays": 25116.1,
-      "outlay_rate": 0.0
+      "awards_first_obligated": 0,
+      "cohort_net_obligations": 0.0,
+      "cohort_outlays_to_date": 0.0,
+      "cumulative_cohort_net_obligations": 0.0,
+      "cumulative_cohort_outlays_to_date": 0.0,
+      "cohort_outlay_rate": 0.0
     },
     {
       "fiscal_year": 2023,
       "fiscal_month_num": 3,
       "fiscal_month_name": "Dec",
       "monthly_obligations": 0.0,
-      "monthly_outlays": 15178.5,
       "cumulative_obligations": 0.0,
-      "cumulative_outlays": 40294.6,
-      "outlay_rate": 0.0
+      "awards_first_obligated": 0,
+      "cohort_net_obligations": 0.0,
+      "cohort_outlays_to_date": 0.0,
+      "cumulative_cohort_net_obligations": 0.0,
+      "cumulative_cohort_outlays_to_date": 0.0,
+      "cohort_outlay_rate": 0.0
     },
     {
       "fiscal_year": 2023,
       "fiscal_month_num": 4,
       "fiscal_month_name": "Jan",
       "monthly_obligations": 5702621.0,
-      "monthly_outlays": 727451.0,
       "cumulative_obligations": 5702621.0,
-      "cumulative_outlays": 767745.6,
-      "outlay_rate": 13.5
+      "awards_first_obligated": 4,
+      "cohort_net_obligations": 5702621.0,
+      "cohort_outlays_to_date": 727451.0,
+      "cumulative_cohort_net_obligations": 5702621.0,
+      "cumulative_cohort_outlays_to_date": 727451.0,
+      "cohort_outlay_rate": 12.8
     },
     {
       "fiscal_year": 2023,
       "fiscal_month_num": 5,
       "fiscal_month_name": "Feb",
       "monthly_obligations": 1960592.0,
-      "monthly_outlays": 1208982.48,
       "cumulative_obligations": 7663213.0,
-      "cumulative_outlays": 1976728.08,
-      "outlay_rate": 25.8
+      "awards_first_obligated": 1,
+      "cohort_net_obligations": 1960592.0,
+      "cohort_outlays_to_date": 1186482.48,
+      "cumulative_cohort_net_obligations": 7663213.0,
+      "cumulative_cohort_outlays_to_date": 1913933.48,
+      "cohort_outlay_rate": 25.0
     },
     {
       "fiscal_year": 2023,
       "fiscal_month_num": 6,
       "fiscal_month_name": "Mar",
       "monthly_obligations": 1781162.01,
-      "monthly_outlays": 1354196.1400000001,
       "cumulative_obligations": 9444375.01,
-      "cumulative_outlays": 3330924.22,
-      "outlay_rate": 35.3
+      "awards_first_obligated": 23,
+      "cohort_net_obligations": 1781162.01,
+      "cohort_outlays_to_date": 1159034.13,
+      "cumulative_cohort_net_obligations": 9444375.01,
+      "cumulative_cohort_outlays_to_date": 3072967.61,
+      "cohort_outlay_rate": 32.5
     },
     {
       "fiscal_year": 2023,
       "fiscal_month_num": 7,
       "fiscal_month_name": "Apr",
       "monthly_obligations": 1559556.8,
-      "monthly_outlays": 1346473.0,
       "cumulative_obligations": 11003931.81,
-      "cumulative_outlays": 4677397.220000001,
-      "outlay_rate": 42.5
+      "awards_first_obligated": 56,
+      "cohort_net_obligations": 1559556.8,
+      "cohort_outlays_to_date": 1288855.2000000002,
+      "cumulative_cohort_net_obligations": 11003931.81,
+      "cumulative_cohort_outlays_to_date": 4361822.8100000005,
+      "cohort_outlay_rate": 39.6
     },
     {
       "fiscal_year": 2023,
       "fiscal_month_num": 8,
       "fiscal_month_name": "May",
       "monthly_obligations": 11114141.52,
-      "monthly_outlays": 10431919.1,
       "cumulative_obligations": 22118073.33,
-      "cumulative_outlays": 15109316.32,
-      "outlay_rate": 68.3
+      "awards_first_obligated": 374,
+      "cohort_net_obligations": 11125807.1,
+      "cohort_outlays_to_date": 9609442.58,
+      "cumulative_cohort_net_obligations": 22129738.91,
+      "cumulative_cohort_outlays_to_date": 13971265.39,
+      "cohort_outlay_rate": 63.1
     },
     {
       "fiscal_year": 2023,
       "fiscal_month_num": 9,
       "fiscal_month_name": "Jun",
       "monthly_obligations": 30390999.82,
-      "monthly_outlays": 22908671.57,
       "cumulative_obligations": 52509073.15,
-      "cumulative_outlays": 38017987.89,
-      "outlay_rate": 72.4
+      "awards_first_obligated": 266,
+      "cohort_net_obligations": 30390999.82,
+      "cohort_outlays_to_date": 19253485.75,
+      "cumulative_cohort_net_obligations": 52520738.730000004,
+      "cumulative_cohort_outlays_to_date": 33224751.14,
+      "cohort_outlay_rate": 63.3
     },
     {
       "fiscal_year": 2023,
       "fiscal_month_num": 10,
       "fiscal_month_name": "Jul",
       "monthly_obligations": 46053527.71,
-      "monthly_outlays": 38148995.6,
       "cumulative_obligations": 98562600.86,
-      "cumulative_outlays": 76166983.49000001,
-      "outlay_rate": 77.3
+      "awards_first_obligated": 334,
+      "cohort_net_obligations": 46053527.71,
+      "cohort_outlays_to_date": 32601270.89,
+      "cumulative_cohort_net_obligations": 98574266.44,
+      "cumulative_cohort_outlays_to_date": 65826022.03,
+      "cohort_outlay_rate": 66.8
     },
     {
       "fiscal_year": 2023,
       "fiscal_month_num": 11,
       "fiscal_month_name": "Aug",
       "monthly_obligations": 103841182.8,
-      "monthly_outlays": 73791434.0,
       "cumulative_obligations": 202403783.66,
-      "cumulative_outlays": 149958417.49,
-      "outlay_rate": 74.1
+      "awards_first_obligated": 767,
+      "cohort_net_obligations": 103841182.8,
+      "cohort_outlays_to_date": 65261917.2,
+      "cumulative_cohort_net_obligations": 202415449.24,
+      "cumulative_cohort_outlays_to_date": 131087939.23,
+      "cohort_outlay_rate": 64.8
     },
     {
       "fiscal_year": 2023,
       "fiscal_month_num": 12,
       "fiscal_month_name": "Sep",
       "monthly_obligations": 247822772.33,
-      "monthly_outlays": 97079600.5,
       "cumulative_obligations": 450226555.99,
-      "cumulative_outlays": 247038017.99,
-      "outlay_rate": 54.9
+      "awards_first_obligated": 1258,
+      "cohort_net_obligations": 247857396.46,
+      "cohort_outlays_to_date": 86373759.02,
+      "cumulative_cohort_net_obligations": 450272845.70000005,
+      "cumulative_cohort_outlays_to_date": 217461698.25,
+      "cohort_outlay_rate": 48.3
     },
     {
       "fiscal_year": 2024,
       "fiscal_month_num": 2,
       "fiscal_month_name": "Nov",
       "monthly_obligations": 20487671.66,
-      "monthly_outlays": 15608871.32,
       "cumulative_obligations": 20487671.66,
-      "cumulative_outlays": 15608871.32,
-      "outlay_rate": 76.2
+      "awards_first_obligated": 126,
+      "cohort_net_obligations": 20487971.66,
+      "cohort_outlays_to_date": 14327863.66,
+      "cumulative_cohort_net_obligations": 20487971.66,
+      "cumulative_cohort_outlays_to_date": 14327863.66,
+      "cohort_outlay_rate": 69.9
     },
     {
       "fiscal_year": 2024,
       "fiscal_month_num": 3,
       "fiscal_month_name": "Dec",
       "monthly_obligations": 63720392.27,
-      "monthly_outlays": 43829209.68,
       "cumulative_obligations": 84208063.93,
-      "cumulative_outlays": 59438081.0,
-      "outlay_rate": 70.6
+      "awards_first_obligated": 459,
+      "cohort_net_obligations": 63720392.27,
+      "cohort_outlays_to_date": 36753453.35,
+      "cumulative_cohort_net_obligations": 84208363.93,
+      "cumulative_cohort_outlays_to_date": 51081317.010000005,
+      "cohort_outlay_rate": 60.7
     },
     {
       "fiscal_year": 2024,
       "fiscal_month_num": 4,
       "fiscal_month_name": "Jan",
       "monthly_obligations": 27485425.07,
-      "monthly_outlays": 16452415.14,
       "cumulative_obligations": 111693489.0,
-      "cumulative_outlays": 75890496.14,
-      "outlay_rate": 67.9
+      "awards_first_obligated": 162,
+      "cohort_net_obligations": 27485425.07,
+      "cohort_outlays_to_date": 15068585.07,
+      "cumulative_cohort_net_obligations": 111693789.0,
+      "cumulative_cohort_outlays_to_date": 66149902.080000006,
+      "cohort_outlay_rate": 59.2
     },
     {
       "fiscal_year": 2024,
       "fiscal_month_num": 5,
       "fiscal_month_name": "Feb",
       "monthly_obligations": 43999440.97,
-      "monthly_outlays": 26230002.66,
       "cumulative_obligations": 155692929.97,
-      "cumulative_outlays": 102120498.8,
-      "outlay_rate": 65.6
+      "awards_first_obligated": 283,
+      "cohort_net_obligations": 43999440.97,
+      "cohort_outlays_to_date": 22412266.69,
+      "cumulative_cohort_net_obligations": 155693229.97,
+      "cumulative_cohort_outlays_to_date": 88562168.77000001,
+      "cohort_outlay_rate": 56.9
     },
     {
       "fiscal_year": 2024,
       "fiscal_month_num": 6,
       "fiscal_month_name": "Mar",
       "monthly_obligations": 65768923.68,
-      "monthly_outlays": 43661485.48,
       "cumulative_obligations": 221461853.65,
-      "cumulative_outlays": 145781984.28,
-      "outlay_rate": 65.8
+      "awards_first_obligated": 369,
+      "cohort_net_obligations": 65768923.68,
+      "cohort_outlays_to_date": 40082774.04,
+      "cumulative_cohort_net_obligations": 221462153.65,
+      "cumulative_cohort_outlays_to_date": 128644942.81,
+      "cohort_outlay_rate": 58.1
     },
     {
       "fiscal_year": 2024,
       "fiscal_month_num": 7,
       "fiscal_month_name": "Apr",
       "monthly_obligations": 28799765.63,
-      "monthly_outlays": 16172275.16,
       "cumulative_obligations": 250261619.28,
-      "cumulative_outlays": 161954259.44,
-      "outlay_rate": 64.7
+      "awards_first_obligated": 200,
+      "cohort_net_obligations": 28799765.63,
+      "cohort_outlays_to_date": 15084654.93,
+      "cumulative_cohort_net_obligations": 250261919.28,
+      "cumulative_cohort_outlays_to_date": 143729597.74,
+      "cohort_outlay_rate": 57.4
     },
     {
       "fiscal_year": 2024,
       "fiscal_month_num": 8,
       "fiscal_month_name": "May",
       "monthly_obligations": 39211786.71,
-      "monthly_outlays": 16617232.62,
       "cumulative_obligations": 289473405.99,
-      "cumulative_outlays": 178571492.06,
-      "outlay_rate": 61.7
+      "awards_first_obligated": 331,
+      "cohort_net_obligations": 39211786.71,
+      "cohort_outlays_to_date": 15793333.2,
+      "cumulative_cohort_net_obligations": 289473705.99,
+      "cumulative_cohort_outlays_to_date": 159522930.94,
+      "cohort_outlay_rate": 55.1
     },
     {
       "fiscal_year": 2024,
       "fiscal_month_num": 9,
       "fiscal_month_name": "Jun",
       "monthly_obligations": 45859637.76,
-      "monthly_outlays": 14793128.62,
       "cumulative_obligations": 335333043.75,
-      "cumulative_outlays": 193364620.68,
-      "outlay_rate": 57.7
+      "awards_first_obligated": 345,
+      "cohort_net_obligations": 45859637.76,
+      "cohort_outlays_to_date": 13385859.86,
+      "cumulative_cohort_net_obligations": 335333343.75,
+      "cumulative_cohort_outlays_to_date": 172908790.8,
+      "cohort_outlay_rate": 51.6
     },
     {
       "fiscal_year": 2024,
       "fiscal_month_num": 10,
       "fiscal_month_name": "Jul",
       "monthly_obligations": 38984179.12,
-      "monthly_outlays": 14167690.68,
       "cumulative_obligations": 374317222.87,
-      "cumulative_outlays": 207532311.36,
-      "outlay_rate": 55.4
+      "awards_first_obligated": 189,
+      "cohort_net_obligations": 38984179.12,
+      "cohort_outlays_to_date": 12673786.56,
+      "cumulative_cohort_net_obligations": 374317522.87,
+      "cumulative_cohort_outlays_to_date": 185582577.36,
+      "cohort_outlay_rate": 49.6
     },
     {
       "fiscal_year": 2024,
       "fiscal_month_num": 11,
       "fiscal_month_name": "Aug",
       "monthly_obligations": 51689175.0,
-      "monthly_outlays": 18149886.69,
       "cumulative_obligations": 426006397.87,
-      "cumulative_outlays": 225682198.05,
-      "outlay_rate": 53.0
+      "awards_first_obligated": 272,
+      "cohort_net_obligations": 51689175.0,
+      "cohort_outlays_to_date": 17531996.69,
+      "cumulative_cohort_net_obligations": 426006697.87,
+      "cumulative_cohort_outlays_to_date": 203114574.05,
+      "cohort_outlay_rate": 47.7
     },
     {
       "fiscal_year": 2024,
       "fiscal_month_num": 12,
       "fiscal_month_name": "Sep",
       "monthly_obligations": 285275415.47,
-      "monthly_outlays": 73146204.01,
       "cumulative_obligations": 711281813.34,
-      "cumulative_outlays": 298828402.06,
-      "outlay_rate": 42.0
+      "awards_first_obligated": 1701,
+      "cohort_net_obligations": 285275415.47,
+      "cohort_outlays_to_date": 67709067.54,
+      "cumulative_cohort_net_obligations": 711282113.34,
+      "cumulative_cohort_outlays_to_date": 270823641.59000003,
+      "cohort_outlay_rate": 38.1
     },
     {
       "fiscal_year": 2025,
       "fiscal_month_num": 1,
       "fiscal_month_name": "Oct",
       "monthly_obligations": 835054.0,
-      "monthly_outlays": 0.0,
       "cumulative_obligations": 835054.0,
-      "cumulative_outlays": 0.0,
-      "outlay_rate": 0.0
+      "awards_first_obligated": 3,
+      "cohort_net_obligations": 835054.0,
+      "cohort_outlays_to_date": 0.0,
+      "cumulative_cohort_net_obligations": 835054.0,
+      "cumulative_cohort_outlays_to_date": 0.0,
+      "cohort_outlay_rate": 0.0
     },
     {
       "fiscal_year": 2025,
       "fiscal_month_num": 2,
       "fiscal_month_name": "Nov",
       "monthly_obligations": 24928115.0,
-      "monthly_outlays": 3789528.93,
       "cumulative_obligations": 25763169.0,
-      "cumulative_outlays": 3789528.93,
-      "outlay_rate": 14.7
+      "awards_first_obligated": 131,
+      "cohort_net_obligations": 24928115.0,
+      "cohort_outlays_to_date": 3759828.93,
+      "cumulative_cohort_net_obligations": 25763169.0,
+      "cumulative_cohort_outlays_to_date": 3759828.93,
+      "cohort_outlay_rate": 14.6
     },
     {
       "fiscal_year": 2025,
       "fiscal_month_num": 3,
       "fiscal_month_name": "Dec",
       "monthly_obligations": 144064106.43,
-      "monthly_outlays": 5385028.76,
       "cumulative_obligations": 169827275.43,
-      "cumulative_outlays": 9174557.69,
-      "outlay_rate": 5.4
+      "awards_first_obligated": 839,
+      "cohort_net_obligations": 144064106.43,
+      "cohort_outlays_to_date": 4697192.33,
+      "cumulative_cohort_net_obligations": 169827275.43,
+      "cumulative_cohort_outlays_to_date": 8457021.26,
+      "cohort_outlay_rate": 5.0
     },
     {
       "fiscal_year": 2025,
       "fiscal_month_num": 4,
       "fiscal_month_name": "Jan",
       "monthly_obligations": 166380458.81,
-      "monthly_outlays": 15468200.62,
       "cumulative_obligations": 336207734.24,
-      "cumulative_outlays": 24642758.31,
-      "outlay_rate": 7.3
+      "awards_first_obligated": 931,
+      "cohort_net_obligations": 166380458.81,
+      "cohort_outlays_to_date": 15270236.62,
+      "cumulative_cohort_net_obligations": 336207734.24,
+      "cumulative_cohort_outlays_to_date": 23727257.88,
+      "cohort_outlay_rate": 7.1
     },
     {
       "fiscal_year": 2025,
       "fiscal_month_num": 5,
       "fiscal_month_name": "Feb",
       "monthly_obligations": 39999.0,
-      "monthly_outlays": 0.0,
       "cumulative_obligations": 336247733.24,
-      "cumulative_outlays": 24642758.31,
-      "outlay_rate": 7.3
+      "awards_first_obligated": 2,
+      "cohort_net_obligations": 39999.0,
+      "cohort_outlays_to_date": 0.0,
+      "cumulative_cohort_net_obligations": 336247733.24,
+      "cumulative_cohort_outlays_to_date": 23727257.88,
+      "cohort_outlay_rate": 7.1
     },
     {
       "fiscal_year": 2025,
       "fiscal_month_num": 6,
       "fiscal_month_name": "Mar",
       "monthly_obligations": 8620791.0,
-      "monthly_outlays": 0.0,
       "cumulative_obligations": 344868524.24,
-      "cumulative_outlays": 24642758.31,
-      "outlay_rate": 7.1
+      "awards_first_obligated": 37,
+      "cohort_net_obligations": 8620791.0,
+      "cohort_outlays_to_date": 0.0,
+      "cumulative_cohort_net_obligations": 344868524.24,
+      "cumulative_cohort_outlays_to_date": 23727257.88,
+      "cohort_outlay_rate": 6.9
     },
     {
       "fiscal_year": 2025,
       "fiscal_month_num": 7,
       "fiscal_month_name": "Apr",
       "monthly_obligations": 2313302.0,
-      "monthly_outlays": 5938.0,
       "cumulative_obligations": 347181826.24,
-      "cumulative_outlays": 24648696.31,
-      "outlay_rate": 7.1
+      "awards_first_obligated": 27,
+      "cohort_net_obligations": 2313302.0,
+      "cohort_outlays_to_date": 5938.0,
+      "cumulative_cohort_net_obligations": 347181826.24,
+      "cumulative_cohort_outlays_to_date": 23733195.88,
+      "cohort_outlay_rate": 6.8
     },
     {
       "fiscal_year": 2025,
       "fiscal_month_num": 8,
       "fiscal_month_name": "May",
       "monthly_obligations": 3990586.0,
-      "monthly_outlays": 0.0,
       "cumulative_obligations": 351172412.24,
-      "cumulative_outlays": 24648696.31,
-      "outlay_rate": 7.0
+      "awards_first_obligated": 61,
+      "cohort_net_obligations": 3990586.0,
+      "cohort_outlays_to_date": 0.0,
+      "cumulative_cohort_net_obligations": 351172412.24,
+      "cumulative_cohort_outlays_to_date": 23733195.88,
+      "cohort_outlay_rate": 6.8
     },
     {
       "fiscal_year": 2025,
       "fiscal_month_num": 9,
       "fiscal_month_name": "Jun",
       "monthly_obligations": 2889453.0,
-      "monthly_outlays": 0.0,
       "cumulative_obligations": 354061865.24,
-      "cumulative_outlays": 24648696.31,
-      "outlay_rate": 7.0
+      "awards_first_obligated": 84,
+      "cohort_net_obligations": 2889453.0,
+      "cohort_outlays_to_date": 0.0,
+      "cumulative_cohort_net_obligations": 354061865.24,
+      "cumulative_cohort_outlays_to_date": 23733195.88,
+      "cohort_outlay_rate": 6.7
     }
   ],
   "outlay_by_obligation_year": [
     {
       "initial_obligation_fy": 2021,
-      "years_elapsed": "4",
+      "years_elapsed": "5",
       "total_awards": 1076,
       "total_obligations": 34466479.92,
       "total_outlays": 32874525.66,
@@ -1670,7 +1917,7 @@
     },
     {
       "initial_obligation_fy": 2022,
-      "years_elapsed": "3",
+      "years_elapsed": "4",
       "total_awards": 1345,
       "total_obligations": 49488879.12,
       "total_outlays": 42551519.379999995,
@@ -1689,60 +1936,60 @@
     },
     {
       "initial_obligation_fy": 2023,
-      "years_elapsed": "2",
+      "years_elapsed": "3",
       "total_awards": 3083,
       "total_obligations": 450272845.70000005,
       "total_outlays": 217461698.25,
       "overall_outlay_rate": 48.29553909961663,
-      "expired_awards": 1448,
-      "expired_obligations": 146386304.10000002,
-      "expired_outlays": 98113750.69,
-      "expired_outlay_rate": 67.02385943358206,
-      "active_awards": 1635,
-      "active_obligations": 303886541.6,
-      "active_outlays": 119347947.56,
-      "active_outlay_rate": 39.27385100097503,
+      "expired_awards": 3083,
+      "expired_obligations": 450272845.70000005,
+      "expired_outlays": 217461698.25,
+      "expired_outlay_rate": 48.29553909961663,
+      "active_awards": 0,
+      "active_obligations": 0,
+      "active_outlays": 0,
+      "active_outlay_rate": 0,
       "percent_outlayed": 48.29553909961663,
-      "percent_expired_unspent": 10.720733855259445,
-      "percent_active_unspent": 40.98372704512392
+      "percent_expired_unspent": 51.70446090038337,
+      "percent_active_unspent": 0.0
     },
     {
       "initial_obligation_fy": 2024,
-      "years_elapsed": "1",
+      "years_elapsed": "2",
       "total_awards": 4437,
       "total_obligations": 711282113.34,
       "total_outlays": 270823641.59000003,
       "overall_outlay_rate": 38.07541853095125,
-      "expired_awards": 8,
-      "expired_obligations": 798909.97,
-      "expired_outlays": 342374.9,
-      "expired_outlay_rate": 42.855254391180026,
-      "active_awards": 4429,
-      "active_obligations": 710483203.37,
-      "active_outlays": 270481266.69,
-      "active_outlay_rate": 38.07004379653727,
+      "expired_awards": 4437,
+      "expired_obligations": 711282113.34,
+      "expired_outlays": 270823641.59000003,
+      "expired_outlay_rate": 38.07541853095125,
+      "active_awards": 0,
+      "active_obligations": 0,
+      "active_outlays": 0,
+      "active_outlay_rate": 0,
       "percent_outlayed": 38.07541853095125,
-      "percent_expired_unspent": 0.06418480957664284,
-      "percent_active_unspent": 61.86039665947211
+      "percent_expired_unspent": 61.92458146904875,
+      "percent_active_unspent": 0.0
     },
     {
       "initial_obligation_fy": 2025,
-      "years_elapsed": "0",
+      "years_elapsed": "1",
       "total_awards": 2115,
       "total_obligations": 354061865.24,
       "total_outlays": 23733195.88,
       "overall_outlay_rate": 6.703121180224396,
-      "expired_awards": 14,
-      "expired_obligations": 1298016.0,
-      "expired_outlays": 0.0,
-      "expired_outlay_rate": 0.0,
-      "active_awards": 2101,
-      "active_obligations": 352763849.24,
-      "active_outlays": 23733195.88,
-      "active_outlay_rate": 6.727785721561654,
+      "expired_awards": 44,
+      "expired_obligations": 6309069.0,
+      "expired_outlays": 184368.0,
+      "expired_outlay_rate": 2.9222695139330384,
+      "active_awards": 2071,
+      "active_obligations": 347752796.24,
+      "active_outlays": 23548827.88,
+      "active_outlay_rate": 6.771714889029356,
       "percent_outlayed": 6.703121180224396,
-      "percent_expired_unspent": 0.3666071179736182,
-      "percent_active_unspent": 92.93027170180198
+      "percent_expired_unspent": 1.7298392177447255,
+      "percent_active_unspent": 91.56703960203087
     }
   ],
   "money_expiration": [
@@ -1750,10 +1997,10 @@
       "obligation_fy": 2021,
       "expiration_year": 2021,
       "unspent_amount": 629.0300000000279,
-      "total_obligations": 1111098.57,
-      "total_outlays": 1110469.54,
-      "awards_count": 12,
-      "percent_unspent": 0.056613338994759746
+      "total_obligations": 1000000.0,
+      "total_outlays": 999370.97,
+      "awards_count": 10,
+      "percent_unspent": 0.06290300000000279
     },
     {
       "obligation_fy": 2021,
@@ -1777,8 +2024,17 @@
       "obligation_fy": 2021,
       "expiration_year": 2024,
       "unspent_amount": 0.0,
-      "total_obligations": 99998.36,
-      "total_outlays": 99998.36,
+      "total_obligations": 147979.61,
+      "total_outlays": 147979.61,
+      "awards_count": 2,
+      "percent_unspent": 0.0
+    },
+    {
+      "obligation_fy": 2021,
+      "expiration_year": 2025,
+      "unspent_amount": 0.0,
+      "total_obligations": 63117.32,
+      "total_outlays": 63117.32,
       "awards_count": 1,
       "percent_unspent": 0.0
     },
@@ -1786,36 +2042,36 @@
       "obligation_fy": 2022,
       "expiration_year": 2022,
       "unspent_amount": 2451480.25,
-      "total_obligations": 10319167.48,
-      "total_outlays": 7867687.23,
-      "awards_count": 125,
-      "percent_unspent": 23.75657004066766
+      "total_obligations": 9565907.0,
+      "total_outlays": 7114426.75,
+      "awards_count": 107,
+      "percent_unspent": 25.627264095291746
     },
     {
       "obligation_fy": 2022,
       "expiration_year": 2023,
       "unspent_amount": 0.0,
-      "total_obligations": 48474.34,
-      "total_outlays": 48474.34,
-      "awards_count": 6,
+      "total_obligations": 242584.34,
+      "total_outlays": 242584.34,
+      "awards_count": 11,
       "percent_unspent": 0.0
     },
     {
       "obligation_fy": 2022,
       "expiration_year": 2024,
-      "unspent_amount": 4485879.489999995,
-      "total_obligations": 39021349.94,
-      "total_outlays": 34535470.45,
-      "awards_count": 1213,
-      "percent_unspent": 11.495961818075418
+      "unspent_amount": 4485879.490000002,
+      "total_obligations": 39508229.99,
+      "total_outlays": 35022350.5,
+      "awards_count": 1224,
+      "percent_unspent": 11.354291222703297
     },
     {
       "obligation_fy": 2022,
       "expiration_year": 2025,
       "unspent_amount": 0.0,
-      "total_obligations": 99887.36,
-      "total_outlays": 99887.36,
-      "awards_count": 1,
+      "total_obligations": 172157.79,
+      "total_outlays": 172157.79,
+      "awards_count": 3,
       "percent_unspent": 0.0
     },
     {
@@ -1824,7 +2080,7 @@
       "unspent_amount": 602127.88,
       "total_obligations": 1486000.0,
       "total_outlays": 883872.12,
-      "awards_count": 16,
+      "awards_count": 15,
       "percent_unspent": 40.52004576043068
     },
     {
@@ -1833,7 +2089,7 @@
       "unspent_amount": 232209019.57,
       "total_obligations": 448786845.7,
       "total_outlays": 216577826.13,
-      "awards_count": 3067,
+      "awards_count": 3068,
       "percent_unspent": 51.74149416251485
     },
     {
@@ -1946,62 +2202,62 @@
   "outlay_progression": [
     {
       "month": "Oct",
-      "avg_outlay_rate": 0.0,
+      "pooled_outlay_rate_to_date": 0.0,
       "total_obligations": 835054.0
     },
     {
       "month": "Nov",
-      "avg_outlay_rate": 22.725,
+      "pooled_outlay_rate_to_date": 39.82662074214036,
       "total_obligations": 45415786.66
     },
     {
       "month": "Dec",
-      "avg_outlay_rate": 15.2,
+      "pooled_outlay_rate_to_date": 19.948863336454462,
       "total_obligations": 207784498.70000002
     },
     {
       "month": "Jan",
-      "avg_outlay_rate": 17.740000000000002,
+      "pooled_outlay_rate_to_date": 15.566721166087838,
       "total_obligations": 199568504.88
     },
     {
       "month": "Feb",
-      "avg_outlay_rate": 621.9,
+      "pooled_outlay_rate_to_date": 52.37941914738025,
       "total_obligations": 47072627.839999996
     },
     {
       "month": "Mar",
-      "avg_outlay_rate": 160.9,
+      "pooled_outlay_rate_to_date": 56.904910094853086,
       "total_obligations": 81961106.25999999
     },
     {
       "month": "Apr",
-      "avg_outlay_rate": 153.6,
+      "pooled_outlay_rate_to_date": 51.623721996260876,
       "total_obligations": 33846618.629999995
     },
     {
       "month": "May",
-      "avg_outlay_rate": 113.74000000000001,
+      "pooled_outlay_rate_to_date": 54.8770370802417,
       "total_obligations": 65191115.339999996
     },
     {
       "month": "Jun",
-      "avg_outlay_rate": 115.54,
+      "pooled_outlay_rate_to_date": 45.98070449860832,
       "total_obligations": 85943291.36
     },
     {
       "month": "Jul",
-      "avg_outlay_rate": 102.075,
+      "pooled_outlay_rate_to_date": 65.19948406894106,
       "total_obligations": 124305059.97999999
     },
     {
       "month": "Aug",
-      "avg_outlay_rate": 102.19999999999999,
+      "pooled_outlay_rate_to_date": 53.55645905570737,
       "total_obligations": 156609995.8
     },
     {
       "month": "Sep",
-      "avg_outlay_rate": 95.25,
+      "pooled_outlay_rate_to_date": 30.44965691398594,
       "total_obligations": 550618597.69
     }
   ],
@@ -167800,7 +168056,7 @@
     }
   ],
   "metadata": {
-    "generated_at": "2025-08-16T20:05:07.094144",
+    "generated_at": "2026-11-09T00:05:02.107923",
     "source": "USASpending API - CFDA 10.868 (REAP)",
     "fiscal_years": [
       "2021",
@@ -167809,6 +168065,9 @@
       "2024",
       "2025"
     ],
-    "fiscal_years_string": "FY2021, FY2022, FY2023, FY2024, FY2025"
+    "fiscal_years_string": "FY2021, FY2022, FY2023, FY2024, FY2025",
+    "data_latest_action_date": "2025-06-27",
+    "data_latest_record_modified": "2025-07-21",
+    "expiry_reference_date": "2026-11-09"
   }
 }

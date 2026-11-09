@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>REAP Award Details - FY 2022-2025</title>
+    <title>REAP Award Details - FY 2021-2025</title>
     <style>
         * {
             margin: 0;
@@ -240,7 +240,7 @@
     <div class="container">
         <div class="header">
             <h1>Rural Energy for America Program (REAP) Award Details</h1>
-            <p>CFDA 10.868 • FY 2022-2025 • Data as of <span id="lastUpdated"></span></p>
+            <p>CFDA 10.868 • FY 2021-2025 • Latest action date in the data: <span id="lastUpdated"></span></p>
             
             <div class="nav-tabs">
                 <a href="index.html" class="nav-tab">Dashboard</a>
@@ -254,6 +254,9 @@
                 Negative "unspent" amounts indicate awards where outlays exceed obligations in our data. 
                 We're investigating why this occurs - it may be due to data quality issues, timing differences, 
                 or how certain award types are reported in bulk downloads.
+            </p>
+            <p style="margin: 0.5rem 0 0 0; font-size: 0.875rem;">
+                <strong>Outlay %</strong> is this award's outlays to date divided by its net obligations (obligations minus deobligations in this data), and shows 0% when the net is zero or negative. The dashboard's outlay rate instead divides total outlays to date by total net obligations across all awards, including awards whose own net obligation is zero or negative.
             </p>
         </div>
         
@@ -358,15 +361,9 @@
                 const response = await fetch('data/reap_dashboard_data.json');
                 const data = await response.json();
                 
-                // Set last updated date
-                if (data.metadata && data.metadata.generated_at) {
-                    const lastUpdated = new Date(data.metadata.generated_at);
-                    document.getElementById('lastUpdated').textContent = 
-                        lastUpdated.toLocaleDateString('en-US', { 
-                            year: 'numeric', 
-                            month: 'long', 
-                            day: 'numeric'
-                        });
+                // Latest action date in the data (not the date this file was generated)
+                if (data.summary && data.summary.date_range && data.summary.date_range.end) {
+                    document.getElementById('lastUpdated').textContent = data.summary.date_range.end;
                 }
                 
                 // Process transactions to aggregate by award

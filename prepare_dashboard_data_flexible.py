@@ -10,6 +10,10 @@ import numpy as np
 import glob
 import os
 
+# Award identity. award_id_fain is NULL for one URI-only award, so it cannot be used to
+# count or group awards; assistance_award_unique_key is present on every row.
+KEY = 'assistance_award_unique_key'
+
 def load_available_data():
     """
     Load whatever REAP data files are available
@@ -48,15 +52,48 @@ def load_available_data():
 
 def award_level_outlays(df, outlay_col, group_col=None):
     """
-    total_outlayed_amount_for_overall_award is a cumulative figure for the whole award,
-    repeated on every transaction row of that award. Summing it over transaction rows
-    counts an award once per transaction, so take it once per award (or once per
-    award within each group).
+    total_outlayed_amount_for_overall_award is a cumulative figure for the whole award
+    ("the total outlayed amount for a given award across time" per the USAspending data
+    dictionary), repeated on every transaction row of that award. Summing it over
+    transaction rows counts an award once per transaction, so take it once per award
+    (or once per award within each group). A blank value means no outlay was reported
+    for the award and counts as $0 (summing skips blanks).
     """
-    key = 'assistance_award_unique_key' if 'assistance_award_unique_key' in df.columns else 'award_id_fain'
     if group_col is None:
-        return float(df.drop_duplicates(key)[outlay_col].sum())
-    return df.drop_duplicates([group_col, key]).groupby(group_col)[outlay_col].sum()
+        return float(df.groupby(KEY)[outlay_col].max().sum())
+    return df.groupby([group_col, KEY])[outlay_col].max().groupby(level=0).sum()
+
+
+def build_award_table(df, ob_col, out_col):
+    """
+    One row per award. Everything here is per award, so nothing is double counted.
+      net_obligations   sum of federal_action_obligation over the award's rows in the data
+      outlays           the award's cumulative outlays to date (blank counts as 0)
+      first_pos_*       date / fiscal year / fiscal month of the award's first POSITIVE
+                        obligation in the data (NaT for awards with none)
+    """
+    # The one-value-per-award assumption behind "take it once" - fail loudly if it breaks
+    assert df.groupby(KEY)[out_col].nunique().max() <= 1, "outlay field differs within an award"
+    assert df[KEY].notna().all(), "null award key"
+    g = df.groupby(KEY)
+    tbl = pd.DataFrame({
+        'net_obligations': g[ob_col].sum(),
+        'outlays': g[out_col].max().fillna(0.0),
+        'outlay_reported': g[out_col].count() > 0,
+    })
+    # Award end date: the period_of_performance_current_end_date on the award's LATEST transaction
+    # by action_date (ties: the later end date, then the larger transaction key). Deterministic,
+    # independent of file order. A blank end date on that transaction stays blank (no fallback).
+    end_col = 'period_of_performance_current_end_date'
+    ordered = df.sort_values([KEY, 'action_date', end_col, 'assistance_transaction_unique_key'],
+                             na_position='first', kind='mergesort')
+    tbl['end_date'] = ordered.drop_duplicates(KEY, keep='last').set_index(KEY)[end_col]
+    pos = df[df[ob_col] > 0].groupby(KEY).agg(first_pos_date=('action_date', 'min'), first_pos_fy=('fiscal_year', 'min'))
+    tbl = tbl.join(pos)
+    m = tbl['first_pos_date'].dt.month
+    tbl['first_pos_month'] = tbl['first_pos_date'].dt.to_period('M').astype(str)
+    tbl['first_pos_fiscal_month_num'] = m.apply(lambda x: x - 9 if x >= 10 else x + 3)
+    return tbl
 
 
 def prepare_dashboard_data():
@@ -77,7 +114,7 @@ def prepare_dashboard_data():
         return None
     
     # Ensure date columns are datetime
-    date_columns = ['action_date', 'period_of_performance_start_date', 'period_of_performance_current_end_date']
+    date_columns = ['action_date', 'period_of_performance_start_date', 'period_of_performance_current_end_date', 'last_modified_date']
     for col in date_columns:
         if col in df.columns:
             df[col] = pd.to_datetime(df[col], errors='coerce')
@@ -108,6 +145,10 @@ def prepare_dashboard_data():
     print(f"   Obligations: {obligation_col}")
     print(f"   Outlays: {outlay_col}")
     
+    award_tbl = build_award_table(df, obligation_col, outlay_col)
+    cohort_awards = award_tbl[award_tbl['first_pos_date'].notna()]
+    no_pos_awards = award_tbl[award_tbl['first_pos_date'].isna()]
+
     # Categorize transactions if we have obligation data
     if obligation_col:
         df['transaction_type'] = df[obligation_col].apply(
@@ -119,7 +160,11 @@ def prepare_dashboard_data():
     
     summary = {
         'total_transactions': len(df[df[obligation_col] != 0]) if obligation_col else len(df),  # Only count records with obligation activity
-        'unique_awards': df['award_id_fain'].nunique() if 'award_id_fain' in df.columns else 0,
+        # distinct awards (assistance_award_unique_key); not award_id_fain, which is blank on one award
+        'unique_awards': int(df[KEY].nunique()),
+        # all rows in the files, and the split behind total_transactions
+        'total_transaction_rows': int(len(df)),
+        'zero_obligation_rows': int((df[obligation_col] == 0).sum()),
         'fiscal_years': sorted(years_loaded),
         'date_range': {}
     }
@@ -140,6 +185,16 @@ def prepare_dashboard_data():
         summary['total_outlays'] = award_level_outlays(df, outlay_col)
         summary['outlay_rate'] = (summary['total_outlays'] / summary['net_obligations'] * 100) if summary.get('net_obligations', 0) > 0 else 0
     
+    summary['awards_with_outlay_reported'] = int(award_tbl['outlay_reported'].sum())
+    summary['awards_without_outlay_reported'] = int((~award_tbl['outlay_reported']).sum())
+    # Awards with no positive obligation in the data: they are in total_outlays but belong to
+    # no first-obligation cohort. Reported so that cohort totals reconcile to the summary.
+    summary['awards_without_positive_obligation'] = int(len(no_pos_awards))
+    summary['outlays_on_awards_without_positive_obligation'] = round(float(no_pos_awards['outlays'].sum()), 2)
+    summary['net_obligations_on_awards_without_positive_obligation'] = round(float(no_pos_awards['net_obligations'].sum()), 2)
+    summary['outlays_on_awards_with_positive_obligation'] = round(float(cohort_awards['outlays'].sum()), 2)
+    _cn = float(cohort_awards['net_obligations'].sum())
+    summary['outlay_rate_awards_with_positive_obligation'] = (summary['outlays_on_awards_with_positive_obligation'] / _cn * 100) if _cn > 0 else 0
     if 'action_date' in df.columns:
         summary['date_range'] = {
             'start': df['action_date'].min().strftime('%Y-%m-%d'),
@@ -156,16 +211,20 @@ def prepare_dashboard_data():
                 lambda x: float(x[x < 0].sum()),  # deobligations
                 'sum'  # net
             ],
-            'award_id_fain': 'count'
+            KEY: 'count'
         }
         
-        if outlay_col:
-            monthly_agg[outlay_col] = 'sum'
-        
         monthly = df.groupby('month').agg(monthly_agg).round(2)
-        
-        # Flatten column names
-        monthly.columns = ['obligations', 'deobligations', 'net_obligations', 'transaction_count'] + (['outlays'] if outlay_col else [])
+        monthly.columns = ['obligations', 'deobligations', 'net_obligations', 'transaction_count']
+        # Outlays are cumulative per award, so there is no monthly outlay series. What can be
+        # said: outlays to date (counted once per award) for awards whose first positive
+        # obligation fell in that month. Months with no such award get 0.
+        by_first = cohort_awards.groupby('first_pos_month').agg(
+            awards_first_obligated=('outlays', 'size'),
+            outlays_to_date_of_awards_first_obligated=('outlays', 'sum'))
+        monthly = monthly.join(by_first).fillna({'awards_first_obligated': 0, 'outlays_to_date_of_awards_first_obligated': 0})
+        monthly['awards_first_obligated'] = monthly['awards_first_obligated'].astype(int)
+        monthly['outlays_to_date_of_awards_first_obligated'] = monthly['outlays_to_date_of_awards_first_obligated'].round(2)
         monthly_data = monthly.reset_index().to_dict('records')
     
     # State summary
@@ -178,7 +237,7 @@ def prepare_dashboard_data():
                 lambda x: float(x[x < 0].sum()),
                 'sum'
             ],
-            'award_id_fain': 'nunique'
+            KEY: 'nunique'
         }
         
         if outlay_col:
@@ -190,6 +249,10 @@ def prepare_dashboard_data():
         state_summary.columns = ['obligations', 'deobligations', 'net_obligations', 'unique_awards'] + (['outlays'] if outlay_col else [])
         if outlay_col:
             state_summary['outlays'] = award_level_outlays(df, outlay_col, 'recipient_state_code').round(2)
+        # An award that lists more than one state is counted in full in each, so the state
+        # outlays add up to slightly more than total_outlays. Record the excess.
+        if outlay_col:
+            summary['state_outlays_excess_over_total'] = round(float(state_summary['outlays'].sum()) - summary['total_outlays'], 2)
         state_summary = state_summary[state_summary['net_obligations'] != 0]  # Remove states with no activity
         state_data = state_summary.reset_index().to_dict('records')
     
@@ -204,7 +267,7 @@ def prepare_dashboard_data():
                 'sum'
             ],
             'recipient_state_code': 'first',
-            'award_id_fain': 'nunique'
+            KEY: 'nunique'
         }
         
         if outlay_col:
@@ -216,61 +279,60 @@ def prepare_dashboard_data():
         recipient_summary.columns = ['obligations', 'deobligations', 'net_obligations', 'state', 'unique_awards'] + (['outlays'] if outlay_col else [])
         if outlay_col:
             recipient_summary['outlays'] = award_level_outlays(df, outlay_col, 'recipient_name').round(2)
+        if outlay_col:
+            summary['recipient_outlays_excess_over_total'] = round(float(recipient_summary['outlays'].sum()) - summary['total_outlays'], 2)
         top_recipients = recipient_summary.nlargest(20, 'net_obligations').reset_index().to_dict('records')
     
     # Year-over-year comparison if we have multiple years
     year_comparison = []
     if len(years_loaded) > 1 and 'fiscal_year' in df.columns:
         print("   Creating year-over-year comparison...")
-        year_agg = {
-            'award_id_fain': 'nunique'
-        }
-        
-        if obligation_col:
-            year_agg[obligation_col] = 'sum'
-        if outlay_col:
-            year_agg[outlay_col] = 'sum'
-        
-        year_summary = df.groupby('fiscal_year').agg(year_agg).round(2)
-        year_summary = year_summary.rename(columns={
-            'award_id_fain': 'unique_awards',
-            obligation_col: 'total_obligations' if obligation_col else None,
-            outlay_col: 'total_outlays' if outlay_col else None
-        })
-        
-        # Calculate outlay rate for each year
-        if obligation_col and outlay_col:
-            year_summary['outlay_rate'] = (year_summary['total_outlays'] / year_summary['total_obligations'] * 100).round(1)
-        
-        year_comparison = year_summary.reset_index().to_dict('records')
+        # Obligations are per transaction, so they can be grouped by the fiscal year of the
+        # action. Outlays cannot (cumulative per award), so they are attributed to the fiscal
+        # year of each award's first positive obligation, counted once per award, and compared
+        # with the net obligations of those same awards.
+        fy_ob = df.groupby('fiscal_year')[obligation_col].agg(
+            obligations=lambda x: float(x[x > 0].sum()),
+            deobligations=lambda x: float(x[x < 0].sum()),
+            net_obligations='sum')
+        fy_ob['awards_with_transactions'] = df.groupby('fiscal_year')[KEY].nunique()
+        coh = cohort_awards.groupby('first_pos_fy').agg(
+            awards_first_obligated=('outlays', 'size'),
+            cohort_net_obligations=('net_obligations', 'sum'),
+            cohort_outlays_to_date=('outlays', 'sum'))
+        coh['cohort_outlay_rate'] = (coh['cohort_outlays_to_date'] / coh['cohort_net_obligations'] * 100).where(coh['cohort_net_obligations'] > 0)
+        year_summary = fy_ob.join(coh).round(2)
+        year_summary = year_summary.reset_index()
+        year_summary['fiscal_year'] = year_summary['fiscal_year'].astype(int)
+        year_comparison = year_summary.to_dict('records')
     
     # Outlay analysis by initial obligation year
     outlay_by_obligation_year = []
-    if 'fiscal_year' in df.columns and 'award_id_fain' in df.columns and obligation_col and outlay_col:
+    if 'fiscal_year' in df.columns and KEY in df.columns and obligation_col and outlay_col:
         print("   Creating outlay analysis by initial obligation year...")
         
         # First, identify awards that have at least one positive obligation in our data
         # This excludes awards that were obligated before our data period
-        awards_with_obligations = df[df[obligation_col] > 0]['award_id_fain'].unique()
+        awards_with_obligations = df[df[obligation_col] > 0][KEY].unique()
         
         # Filter to only include these awards
-        df_with_known_obligations = df[df['award_id_fain'].isin(awards_with_obligations)]
+        df_with_known_obligations = df[df[KEY].isin(awards_with_obligations)]
         
         # For each award, identify when it was first obligated
-        initial_obligations = df_with_known_obligations[df_with_known_obligations[obligation_col] > 0].groupby('award_id_fain').agg({
+        initial_obligations = df_with_known_obligations[df_with_known_obligations[obligation_col] > 0].groupby(KEY).agg({
             'fiscal_year': 'min',
             'action_date': 'min'
         }).rename(columns={'fiscal_year': 'initial_obligation_fy'})
         
         # Get current status for each award (latest values)
-        current_status = df.groupby('award_id_fain').agg({
+        current_status = df.groupby(KEY).agg({
             obligation_col: 'sum',
-            outlay_col: 'last',
-            'period_of_performance_current_end_date': 'last'
+            outlay_col: 'last'
         })
+        current_status['period_of_performance_current_end_date'] = award_tbl['end_date']
         
         # Merge
-        award_analysis = initial_obligations.merge(current_status, on='award_id_fain')
+        award_analysis = initial_obligations.merge(current_status, on=KEY)
         
         # Current date for expiration check
         current_date = pd.Timestamp.now()
@@ -335,19 +397,19 @@ def prepare_dashboard_data():
         print("   Creating money expiration analysis...")
         
         # First, identify initial obligation year for each award (similar to outlay analysis)
-        initial_obligations = df[df[obligation_col] > 0].groupby('award_id_fain').agg({
+        initial_obligations = df[df[obligation_col] > 0].groupby(KEY).agg({
             'fiscal_year': 'min'
         }).rename(columns={'fiscal_year': 'initial_obligation_fy'})
         
         # Get current status for each award (latest values)
-        current_status = df.groupby('award_id_fain').agg({
+        current_status = df.groupby(KEY).agg({
             obligation_col: 'sum',
-            outlay_col: 'max',  # Use max for cumulative outlays
-            'period_of_performance_current_end_date': 'last'
+            outlay_col: 'max'  # Use max for cumulative outlays
         })
+        current_status['period_of_performance_current_end_date'] = award_tbl['end_date']
         
         # Merge to get awards with their initial FY
-        awards_with_fy = initial_obligations.merge(current_status, on='award_id_fain')
+        awards_with_fy = initial_obligations.merge(current_status, on=KEY)
         
         # For each initial obligation fiscal year, analyze unspent money and when it expires
         for fy in sorted(awards_with_fy['initial_obligation_fy'].unique()):
@@ -400,7 +462,7 @@ def prepare_dashboard_data():
                     # Monthly breakdown
                     monthly_deobs = fy_deobs.groupby('fiscal_month').agg({
                         obligation_col: ['sum', 'count'],
-                        'award_id_fain': 'nunique'
+                        KEY: 'nunique'
                     }).round(2)
                     
                     # Total for the year
@@ -409,8 +471,8 @@ def prepare_dashboard_data():
                     deob_rate = (abs(total_deob_amount) / total_obligations * 100) if total_obligations > 0 else 0
                     
                     # Awards with deobligations
-                    awards_with_deobs = set(fy_deobs['award_id_fain'].unique())
-                    total_awards = set(df[df['fiscal_year'] == fy]['award_id_fain'].unique())
+                    awards_with_deobs = set(fy_deobs[KEY].unique())
+                    total_awards = set(df[df['fiscal_year'] == fy][KEY].unique())
                     
                     deobligation_analysis.append({
                         'fiscal_year': int(fy),
@@ -423,67 +485,60 @@ def prepare_dashboard_data():
                         'percent_awards_deobligated': (len(awards_with_deobs) / len(total_awards) * 100) if len(total_awards) > 0 else 0
                     })
     
-    # Cyclical analysis - cumulative obligations and outlays by fiscal month
+    # Cyclical analysis - obligations by fiscal month, and outlays to date of the awards first
+    # obligated in that month. There is no monthly outlay time series in this data (the outlay
+    # field is cumulative per award), so the "outlay" columns here are cohort figures.
     cyclical_data = []
     if 'fiscal_year' in df.columns and 'fiscal_month_num' in df.columns and obligation_col:
         print("   Creating cyclical analysis...")
-        
-        # For each fiscal year, calculate cumulative metrics by month
+        first_by_fm = cohort_awards.groupby(['first_pos_fy', 'first_pos_fiscal_month_num']).agg(
+            awards_first_obligated=('outlays', 'size'),
+            cohort_net_obligations=('net_obligations', 'sum'),
+            cohort_outlays_to_date=('outlays', 'sum'))
         for fy in sorted(df['fiscal_year'].unique()):
-            fy_df = df[df['fiscal_year'] == fy].copy()
-            
-            # Group by fiscal month
-            monthly_fy = fy_df.groupby(['fiscal_month_num', 'fiscal_month_name']).agg({
-                obligation_col: 'sum',
-                outlay_col: 'sum' if outlay_col else 'count',
-                'award_id_fain': 'count'
-            }).reset_index()
-            
-            # Calculate cumulative values
-            monthly_fy['cumulative_obligations'] = monthly_fy[obligation_col].cumsum()
-            if outlay_col:
-                monthly_fy['cumulative_outlays'] = monthly_fy[outlay_col].cumsum()
-                # Handle division by zero
-                monthly_fy['outlay_rate'] = 0.0
-                mask = monthly_fy['cumulative_obligations'] > 0
-                monthly_fy.loc[mask, 'outlay_rate'] = (
-                    monthly_fy.loc[mask, 'cumulative_outlays'] / 
-                    monthly_fy.loc[mask, 'cumulative_obligations'] * 100
-                ).round(1)
-            else:
-                monthly_fy['cumulative_outlays'] = 0
-                monthly_fy['outlay_rate'] = 0
-            
-            # Add to cyclical data
+            fy_df = df[df['fiscal_year'] == fy]
+            monthly_fy = fy_df.groupby(['fiscal_month_num', 'fiscal_month_name']).agg(
+                monthly_obligations=(obligation_col, 'sum')).reset_index()
+            monthly_fy['cumulative_obligations'] = monthly_fy['monthly_obligations'].cumsum()
+            for c in ['awards_first_obligated', 'cohort_net_obligations', 'cohort_outlays_to_date']:
+                monthly_fy[c] = [first_by_fm[c].get((fy, int(n)), 0) for n in monthly_fy['fiscal_month_num']]
+            monthly_fy['cumulative_cohort_net_obligations'] = monthly_fy['cohort_net_obligations'].cumsum()
+            monthly_fy['cumulative_cohort_outlays_to_date'] = monthly_fy['cohort_outlays_to_date'].cumsum()
+            den = monthly_fy['cumulative_cohort_net_obligations']
+            monthly_fy['cohort_outlay_rate'] = (monthly_fy['cumulative_cohort_outlays_to_date'] / den * 100).where(den > 0, 0.0)
             for _, row in monthly_fy.iterrows():
                 cyclical_data.append({
                     'fiscal_year': int(fy),
                     'fiscal_month_num': int(row['fiscal_month_num']),
                     'fiscal_month_name': row['fiscal_month_name'],
-                    'monthly_obligations': float(row[obligation_col]),
-                    'monthly_outlays': float(row[outlay_col]) if outlay_col else 0,
+                    'monthly_obligations': float(row['monthly_obligations']),
                     'cumulative_obligations': float(row['cumulative_obligations']),
-                    'cumulative_outlays': float(row['cumulative_outlays']),
-                    'outlay_rate': float(row['outlay_rate'])
+                    'awards_first_obligated': int(row['awards_first_obligated']),
+                    'cohort_net_obligations': float(row['cohort_net_obligations']),
+                    'cohort_outlays_to_date': float(row['cohort_outlays_to_date']),
+                    'cumulative_cohort_net_obligations': float(row['cumulative_cohort_net_obligations']),
+                    'cumulative_cohort_outlays_to_date': float(row['cumulative_cohort_outlays_to_date']),
+                    'cohort_outlay_rate': round(float(row['cohort_outlay_rate']), 1)
                 })
     
-    # Calculate average outlay progression across all years
+    # Pooled across fiscal years: outlays to date / net obligations of the awards first obligated
+    # in each fiscal month (not cumulative within the year)
     outlay_progression = []
     if cyclical_data:
         cyclical_df = pd.DataFrame(cyclical_data)
-        avg_by_month = cyclical_df.groupby(['fiscal_month_num', 'fiscal_month_name']).agg({
-            'outlay_rate': 'mean',
-            'monthly_obligations': 'sum'
-        }).reset_index()
-        
+        pooled = cyclical_df.groupby(['fiscal_month_num', 'fiscal_month_name']).agg(
+            outlays=('cohort_outlays_to_date', 'sum'),
+            net=('cohort_net_obligations', 'sum'),
+            total_obligations=('monthly_obligations', 'sum')).reset_index()
         month_order = ['Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']
         for month in month_order:
-            month_data = avg_by_month[avg_by_month['fiscal_month_name'] == month]
-            if not month_data.empty:
+            m = pooled[pooled['fiscal_month_name'] == month]
+            if not m.empty:
+                net = float(m['net'].iloc[0])
                 outlay_progression.append({
                     'month': month,
-                    'avg_outlay_rate': float(month_data['outlay_rate'].iloc[0]),
-                    'total_obligations': float(month_data['monthly_obligations'].iloc[0])
+                    'pooled_outlay_rate_to_date': (float(m['outlays'].iloc[0]) / net * 100) if net > 0 else 0.0,
+                    'total_obligations': float(m['total_obligations'].iloc[0])
                 })
     
     # Prepare sample of recent transactions for table
@@ -546,7 +601,14 @@ def prepare_dashboard_data():
             'generated_at': datetime.now().isoformat(),
             'source': 'USASpending API - CFDA 10.868 (REAP)',
             'fiscal_years': sorted(years_loaded),
-            'fiscal_years_string': years_str
+            'fiscal_years_string': years_str,
+            # What the data is "as of". Outlays are cumulative as of the bulk-download date, which
+            # the files do not record; the latest dates inside the files bound it from below.
+            'data_latest_action_date': summary['date_range'].get('end') if summary.get('date_range') else None,
+            'data_latest_record_modified': df['last_modified_date'].max().strftime('%Y-%m-%d') if 'last_modified_date' in df.columns and pd.notna(df['last_modified_date'].max()) else None,
+            # expired/active in outlay_by_obligation_year and years_elapsed use the date the
+            # script is RUN, not the date of the data
+            'expiry_reference_date': pd.Timestamp.now().strftime('%Y-%m-%d'),
         }
     }
     
